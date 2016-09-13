@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/cream">
+
+    <GridLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="@dimen/grid_margin"
+        android:useDefaultMargins="true"
+        android:columnCount="2"
+        android:background="@drawable/content_layout">
+
+        <TextView
+            android:layout_columnSpan="2"
+            android:text="@string/lbl_town"/>
+
+        <TextView
+            android:layout_columnSpan="2"
+            android:text="@string/lbl_ethic_group"/>
+
+        <Spinner
+            android:id="@+id/spin_ethic"
+            android:layout_columnSpan="2"
+            android:layout_gravity="fill_horizontal"
+            android:entries="@array/spin_ethic"/>
+
+        <TextView
+            android:layout_columnSpan="2"
+            android:text="@string/lbl_room_type"/>
+
+        <Button
+            android:id="@+id/btn_3room"
+            android:layout_columnWeight="1"
+            android:text="@string/btn_3room"/>
+
+        <Button
+            android:id="@+id/btn_4room"
+            android:layout_columnWeight="1"
+            android:text="@string/btn_4room"/>
+
+        <Button
+            android:id="@+id/btn_5room"
+            android:layout_columnWeight="1"
+            android:text="@string/btn_5room"/>
+
+        <Button
+            android:id="@+id/btn_5room_3gen"
+            android:layout_columnWeight="1"
+            android:text="@string/btn_5room_3gen"/>
+
+        <TextView
+            android:layout_columnSpan="2"
+            android:text="@string/lbl_price_range"/>
+
+        <TextView
+            android:id="@+id/tv_price_range"
+            android:layout_columnSpan="2"/>
+
+        <Button
+            android:id="@+id/btn_search"
+            android:layout_columnSpan="2"
+            android:layout_gravity="fill_horizontal"
+            android:padding="16dp"
+            android:text="@string/btn_search"
+            android:textSize="18dp"
+            android:theme="@style/AppTheme.Button"/>
+    </GridLayout>
+
+</RelativeLayout>

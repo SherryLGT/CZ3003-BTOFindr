@@ -1,3 +1,113 @@
 <resources>
+
+    <!-- General -->
     <string name="app_name">BTOFindr</string>
+    <string name="image">Image</string>
+
+    <!-- Title -->
+    <string name="title_search">SEARCH</string>
+    <string name="title_search_results">SEARCH RESULTS</string>
+    <string name="title_calculate_payables">CALCULATE PAYABLES</string>
+    <string name="title_compare_units">COMPARE UNITS</string>
+    <string name="title_compare_units_results">COMPARE UNITS RESULTS</string>
+    <string name="title_favourites">FAVOURITES</string>
+    <string name="title_history">HISTORY</string>
+    <string name="title_recommended">RECOMMENDED</string>
+    <string name="title_profile">PROFILE</string>
+
+    <!-- Navigation -->
+    <string name="drawer_open">Open navigation drawer</string>
+    <string name="drawer_close">Close navigation drawer</string>
+
+    <string-array name="nav_drawer_titles">
+        <item>Home</item>
+        <item>Compare Units</item>
+        <item>Favourites</item>
+        <item>History</item>
+        <item>Recommended</item>
+    </string-array>
+
+    <array name="nav_drawer_icons">
+        <item>@drawable/ic_home</item>
+        <item>@drawable/ic_compare</item>
+        <item>@drawable/ic_favourites</item>
+        <item>@drawable/ic_history</item>
+        <item>@drawable/ic_recommended</item>
+    </array>
+
+    <!-- Search -->
+    <string name="lbl_town">TOWN</string>
+    <string name="btn_town">Town</string>
+
+    <string name="lbl_ethic_group">ETHIC GROUP</string>
+    <string-array name="spin_ethic">
+        <item>Chinese</item>
+        <item>Malay</item>
+        <item>Indian/Others</item>
+    </string-array>
+
+    <string name="lbl_room_type">ROOM TYPE</string>
+    <string name="btn_3room">3-Room</string>
+    <string name="btn_4room">4-Room</string>
+    <string name="btn_5room">5-Room</string>
+    <string name="btn_5room_3gen">5-Room (3Gen)</string>
+
+    <string name="lbl_price_range">PRICE RANGE</string>
+    <string name="sb_min">Min Price</string>
+    <string name="sb_max">Max Price</string>
+
+    <string name="lbl_sort_by">SORT BY</string>
+    <string-array name="spin_sort">
+        <item name="spin_lbl_price">Price (lowest to highest)</item>
+        <item name="spin_lbl_time">Travelling time (fastest to slowest)</item>
+    </string-array>
+    <string name="hint_postal_code">Enter destination postal code</string>
+    <string name="btn_search">Search</string>
+
+    <!-- Floating Action Button -->
+    <string name="fab_map">Map View</string>
+    <string name="fab_list">List View</string>
+    <string name="fab_delete">Delete</string>
+
+    <!-- Unit -->
+    <string name="lbl_project">Project Name</string>
+    <string name="lbl_address">Address</string>
+    <string name="lbl_room_types">Room Types</string>
+    <string name="lbl_price_ranges">Price Range</string>
+    <string name="btn_more_details">More details</string>
+    <string name="lbl_floor">Floor</string>
+    <string name="lbl_price">Price</string>
+    <string name="lbl_chinese">Chinese</string>
+    <string name="lbl_malay">Malay</string>
+    <string name="lbl_indian_others">Indian/Others</string>
+    <string name="btn_calculate">Calculate</string>
+    <string name="btn_favourite">Favourite</string>
+    <string name="btn_unfavourite">Unfavourite</string>
+    <string name="btn_delete">DELETE</string>
+
+    <!-- Calculate Payables -->
+    <string name="lbl_unit_details">Unit Details</string>
+
+    <!-- Map/Plan -->
+    <string name="btn_view_map_plan">View Maps &amp; Plans</string>
+    <string-array name="map_plan_list">
+        <item>Site Plan</item>
+        <item>Town Map</item>
+        <item>Block Plan</item>
+        <item>Unit Distribution</item>
+        <item>Typical Floor Plans</item>
+        <item>Layout Ideas</item>
+        <item>General Specifications</item>
+    </string-array>
+
+    <!-- Compare -->
+    <string name="lbl_compare_title">SELECT TWO UNITS TO COMPARE</string>
+    <string name="btn_compare">COMPARE</string>
+
+    <!-- Menu -->
+    <string name="btn_edit">Edit</string>
+    <string name="btn_clear">CLEAR ALL</string>
+
+    <!-- Profile -->
+    <string name="lbl_profile_title">SET UP PROFILE</string>
 </resources>
