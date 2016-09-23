@@ -9,19 +9,19 @@ public class UnitType {
     private int quotaChinese;
     private int quotaMalay;
     private int quotaOthers;
-    private ArrayList<Unit> units;
     private Block block;
+    private ArrayList<Unit> units;
 
     public UnitType(){};
 
-    public UnitType(int unitTypeId, String unitTypeName, int quotaChinese, int quotaMalay, int quotaOthers, ArrayList<Unit> units, Block block) {
+    public UnitType(int unitTypeId, String unitTypeName, int quotaChinese, int quotaMalay, int quotaOthers, Block block, ArrayList<Unit> units) {
         this.unitTypeId = unitTypeId;
         this.unitTypeName = unitTypeName;
         this.quotaChinese = quotaChinese;
         this.quotaMalay = quotaMalay;
         this.quotaOthers = quotaOthers;
-        this.units = units;
         this.block = block;
+        this.units = units;
     }
 
     public int getUnitTypeId() {
@@ -64,19 +64,19 @@ public class UnitType {
         this.quotaOthers = quotaOthers;
     }
 
-    public ArrayList<Unit> getUnits() {
-        return units;
-    }
-
-    public void setUnits(ArrayList<Unit> units) {
-        this.units = units;
-    }
-
     public Block getBlock() {
         return block;
     }
 
     public void setBlock(Block block) {
         this.block = block;
+    }
+
+    public ArrayList<Unit> getUnits() {
+        return units;
+    }
+
+    public void setUnits(ArrayList<Unit> units) {
+        this.units = units;
     }
 }

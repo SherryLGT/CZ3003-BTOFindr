@@ -28,8 +28,8 @@ public class NavDrawerAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         if (convertView == null) {
-            LayoutInflater mInflater = (LayoutInflater) context.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
-            convertView = mInflater.inflate(R.layout.nav_drawer_list_item, null);
+            LayoutInflater inflater = (LayoutInflater) context.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
+            convertView = inflater.inflate(R.layout.nav_drawer_list_item, null);
         }
 
         ImageView icon = (ImageView) convertView.findViewById(R.id.iv_icon);
@@ -47,12 +47,12 @@ public class NavDrawerAdapter extends BaseAdapter {
     }
 
     @Override
-    public long getItemId(int position) {
-        return position;
+    public Object getItem(int position) {
+        return navDrawerItems.get(position);
     }
 
     @Override
-    public Object getItem(int position) {
-        return navDrawerItems.get(position);
+    public long getItemId(int position) {
+        return position;
     }
 }

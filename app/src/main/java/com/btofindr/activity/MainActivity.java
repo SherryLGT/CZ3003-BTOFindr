@@ -46,11 +46,12 @@ public class MainActivity extends AppCompatActivity {
         navDrawerIcons = getResources().obtainTypedArray(R.array.nav_drawer_icons);
 
         navDrawerItems = new ArrayList<NavDrawerItem>();
-        navDrawerItems.add(new NavDrawerItem(navDrawerIcons.getResourceId(0, -1), navDrawerTitles[0]));
-        navDrawerItems.add(new NavDrawerItem(navDrawerIcons.getResourceId(1, -1), navDrawerTitles[1]));
-        navDrawerItems.add(new NavDrawerItem(navDrawerIcons.getResourceId(2, -1), navDrawerTitles[2]));
-        navDrawerItems.add(new NavDrawerItem(navDrawerIcons.getResourceId(3, -1), navDrawerTitles[3]));
-        navDrawerItems.add(new NavDrawerItem(navDrawerIcons.getResourceId(4, -1), navDrawerTitles[4]));
+        navDrawerItems.add(new NavDrawerItem(navDrawerIcons.getResourceId(0, -1), navDrawerTitles[0])); // Home
+        navDrawerItems.add(new NavDrawerItem(navDrawerIcons.getResourceId(1, -1), navDrawerTitles[1])); // Compare Units
+        navDrawerItems.add(new NavDrawerItem(navDrawerIcons.getResourceId(2, -1), navDrawerTitles[2])); // Favourites
+        navDrawerItems.add(new NavDrawerItem(navDrawerIcons.getResourceId(3, -1), navDrawerTitles[3])); // History
+        navDrawerItems.add(new NavDrawerItem(navDrawerIcons.getResourceId(4, -1), navDrawerTitles[4])); // Recommended
+        navDrawerItems.add(new NavDrawerItem(navDrawerIcons.getResourceId(5, -1), navDrawerTitles[5])); // Profile
         navDrawerIcons.recycle();
 
         navDrawerAdapter = new NavDrawerAdapter(getApplicationContext(), navDrawerItems);
@@ -80,6 +81,7 @@ public class MainActivity extends AppCompatActivity {
         navDrawerItems.get(2).setIcon(R.drawable.ic_favourites);
         navDrawerItems.get(3).setIcon(R.drawable.ic_history);
         navDrawerItems.get(4).setIcon(R.drawable.ic_recommended);
+        navDrawerItems.get(5).setIcon(R.drawable.ic_profile);
 
         switch(position) {
             case 0: // Home
@@ -92,6 +94,8 @@ public class MainActivity extends AppCompatActivity {
             case 3: // History
                 break;
             case 4: // Recommended
+                break;
+            case 5: // Profile
                 break;
             default:
                 break;

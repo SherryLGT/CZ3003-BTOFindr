@@ -4,17 +4,35 @@
     android:layout_height="match_parent"
     android:background="@color/cream">
 
+    <!-- Styling of a button -->
+    <!--<Button-->
+    <!--android:id="@+id/"-->
+    <!--android:layout_columnWeight="1"-->
+    <!--android:layout_height="@dimen/round_button_height"-->
+    <!--android:background="@drawable/rounded_button"-->
+    <!--android:textColor="@drawable/text_selector"-->
+    <!--android:text=""/>-->
+
     <GridLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="@dimen/grid_margin"
         android:useDefaultMargins="true"
+        android:layout_margin="@dimen/grid_margin"
+        android:padding="@dimen/grid_padding"
         android:columnCount="2"
         android:background="@drawable/content_layout">
 
         <TextView
             android:layout_columnSpan="2"
             android:text="@string/lbl_town"/>
+
+        <GridLayout
+            android:id="@+id/gl_town"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:useDefaultMargins="true"
+            android:layout_marginBottom="@dimen/grid_spacing"
+            android:columnCount="2"/>
 
         <TextView
             android:layout_columnSpan="2"
@@ -23,6 +41,7 @@
         <Spinner
             android:id="@+id/spin_ethic"
             android:layout_columnSpan="2"
+            android:layout_marginBottom="@dimen/grid_spacing"
             android:layout_gravity="fill_horizontal"
             android:entries="@array/spin_ethic"/>
 
@@ -30,25 +49,13 @@
             android:layout_columnSpan="2"
             android:text="@string/lbl_room_type"/>
 
-        <Button
-            android:id="@+id/btn_3room"
-            android:layout_columnWeight="1"
-            android:text="@string/btn_3room"/>
-
-        <Button
-            android:id="@+id/btn_4room"
-            android:layout_columnWeight="1"
-            android:text="@string/btn_4room"/>
-
-        <Button
-            android:id="@+id/btn_5room"
-            android:layout_columnWeight="1"
-            android:text="@string/btn_5room"/>
-
-        <Button
-            android:id="@+id/btn_5room_3gen"
-            android:layout_columnWeight="1"
-            android:text="@string/btn_5room_3gen"/>
+        <GridLayout
+            android:id="@+id/gl_room_type"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:useDefaultMargins="true"
+            android:layout_marginBottom="@dimen/grid_spacing"
+            android:columnCount="2"/>
 
         <TextView
             android:layout_columnSpan="2"
@@ -56,6 +63,7 @@
 
         <TextView
             android:id="@+id/tv_price_range"
+            android:layout_marginBottom="@dimen/grid_spacing"
             android:layout_columnSpan="2"/>
 
         <Button

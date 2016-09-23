@@ -25,6 +25,7 @@
         <item>Favourites</item>
         <item>History</item>
         <item>Recommended</item>
+        <item>Profile</item>
     </string-array>
 
     <array name="nav_drawer_icons">
@@ -33,6 +34,7 @@
         <item>@drawable/ic_favourites</item>
         <item>@drawable/ic_history</item>
         <item>@drawable/ic_recommended</item>
+        <item>@drawable/ic_profile</item>
     </array>
 
     <!-- Search -->
@@ -47,10 +49,10 @@
     </string-array>
 
     <string name="lbl_room_type">ROOM TYPE</string>
-    <string name="btn_3room">3-Room</string>
-    <string name="btn_4room">4-Room</string>
-    <string name="btn_5room">5-Room</string>
-    <string name="btn_5room_3gen">5-Room (3Gen)</string>
+    <string name="lbl_3room">3-Room</string>
+    <string name="lbl_4room">4-Room</string>
+    <string name="lbl_5room">5-Room</string>
+    <string name="lbl_5room_3gen">5-Room (3Gen)</string>
 
     <string name="lbl_price_range">PRICE RANGE</string>
     <string name="sb_min">Min Price</string>

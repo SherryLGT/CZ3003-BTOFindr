@@ -11,6 +11,8 @@ public class Block {
     private Date deliveryDate;
     private Double locLat;
     private Double locLong;
+    private int travelTime;
+    private int travelDist;
     private String sitePlan;
     private String townMap;
     private String blockPlan;
@@ -18,18 +20,22 @@ public class Block {
     private String floorPlan;
     private String layoutIdeas;
     private String specs;
+    private Double minPrice;
+    private Double maxPrice;
     private Project project;
     private ArrayList<UnitType> unitTypes;
 
     public Block(){};
 
-    public Block(int blockId, String blockNo, String street, Date deliveryDate, Double locLat, Double locLong, String sitePlan, String townMap, String blockPlan, String unitDist, String floorPlan, String layoutIdeas, String specs, Project project, ArrayList<UnitType> unitTypes) {
+    public Block(int blockId, String blockNo, String street, Date deliveryDate, Double locLat, Double locLong, int travelTime, int travelDist, String sitePlan, String townMap, String blockPlan, String unitDist, String floorPlan, String layoutIdeas, String specs, Double minPrice, Double maxPrice, Project project, ArrayList<UnitType> unitTypes) {
         this.blockId = blockId;
         this.blockNo = blockNo;
         this.street = street;
         this.deliveryDate = deliveryDate;
         this.locLat = locLat;
         this.locLong = locLong;
+        this.travelTime = travelTime;
+        this.travelDist = travelDist;
         this.sitePlan = sitePlan;
         this.townMap = townMap;
         this.blockPlan = blockPlan;
@@ -37,6 +43,8 @@ public class Block {
         this.floorPlan = floorPlan;
         this.layoutIdeas = layoutIdeas;
         this.specs = specs;
+        this.minPrice = minPrice;
+        this.maxPrice = maxPrice;
         this.project = project;
         this.unitTypes = unitTypes;
     }
@@ -87,6 +95,22 @@ public class Block {
 
     public void setLocLong(Double locLong) {
         this.locLong = locLong;
+    }
+
+    public int getTravelTime() {
+        return travelTime;
+    }
+
+    public void setTravelTime(int travelTime) {
+        this.travelTime = travelTime;
+    }
+
+    public int getTravelDist() {
+        return travelDist;
+    }
+
+    public void setTravelDist(int travelDist) {
+        this.travelDist = travelDist;
     }
 
     public String getSitePlan() {
@@ -143,6 +167,22 @@ public class Block {
 
     public void setSpecs(String specs) {
         this.specs = specs;
+    }
+
+    public Double getMinPrice() {
+        return minPrice;
+    }
+
+    public void setMinPrice(Double minPrice) {
+        this.minPrice = minPrice;
+    }
+
+    public Double getMaxPrice() {
+        return maxPrice;
+    }
+
+    public void setMaxPrice(Double maxPrice) {
+        this.maxPrice = maxPrice;
     }
 
     public Project getProject() {
