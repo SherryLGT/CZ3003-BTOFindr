@@ -10,7 +10,7 @@
     <!--android:layout_columnWeight="1"-->
     <!--android:layout_height="@dimen/round_button_height"-->
     <!--android:background="@drawable/rounded_button"-->
-    <!--android:textColor="@drawable/text_selector"-->
+    <!--android:textColor="@color/text_selector"-->
     <!--android:text=""/>-->
 
     <GridLayout

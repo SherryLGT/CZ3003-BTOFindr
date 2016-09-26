@@ -59,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
         lvNavDrawer.setOnItemClickListener(new navDrawerItemClickListener());
 
         navDrawerToggle = new ActionBarDrawerToggle(this, navDrawerLayout, R.string.drawer_open, R.string.drawer_close);
-        navDrawerLayout.setDrawerListener(navDrawerToggle);
+        navDrawerLayout.addDrawerListener(navDrawerToggle);
 
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_drawer);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
