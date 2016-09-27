@@ -1,11 +1,18 @@
 package com.btofindr.controller;
 
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.os.AsyncTask;
 import android.support.v4.content.ContextCompat;
+import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.GridLayout;
+import android.widget.GridView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import com.btofindr.R;
 import com.btofindr.fragment.SearchFragment;
@@ -27,51 +34,91 @@ import java.util.ArrayList;
 
 public class ProjectController extends AsyncTask<Object, Object, Object> implements Utility {
 
+    ProgressDialog dialog;
+    SearchFragment fragment;
+    Context context;
+    LinearLayout llTownLeft, llTownRight, llRoomLeft, llRoomRight;
+    Button btn;
+
+    boolean odd;
+    float scale;
     String[] data;
     ArrayList<Project> projectList;
     ArrayList<UnitType> unitTypeList;
     Project project;
     UnitType unitType;
 
-    SearchFragment fragment;
-    GridLayout townGridLayout;
-    GridLayout roomTypeGridLayout;
-
-    public ProjectController(SearchFragment fragment, GridLayout townGridLayout, GridLayout roomTypeGridLayout) {
+    public ProjectController(SearchFragment fragment, LinearLayout llTownLeft, LinearLayout llTownRight, LinearLayout llRoomLeft, LinearLayout llRoomRight) {
         this.fragment = fragment;
-        this.townGridLayout = townGridLayout;
-        this.roomTypeGridLayout = roomTypeGridLayout;
+        this.llTownLeft = llTownLeft;
+        this.llTownRight = llTownRight;
+        this.llRoomLeft = llRoomLeft;
+        this.llRoomRight = llRoomRight;
     }
 
     @Override
     protected void onPreExecute() {
+        context = fragment.getContext();
+        odd = true;
+        scale = fragment.getActivity().getResources().getDisplayMetrics().density;
+        dialog = ProgressDialog.show(context, null, "Loading...", true);
+
         projectList = new ArrayList<Project>();
         unitTypeList = new ArrayList<UnitType>();
     }
 
     @Override
     protected void onPostExecute(Object o) {
-        for(Project proj : projectList) {
-            Button btn = new Button(fragment.getContext());
-            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(0, (int) fragment.getActivity().getResources().getDimension(R.dimen.round_button_height), 1.0f);
-            btn.setLayoutParams(params);
-            btn.setBackground(ContextCompat.getDrawable(fragment.getContext(), R.drawable.rounded_button));
-            btn.setTextColor(ContextCompat.getColorStateList(fragment.getContext(), R.color.text_selector));
-            btn.setText(proj.getTownName());
-            townGridLayout.addView(btn);
+        dialog.dismiss();
+
+        for(Project project : projectList) {
+            final Button btn = generateButton();
+            btn.setText(project.getTownName());
+            btn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(!btn.isSelected()) {
+                        btn.setSelected(true);
+                    }
+                    else {
+                        btn.setSelected(false);
+                    }
+                }
+            });
+            if(odd) {
+                llTownLeft.addView(btn);
+                odd = false;
+            }
+            else {
+                llTownRight.addView(btn);
+                odd = true;
+            }
         }
 
-        for(UnitType uType : unitTypeList) {
-            Button btn = new Button(fragment.getContext());
-            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, (int) fragment.getActivity().getResources().getDimension(R.dimen.round_button_height), 1.0f);
-            btn.setLayoutParams(params);
-            btn.setBackground(ContextCompat.getDrawable(fragment.getContext(), R.drawable.rounded_button));
-            btn.setTextColor(ContextCompat.getColorStateList(fragment.getContext(), R.color.text_selector));
-            btn.setText(uType.getUnitTypeName());
-            roomTypeGridLayout.addView(btn);
+        odd = true;
+        for(UnitType unitType : unitTypeList) {
+            final Button btn = generateButton();
+            btn.setText(unitType.getUnitTypeName());
+            btn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(!btn.isSelected()) {
+                        btn.setSelected(true);
+                    }
+                    else {
+                        btn.setSelected(false);
+                    }
+                }
+            });
+            if(odd) {
+                llRoomLeft.addView(btn);
+                odd = false;
+            }
+            else {
+                llRoomRight.addView(btn);
+                odd = true;
+            }
         }
-
-        cancel(true);
     }
 
     @Override
@@ -131,5 +178,26 @@ public class ProjectController extends AsyncTask<Object, Object, Object> impleme
             e.printStackTrace();
             return null;
         }
+    }
+
+    public Button generateButton() {
+        btn = new Button(context);
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, getPixels(35));
+        params.setMargins(getPixels(3), getPixels(5), getPixels(3), getPixels(5));
+        btn.setPadding(getPixels(3), getPixels(3), getPixels(3), getPixels(3));
+        btn.setLayoutParams(params);
+        btn.setBackground(ContextCompat.getDrawable(context, R.drawable.rounded_button));
+        btn.setTextColor(ContextCompat.getColorStateList(context, R.color.text_selector));
+
+        return btn;
+    }
+
+    public void onClickListener(Button btn) {
+        btn.setPressed(true);
+    }
+
+    // dp to pixel
+    public int getPixels(int dp) {
+        return ((int) (dp * scale + 0.5f));
     }
 }

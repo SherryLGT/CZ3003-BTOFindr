@@ -42,7 +42,7 @@ public class HomeFragment extends Fragment {
         btnSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getFragmentManager().beginTransaction().replace(R.id.fl_container, new SearchFragment()).commit();
+                getFragmentManager().beginTransaction().replace(R.id.fl_container, new SearchFragment()).addToBackStack("SearchFragment").commit();
             }
         });
 

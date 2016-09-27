@@ -8,16 +8,17 @@
         android:id="@+id/iv_main"
         android:layout_width="match_parent"
         android:layout_height="256dp"
-        android:scaleType="centerCrop"/>
+        android:scaleType="centerCrop"
+        android:contentDescription="@string/image"/>
 
     <TextView
         android:id="@+id/tv_main"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
         android:layout_marginTop="40dp"
         android:padding="10dp"
-        android:textSize="20dp"
+        android:textSize="20sp"
         android:textStyle="italic"
         android:textColor="@color/white"
         android:background="@color/shadow"
@@ -30,7 +31,7 @@
         android:layout_below="@id/iv_main"
         android:padding="18dp"
         android:text="@string/btn_search"
-        android:textSize="18dp"
+        android:textSize="18sp"
         android:theme="@style/AppTheme.Button"/>
 
     <ListView
