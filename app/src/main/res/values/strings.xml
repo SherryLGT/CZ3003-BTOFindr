@@ -2,6 +2,7 @@
 
     <!-- General -->
     <string name="app_name">BTOFindr</string>
+    <string name="splashscreen">Splashscreen</string>
     <string name="image">Image</string>
 
     <!-- Title -->
