@@ -72,40 +72,36 @@ public class MainActivity extends AppCompatActivity {
     private class navDrawerItemClickListener implements ListView.OnItemClickListener {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            selectNavItem(position);
+
+            navDrawerItems.get(0).setIcon(R.drawable.ic_home);
+            navDrawerItems.get(1).setIcon(R.drawable.ic_compare);
+            navDrawerItems.get(2).setIcon(R.drawable.ic_favourites);
+            navDrawerItems.get(3).setIcon(R.drawable.ic_history);
+            navDrawerItems.get(4).setIcon(R.drawable.ic_recommended);
+            navDrawerItems.get(5).setIcon(R.drawable.ic_profile);
+
+            switch(position) {
+                case 0: // Home
+                    getSupportFragmentManager().beginTransaction().replace(R.id.fl_container, new HomeFragment()).commit();
+                    break;
+                case 1: // Compare Units
+                    break;
+                case 2: // Favourites
+                    break;
+                case 3: // History
+                    break;
+                case 4: // Recommended
+                    break;
+                case 5: // Profile
+                    break;
+                default:
+                    break;
+            }
+
+            lvNavDrawer.setItemChecked(position, true);
+            lvNavDrawer.setSelection(position);
+            navDrawerLayout.closeDrawer(lvNavDrawer);
         }
-    }
-
-    private void selectNavItem(int position) {
-
-        navDrawerItems.get(0).setIcon(R.drawable.ic_home);
-        navDrawerItems.get(1).setIcon(R.drawable.ic_compare);
-        navDrawerItems.get(2).setIcon(R.drawable.ic_favourites);
-        navDrawerItems.get(3).setIcon(R.drawable.ic_history);
-        navDrawerItems.get(4).setIcon(R.drawable.ic_recommended);
-        navDrawerItems.get(5).setIcon(R.drawable.ic_profile);
-
-        switch(position) {
-            case 0: // Home
-                getSupportFragmentManager().beginTransaction().replace(R.id.fl_container, new HomeFragment()).commit();
-                break;
-            case 1: // Compare Units
-                break;
-            case 2: // Favourites
-                break;
-            case 3: // History
-                break;
-            case 4: // Recommended
-                break;
-            case 5: // Profile
-                break;
-            default:
-                break;
-        }
-
-        lvNavDrawer.setItemChecked(position, true);
-        lvNavDrawer.setSelection(position);
-        navDrawerLayout.closeDrawer(lvNavDrawer);
     }
 
     @Override

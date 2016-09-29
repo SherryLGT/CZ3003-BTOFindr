@@ -8,7 +8,7 @@ public class Block {
     private int blockId;
     private String blockNo;
     private String street;
-    private Date deliveryDate;
+    private String deliveryDate;
     private Double locLat;
     private Double locLong;
     private int travelTime;
@@ -27,7 +27,7 @@ public class Block {
 
     public Block(){};
 
-    public Block(int blockId, String blockNo, String street, Date deliveryDate, Double locLat, Double locLong, int travelTime, int travelDist, String sitePlan, String townMap, String blockPlan, String unitDist, String floorPlan, String layoutIdeas, String specs, Double minPrice, Double maxPrice, Project project, ArrayList<UnitType> unitTypes) {
+    public Block(int blockId, String blockNo, String street, String deliveryDate, Double locLat, Double locLong, int travelTime, int travelDist, String sitePlan, String townMap, String blockPlan, String unitDist, String floorPlan, String layoutIdeas, String specs, Double minPrice, Double maxPrice, Project project, ArrayList<UnitType> unitTypes) {
         this.blockId = blockId;
         this.blockNo = blockNo;
         this.street = street;
@@ -73,11 +73,11 @@ public class Block {
         this.street = street;
     }
 
-    public Date getDeliveryDate() {
+    public String getDeliveryDate() {
         return deliveryDate;
     }
 
-    public void setDeliveryDate(Date deliveryDate) {
+    public void setDeliveryDate(String deliveryDate) {
         this.deliveryDate = deliveryDate;
     }
 

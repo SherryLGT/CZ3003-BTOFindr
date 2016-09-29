@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class BlockItem {
 
-    private int icon;
+    private String icon;
     private String projectName;
     private String blockNo;
     private String street;
@@ -14,7 +14,7 @@ public class BlockItem {
 
     public BlockItem(){};
 
-    public BlockItem(int icon, String projectName, String blockNo, String street, ArrayList<UnitType> unitTypes, Double minPrice, Double maxPrice){
+    public BlockItem(String icon, String projectName, String blockNo, String street, ArrayList<UnitType> unitTypes, Double minPrice, Double maxPrice){
         this.icon = icon;
         this.projectName = projectName;
         this.blockNo = blockNo;
@@ -24,11 +24,11 @@ public class BlockItem {
         this.maxPrice = maxPrice;
     }
 
-    public int getIcon() {
+    public String getIcon() {
         return icon;
     }
 
-    public void setIcon(int icon) {
+    public void setIcon(String icon) {
         this.icon = icon;
     }
 

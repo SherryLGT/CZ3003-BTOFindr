@@ -17,6 +17,7 @@ import com.btofindr.R;
 import com.btofindr.controller.Utility;
 import com.btofindr.model.Block;
 import com.btofindr.model.Project;
+import com.btofindr.model.SearchParameter;
 import com.btofindr.model.UnitType;
 import com.crystal.crystalrangeseekbar.interfaces.OnRangeSeekbarChangeListener;
 import com.crystal.crystalrangeseekbar.widgets.CrystalRangeSeekbar;
@@ -26,7 +27,7 @@ import java.util.ArrayList;
 
 public class SearchFragment extends Fragment {
 
-    ProgressDialog dialog;
+    private ProgressDialog dialog;
     private LinearLayout llTownLeft, llTownRight, llRoomLeft, llRoomRight;
     private Spinner spinEthic;
     private CrystalRangeSeekbar sbPriceRange;
@@ -40,10 +41,11 @@ public class SearchFragment extends Fragment {
     private ArrayList<Project> projectList;
     private ArrayList<UnitType> unitTypeList;
 
-    ArrayList<String> townNames, unitTypes;
-    ArrayList<Block> blockList;
-    char ethic;
-    int minPrice, maxPrice;
+    private ArrayList<String> townNames, unitTypes;
+    private ArrayList<Block> blockList;
+    private char ethic;
+    private int minPrice, maxPrice;
+    public static SearchParameter parameter;
 
     public SearchFragment(){}
 
@@ -73,17 +75,18 @@ public class SearchFragment extends Fragment {
         sbPriceRange.setOnRangeSeekbarChangeListener(new OnRangeSeekbarChangeListener() {
             @Override
             public void valueChanged(Number minValue, Number maxValue) {
-                tvPriceRange.setText("SGD$" + String.format("%,d", minValue) + " - SGD$" + String.format("%,d", maxValue));
+                tvPriceRange.setText("SGD$" + Utility.formatPrice(minValue.doubleValue()) + " - SGD$" + Utility.formatPrice(maxValue.doubleValue()));
             }
         });
 
         btnSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ethic = setEthic(spinEthic.getSelectedItem().toString());
+                ethic = Utility.setEthic(spinEthic.getSelectedItem().toString());
                 minPrice = sbPriceRange.getSelectedMinValue().intValue();
                 maxPrice = sbPriceRange.getSelectedMaxValue().intValue();
 
+                parameter = new SearchParameter(townNames, ethic, unitTypes, maxPrice, minPrice, 'P', "");
                 getFragmentManager().beginTransaction().replace(R.id.fl_container, new SearchResultFragment()).addToBackStack("SearchFragment").commit();
             }
         });
@@ -91,13 +94,13 @@ public class SearchFragment extends Fragment {
         return rootView;
     }
 
-    private class loadData extends AsyncTask<Object, Object, Object>  {
+    private class loadData extends AsyncTask<Void, Integer, Void> {
         @Override
         protected void onPreExecute() {
+            dialog.show();
             odd = true;
             gson = new Gson();
             scale = getActivity().getResources().getDisplayMetrics().density;
-            dialog.show();
 
             projectList = new ArrayList<Project>();
             unitTypeList = new ArrayList<UnitType>();
@@ -107,7 +110,7 @@ public class SearchFragment extends Fragment {
         }
 
         @Override
-        protected void onPostExecute(Object o) {
+        protected void onPostExecute(Void aVoid) {
             dialog.dismiss();
 
             for(Project project : projectList) {
@@ -165,22 +168,7 @@ public class SearchFragment extends Fragment {
         }
 
         @Override
-        protected void onProgressUpdate(Object... values) {
-            super.onProgressUpdate(values);
-        }
-
-        @Override
-        protected void onCancelled(Object o) {
-            super.onCancelled(o);
-        }
-
-        @Override
-        protected void onCancelled() {
-            super.onCancelled();
-        }
-
-        @Override
-        protected Object doInBackground(Object... params) {
+        protected Void doInBackground(Void... params) {
             data = gson.fromJson(Utility.getRequest("Project/GetTownNames"), String[].class);
             for(String townName : data) {
                 Project project = new Project();
@@ -199,40 +187,15 @@ public class SearchFragment extends Fragment {
         }
     }
 
-    public Button generateButton() {
+    private Button generateButton() {
         Button btn = new Button(getContext());
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, getPixels(35));
-        params.setMargins(getPixels(3), getPixels(5), getPixels(3), getPixels(5));
-        btn.setPadding(getPixels(3), getPixels(3), getPixels(3), getPixels(3));
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, Utility.getPixels(35, scale));
+        params.setMargins(Utility.getPixels(3, scale), Utility.getPixels(5, scale), Utility.getPixels(3, scale), Utility.getPixels(5, scale));
+        btn.setPadding(Utility.getPixels(3, scale), Utility.getPixels(3, scale), Utility.getPixels(3, scale), Utility.getPixels(3, scale));
         btn.setLayoutParams(params);
         btn.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.rounded_button));
         btn.setTextColor(ContextCompat.getColorStateList(getContext(), R.color.text_selector));
 
         return btn;
-    }
-
-    public char setEthic(String ethic) {
-        char character = '-';
-
-        switch (ethic) {
-            case "Chinese" :
-                character =  'C';
-                break;
-            case "Malay" :
-                character = 'M';
-                break;
-            case "Indian/Others" :
-                character = 'O';
-                break;
-            default :
-                break;
-        }
-
-        return character;
-    }
-
-    // dp to pixel
-    public int getPixels(int dp) {
-        return ((int) (dp * scale + 0.5f));
     }
 }
