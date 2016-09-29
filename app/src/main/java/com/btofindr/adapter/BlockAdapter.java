@@ -53,19 +53,15 @@ public class BlockAdapter extends BaseAdapter {
         title.setText(blockItems.get(position).getProjectName());
         address.setText(blockItems.get(position).getBlockNo() + " " + blockItems.get(position).getStreet());
         String unitTypeNames = "";
-        if(blockItems.get(position).getUnitTypes() != null) {
-            for (int i = 0; i < blockItems.get(position).getUnitTypes().size(); i++) {
-                unitTypeNames += blockItems.get(position).getUnitTypes().get(i).getUnitTypeName();
+        for (int i = 0; i < blockItems.get(position).getUnitTypes().size(); i++) {
+            unitTypeNames += blockItems.get(position).getUnitTypes().get(i).getUnitTypeName();
 
-                if (i != blockItems.get(position).getUnitTypes().size() - 1) {
-                    unitTypeNames += ", ";
-                }
+            if (i != blockItems.get(position).getUnitTypes().size() - 1) {
+                unitTypeNames += ", ";
             }
         }
         unitTypes.setText(unitTypeNames);
-        for(BlockItem item : blockItems) {
-            priceRange.setText("Price: $" + Utility.formatPrice(item.getMinPrice()) + " - $" + Utility.formatPrice(item.getMaxPrice()));
-        }
+        priceRange.setText("Price: $" + Utility.formatPrice(blockItems.get(position).getMinPrice()) + " - $" + Utility.formatPrice(blockItems.get(position).getMaxPrice()));
 
         return convertView;
     }

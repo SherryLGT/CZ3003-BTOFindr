@@ -30,13 +30,22 @@
         android:layout_below="@id/iv_main"
         android:padding="18dp"
         android:text="@string/btn_search"
-        android:textSize="18sp"
+        android:textSize="@dimen/text_title"
         android:theme="@style/AppTheme.Button"/>
 
-    <ListView
-        android:id="@+id/lv_recently_viewed"
+
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/btn_search"/>
+        android:layout_height="match_parent"
+        android:layout_margin="@dimen/grid_margin"
+        android:padding="@dimen/grid_padding"
+        android:layout_below="@id/btn_search"
+        android:fillViewport="true">
+
+        <ListView
+            android:id="@+id/lv_recently_viewed"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+    </ScrollView>
 
 </RelativeLayout>

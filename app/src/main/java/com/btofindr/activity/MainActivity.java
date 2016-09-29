@@ -17,6 +17,7 @@ import android.widget.ListView;
 import com.btofindr.R;
 import com.btofindr.adapter.NavDrawerAdapter;
 import com.btofindr.fragment.HomeFragment;
+import com.btofindr.fragment.ProfileFragment;
 import com.btofindr.model.NavDrawerItem;
 
 import java.util.ArrayList;
@@ -82,17 +83,24 @@ public class MainActivity extends AppCompatActivity {
 
             switch(position) {
                 case 0: // Home
+                    getSupportActionBar().setTitle(R.string.app_name);
                     getSupportFragmentManager().beginTransaction().replace(R.id.fl_container, new HomeFragment()).commit();
                     break;
                 case 1: // Compare Units
+                    getSupportActionBar().setTitle(R.string.title_compare_units);
                     break;
                 case 2: // Favourites
+                    getSupportActionBar().setTitle(R.string.title_favourites);
                     break;
                 case 3: // History
+                    getSupportActionBar().setTitle(R.string.title_history);
                     break;
                 case 4: // Recommended
+                    getSupportActionBar().setTitle(R.string.title_recommended);
                     break;
                 case 5: // Profile
+                    getSupportFragmentManager().beginTransaction().replace(R.id.fl_container, new ProfileFragment()).commit();
+                    getSupportActionBar().setTitle(R.string.title_profile);
                     break;
                 default:
                     break;
@@ -144,5 +152,11 @@ public class MainActivity extends AppCompatActivity {
         } else {
             getSupportFragmentManager().popBackStack();
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        lvNavDrawer.setItemChecked(0, true);
     }
 }

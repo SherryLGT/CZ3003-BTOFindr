@@ -39,57 +39,41 @@
     </array>
 
     <!-- Search -->
+    <string name="btn_search">SEARCH</string>
     <string name="lbl_town">TOWN</string>
-    <string name="btn_town">Town</string>
-
     <string name="lbl_ethic_group">ETHIC GROUP</string>
     <string-array name="spin_ethic">
         <item>Chinese</item>
         <item>Malay</item>
         <item>Indian/Others</item>
     </string-array>
-
     <string name="lbl_room_type">ROOM TYPE</string>
-    <string name="lbl_3room">3-Room</string>
-    <string name="lbl_4room">4-Room</string>
-    <string name="lbl_5room">5-Room</string>
-    <string name="lbl_5room_3gen">5-Room (3Gen)</string>
-
     <string name="lbl_price_range">PRICE RANGE</string>
-    <string name="sb_min">Min Price</string>
-    <string name="sb_max">Max Price</string>
-
     <string name="lbl_sort_by">SORT BY</string>
     <string-array name="spin_sort">
         <item name="spin_lbl_price">Price (lowest to highest)</item>
         <item name="spin_lbl_time">Travelling time (fastest to slowest)</item>
     </string-array>
-    <string name="hint_postal_code">Enter destination postal code</string>
-    <string name="btn_search">Search</string>
-
-    <!-- Floating Action Button -->
-    <string name="fab_map">Map View</string>
-    <string name="fab_list">List View</string>
-    <string name="fab_delete">Delete</string>
 
     <!-- Unit -->
-    <string name="lbl_project">Project Name</string>
-    <string name="lbl_address">Address</string>
-    <string name="lbl_room_types">Room Types</string>
-    <string name="lbl_price_ranges">Price Range</string>
-    <string name="btn_more_details">More details</string>
-    <string name="lbl_floor">Floor</string>
-    <string name="lbl_price">Price</string>
-    <string name="lbl_chinese">Chinese</string>
-    <string name="lbl_malay">Malay</string>
-    <string name="lbl_indian_others">Indian/Others</string>
-    <string name="btn_calculate">Calculate</string>
-    <string name="btn_favourite">Favourite</string>
-    <string name="btn_unfavourite">Unfavourite</string>
-    <string name="btn_delete">DELETE</string>
+    <string name="lbl_chinese">Chinese:</string>
+    <string name="lbl_malay">Malay:</string>
+    <string name="lbl_others">Indian/Others:</string>
 
     <!-- Calculate Payables -->
     <string name="lbl_unit_details">Unit Details</string>
+    <string name="lbl_unit_number">Unit Number:</string>
+    <string name="lbl_unit_type">Unit Type:</string>
+    <string name="lbl_price">Price:</string>
+    <string name="lbl_payables">Payables</string>
+    <string name="lbl_fees_payable">Fees Payable by Cash only</string>
+    <string name="lbl_application_fee">Application Fee:</string>
+    <string name="lbl_booking_fee">Flat Option Booking Fee:</string>
+    <string name="lbl_signing_agreement">Signing of Agreement For Lease</string>
+    <string name="lbl_downpayment">Downpayment, Stamp Duty &amp; Legal Fees:</string>
+    <string name="lbl_balance">Balance of the purchase price \n (Per month for 20 years):</string>
+    <string name="lbl_by_cpf">Payment by CPF</string>
+    <string name="lbl_by_cash">Payment by CASH</string>
 
     <!-- Map/Plan -->
     <string name="btn_view_map_plan">View Maps &amp; Plans</string>
@@ -107,10 +91,18 @@
     <string name="lbl_compare_title">SELECT TWO UNITS TO COMPARE</string>
     <string name="btn_compare">COMPARE</string>
 
-    <!-- Menu -->
-    <string name="btn_edit">Edit</string>
-    <string name="btn_clear">CLEAR ALL</string>
+    <!-- Favourites -->
+    <string name="lbl_no_fav">NO FAVOURITES</string>
 
     <!-- Profile -->
     <string name="lbl_profile_title">SET UP PROFILE</string>
+    <string name="lbl_postal_code">POSTAL CODE</string>
+    <string name="lbl_average_income">AVERAGE MONTHLY INCOME</string>
+    <string name="lbl_cpf_balance">CURRENT CPF BALANCE</string>
+    <string name="lbl_cpf_contribution">MONTHLY CPF CONTRIBUTION</string>
+    <string name="lbl_loan_tenure">LOAN TENURE</string>
+    <string name="btn_save">SAVE</string>
+
+    <!-- Action -->
+    <string name="btn_delete">DELETE</string>
 </resources>

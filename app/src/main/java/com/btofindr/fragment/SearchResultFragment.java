@@ -4,7 +4,6 @@ import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,7 +18,6 @@ import com.btofindr.model.Block;
 import com.btofindr.model.BlockItem;
 import com.btofindr.model.SearchParameter;
 import com.google.gson.Gson;
-import com.google.gson.JsonParser;
 import com.google.gson.reflect.TypeToken;
 
 import java.util.ArrayList;
@@ -50,10 +48,30 @@ public class SearchResultFragment extends Fragment {
         spinSort = (Spinner) rootView.findViewById(R.id.spin_sort);
         lvBlocks = (ListView) rootView.findViewById(R.id.lv_blocks);
 
-        parameter = new SearchFragment().parameter;
+        parameter = SearchFragment.parameter;
         dialog = new ProgressDialog(getContext());
-        dialog.setMessage("Searching...");
-        new loadData().execute();
+        dialog.setMessage("Loading...");
+
+        spinSort.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                switch(position) {
+                    case 0 :
+                        parameter.setOrderBy('P');
+                        new loadData().execute();
+                        break;
+                    case 1 :
+                        parameter.setOrderBy('T');
+                        new loadData().execute();
+                        break;
+                    default :
+                        break;
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {}
+        });
 
         return rootView;
     }
@@ -71,15 +89,15 @@ public class SearchResultFragment extends Fragment {
 
         @Override
         protected void onPostExecute(Object o) {
-            dialog.dismiss();
-
             blockAdapter = new BlockAdapter(getContext(), blockItems);
             lvBlocks.setAdapter(blockAdapter);
             lvBlocks.setOnItemClickListener(new blockItemClickListener());
+            dialog.dismiss();
         }
 
         @Override
         protected Object doInBackground(Void... params) {
+            String string = gson.toJson(parameter);
             response = Utility.postRequest("Block/SearchBlocks", gson.toJson(parameter));
             blockList = gson.fromJson(response, new TypeToken<List<Block>>(){}.getType());
             for(Block block : blockList) {

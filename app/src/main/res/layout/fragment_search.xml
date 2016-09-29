@@ -122,10 +122,11 @@
                 android:id="@+id/btn_search"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="16dp"
+                android:padding="@dimen/btn_padding"
                 android:text="@string/btn_search"
-                android:textSize="18sp"
+                android:textSize="@dimen/text_title"
                 android:theme="@style/AppTheme.Button"/>
+
         </LinearLayout>
     </RelativeLayout>
 </ScrollView>
