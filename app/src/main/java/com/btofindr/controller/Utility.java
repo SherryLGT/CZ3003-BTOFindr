@@ -1,5 +1,7 @@
 package com.btofindr.controller;
 
+import android.content.Context;
+
 import com.google.gson.Gson;
 
 import java.io.BufferedInputStream;
@@ -9,6 +11,7 @@ import java.io.DataOutputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.io.FileOutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.text.DecimalFormat;
@@ -103,4 +106,42 @@ public class Utility {
             return null;
         }
     }
+
+    public static boolean writeToFile(String filename, String data, Context mContext) {
+
+        if (!data.equals("")) {
+            try {
+                FileOutputStream fos = mContext.openFileOutput(filename, Context.MODE_PRIVATE);
+                fos.write(data.getBytes());
+                fos.close();
+                return true;
+            } catch (Exception e) {
+                String error = e.toString();
+                return false;
+            }
+        }
+        return false;
+    }
+
+
+    public static String readFromFile(String filename, Context mContext) {
+        String json = "";
+        try {
+            InputStream in = mContext.openFileInput(filename);
+
+            BufferedReader reader = new BufferedReader(new InputStreamReader(in));
+            StringBuilder out = new StringBuilder();
+            String line;
+            while ((line = reader.readLine()) != null) {
+                out.append(line);
+            }
+            json = out.toString();
+            reader.close();
+            in.close();
+
+        } catch (Exception e) {
+        }
+        return json;
+    }
+
 }

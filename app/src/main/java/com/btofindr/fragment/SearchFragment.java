@@ -16,6 +16,7 @@ import android.widget.TextView;
 import com.btofindr.R;
 import com.btofindr.controller.Utility;
 import com.btofindr.model.Block;
+import com.btofindr.model.Profile;
 import com.btofindr.model.Project;
 import com.btofindr.model.SearchParameter;
 import com.btofindr.model.UnitType;
@@ -47,7 +48,8 @@ public class SearchFragment extends Fragment {
     private int minPrice, maxPrice;
     public static SearchParameter parameter;
 
-    public SearchFragment(){}
+    public SearchFragment() {
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -86,7 +88,12 @@ public class SearchFragment extends Fragment {
                 minPrice = sbPriceRange.getSelectedMinValue().intValue();
                 maxPrice = sbPriceRange.getSelectedMaxValue().intValue();
 
-                parameter = new SearchParameter(townNames, ethic, unitTypes, maxPrice, minPrice, 'P', "");
+                Profile profile = gson.fromJson(Utility.readFromFile("profile", SearchFragment.this.getContext()), Profile.class);
+                if (profile == null) {
+                    profile = new Profile();
+                }
+
+                parameter = new SearchParameter(townNames, ethic, unitTypes, maxPrice, minPrice, 'P', profile.getPostalCode());
                 getFragmentManager().beginTransaction().replace(R.id.fl_container, new SearchResultFragment()).addToBackStack("SearchFragment").commit();
             }
         });
@@ -113,54 +120,50 @@ public class SearchFragment extends Fragment {
         protected void onPostExecute(Void aVoid) {
             dialog.dismiss();
 
-            for(Project project : projectList) {
+            for (Project project : projectList) {
                 final Button btn = generateButton();
                 btn.setText(project.getTownName());
                 btn.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if(!btn.isSelected()) {
+                        if (!btn.isSelected()) {
                             btn.setSelected(true);
                             townNames.add(btn.getText().toString());
-                        }
-                        else {
+                        } else {
                             btn.setSelected(false);
                             townNames.remove(btn.getText().toString());
                         }
                     }
                 });
-                if(odd) {
+                if (odd) {
                     llTownLeft.addView(btn);
                     odd = false;
-                }
-                else {
+                } else {
                     llTownRight.addView(btn);
                     odd = true;
                 }
             }
 
             odd = true;
-            for(UnitType unitType : unitTypeList) {
+            for (UnitType unitType : unitTypeList) {
                 final Button btn = generateButton();
                 btn.setText(unitType.getUnitTypeName());
                 btn.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if(!btn.isSelected()) {
+                        if (!btn.isSelected()) {
                             btn.setSelected(true);
                             unitTypes.add(btn.getText().toString());
-                        }
-                        else {
+                        } else {
                             btn.setSelected(false);
                             unitTypes.remove(btn.getText().toString());
                         }
                     }
                 });
-                if(odd) {
+                if (odd) {
                     llRoomLeft.addView(btn);
                     odd = false;
-                }
-                else {
+                } else {
                     llRoomRight.addView(btn);
                     odd = true;
                 }
@@ -170,14 +173,14 @@ public class SearchFragment extends Fragment {
         @Override
         protected Void doInBackground(Void... params) {
             data = gson.fromJson(Utility.getRequest("Project/GetTownNames"), String[].class);
-            for(String townName : data) {
+            for (String townName : data) {
                 Project project = new Project();
                 project.setTownName(townName);
                 projectList.add(project);
             }
 
             data = gson.fromJson(Utility.getRequest("UnitType/GetUnitTypes"), String[].class);
-            for(String type : data) {
+            for (String type : data) {
                 UnitType unitType = new UnitType();
                 unitType.setUnitTypeName(type);
                 unitTypeList.add(unitType);

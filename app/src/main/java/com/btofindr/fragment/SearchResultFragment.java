@@ -38,7 +38,8 @@ public class SearchResultFragment extends Fragment {
     private SearchParameter parameter;
     private ArrayList<Block> blockList;
 
-    public SearchResultFragment(){}
+    public SearchResultFragment() {
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -55,22 +56,23 @@ public class SearchResultFragment extends Fragment {
         spinSort.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                switch(position) {
-                    case 0 :
+                switch (position) {
+                    case 0:
                         parameter.setOrderBy('P');
                         new loadData().execute();
                         break;
-                    case 1 :
+                    case 1:
                         parameter.setOrderBy('T');
                         new loadData().execute();
                         break;
-                    default :
+                    default:
                         break;
                 }
             }
 
             @Override
-            public void onNothingSelected(AdapterView<?> parent) {}
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
         });
 
         return rootView;
@@ -99,8 +101,9 @@ public class SearchResultFragment extends Fragment {
         protected Object doInBackground(Void... params) {
             String string = gson.toJson(parameter);
             response = Utility.postRequest("Block/SearchBlocks", gson.toJson(parameter));
-            blockList = gson.fromJson(response, new TypeToken<List<Block>>(){}.getType());
-            for(Block block : blockList) {
+            blockList = gson.fromJson(response, new TypeToken<List<Block>>() {
+            }.getType());
+            for (Block block : blockList) {
                 BlockItem item = new BlockItem();
                 item.setIcon(block.getProject().getProjectImage());
                 item.setProjectName(block.getProject().getProjectName());
