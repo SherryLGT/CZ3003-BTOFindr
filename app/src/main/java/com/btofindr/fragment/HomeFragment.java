@@ -12,6 +12,10 @@ import android.widget.TextView;
 
 import com.btofindr.R;
 
+/**
+ * Created by Sherry on 31/08/2016.
+ */
+
 public class HomeFragment extends Fragment {
 
     private ImageView ivMain;

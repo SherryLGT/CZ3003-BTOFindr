@@ -22,6 +22,10 @@ import com.btofindr.model.NavDrawerItem;
 
 import java.util.ArrayList;
 
+/**
+ * Created by Sherry on 31/08/2016.
+ */
+
 public class MainActivity extends AppCompatActivity {
 
     private String[] navDrawerTitles;
@@ -34,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
 
     private FrameLayout flContainer;
 
-    @Override
+    @Override @SuppressWarnings("ResourceType")
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -99,7 +103,7 @@ public class MainActivity extends AppCompatActivity {
                     getSupportActionBar().setTitle(R.string.title_recommended);
                     break;
                 case 5: // Profile
-                    getSupportFragmentManager().beginTransaction().replace(R.id.fl_container, new ProfileFragment()).commit();
+                    getSupportFragmentManager().beginTransaction().replace(R.id.fl_container, new ProfileFragment()).addToBackStack("ProfileFragment").commit();
                     getSupportActionBar().setTitle(R.string.title_profile);
                     break;
                 default:

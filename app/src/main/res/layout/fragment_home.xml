@@ -1,3 +1,4 @@
+<!-- Created by Sherry on 31/08/2016. -->
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -6,7 +7,7 @@
     <ImageView
         android:id="@+id/iv_main"
         android:layout_width="match_parent"
-        android:layout_height="256dp"
+        android:layout_height="@dimen/project_image_height"
         android:scaleType="centerCrop"
         android:contentDescription="@string/image"/>
 

@@ -26,6 +26,10 @@ import com.google.gson.Gson;
 
 import java.util.ArrayList;
 
+/**
+ * Created by Sherry on 31/08/2016.
+ */
+
 public class SearchFragment extends Fragment {
 
     private ProgressDialog dialog;
@@ -43,7 +47,6 @@ public class SearchFragment extends Fragment {
     private ArrayList<UnitType> unitTypeList;
 
     private ArrayList<String> townNames, unitTypes;
-    private ArrayList<Block> blockList;
     private char ethic;
     private int minPrice, maxPrice;
     public static SearchParameter parameter;
@@ -72,6 +75,7 @@ public class SearchFragment extends Fragment {
 
         dialog = new ProgressDialog(getContext());
         dialog.setMessage("Loading...");
+        dialog.setCancelable(false);
         new loadData().execute();
 
         sbPriceRange.setOnRangeSeekbarChangeListener(new OnRangeSeekbarChangeListener() {
@@ -94,14 +98,14 @@ public class SearchFragment extends Fragment {
                 }
 
                 parameter = new SearchParameter(townNames, ethic, unitTypes, maxPrice, minPrice, 'P', profile.getPostalCode());
-                getFragmentManager().beginTransaction().replace(R.id.fl_container, new SearchResultFragment()).addToBackStack("SearchFragment").commit();
+                getFragmentManager().beginTransaction().replace(R.id.fl_container, new SearchResultFragment()).addToBackStack("SearchResultFragment").commit();
             }
         });
 
         return rootView;
     }
 
-    private class loadData extends AsyncTask<Void, Integer, Void> {
+    private class loadData extends AsyncTask<Void, Integer, Object> {
         @Override
         protected void onPreExecute() {
             dialog.show();
@@ -113,11 +117,10 @@ public class SearchFragment extends Fragment {
             unitTypeList = new ArrayList<UnitType>();
             townNames = new ArrayList<String>();
             unitTypes = new ArrayList<String>();
-            blockList = new ArrayList<Block>();
         }
 
         @Override
-        protected void onPostExecute(Void aVoid) {
+        protected void onPostExecute(Object o) {
             dialog.dismiss();
 
             for (Project project : projectList) {
@@ -171,7 +174,7 @@ public class SearchFragment extends Fragment {
         }
 
         @Override
-        protected Void doInBackground(Void... params) {
+        protected Object doInBackground(Void... params) {
             data = gson.fromJson(Utility.getRequest("Project/GetTownNames"), String[].class);
             for (String townName : data) {
                 Project project = new Project();

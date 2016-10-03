@@ -3,6 +3,10 @@ package com.btofindr.model;
 import java.sql.Date;
 import java.util.ArrayList;
 
+/**
+ * Created by Sherry on 31/08/2016.
+ */
+
 public class Block {
 
     private int blockId;

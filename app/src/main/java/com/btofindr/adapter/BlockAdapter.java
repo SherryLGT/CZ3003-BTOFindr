@@ -21,6 +21,10 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+/**
+ * Created by Sherry on 31/08/2016.
+ */
+
 public class BlockAdapter extends BaseAdapter {
 
     private Context context;

@@ -10,10 +10,13 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.btofindr.R;
-import com.btofindr.activity.MainActivity;
 import com.btofindr.controller.Utility;
 import com.btofindr.model.Profile;
 import com.google.gson.Gson;
+
+/**
+ * Created by Sherry on 31/08/2016.
+ */
 
 public class ProfileFragment extends Fragment {
 
@@ -39,7 +42,6 @@ public class ProfileFragment extends Fragment {
 
 
         profile = gson.fromJson(Utility.readFromFile("profile", ProfileFragment.this.getContext()), Profile.class);
-
         if (profile == null) {
             profile = new Profile();
         }
@@ -66,7 +68,7 @@ public class ProfileFragment extends Fragment {
                 }
                 else
                 {
-                    Toast.makeText(ProfileFragment.this.getContext(), "Error Saving Profile", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ProfileFragment.this.getContext(), "Error Saving Profile. Please try again.", Toast.LENGTH_SHORT).show();
                 }
             }
         });

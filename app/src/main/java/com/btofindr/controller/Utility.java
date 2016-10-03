@@ -16,6 +16,10 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.text.DecimalFormat;
 
+/**
+ * Created by Sherry on 31/08/2016.
+ */
+
 public class Utility {
     static String API_URL = "http://btofindr.cczy.io/api/";
 
@@ -108,7 +112,6 @@ public class Utility {
     }
 
     public static boolean writeToFile(String filename, String data, Context mContext) {
-
         if (!data.equals("")) {
             try {
                 FileOutputStream fos = mContext.openFileOutput(filename, Context.MODE_PRIVATE);
@@ -116,7 +119,7 @@ public class Utility {
                 fos.close();
                 return true;
             } catch (Exception e) {
-                String error = e.toString();
+                e.printStackTrace();
                 return false;
             }
         }
@@ -140,6 +143,7 @@ public class Utility {
             in.close();
 
         } catch (Exception e) {
+            e.printStackTrace();
         }
         return json;
     }

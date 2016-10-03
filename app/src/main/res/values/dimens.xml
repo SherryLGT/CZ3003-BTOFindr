@@ -12,7 +12,9 @@
     <dimen name="grid_spacing">15dp</dimen>
     <dimen name="image_dimen">75dp</dimen>
     <dimen name="btn_padding">15dp</dimen>
+    <dimen name="project_image_height">256dp</dimen>
 
     <dimen name="text_title">16sp</dimen>
     <dimen name="text_details">13sp</dimen>
+    <dimen name="text_floor">15sp</dimen>
 </resources>

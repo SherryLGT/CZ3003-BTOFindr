@@ -5,13 +5,12 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.btofindr.R;
-import com.btofindr.model.NavDrawerItem;
+import com.btofindr.controller.Utility;
+import com.btofindr.model.Floor;
 
 import java.util.ArrayList;
 
@@ -19,40 +18,40 @@ import java.util.ArrayList;
  * Created by Sherry on 31/08/2016.
  */
 
-public class NavDrawerAdapter extends BaseAdapter {
+public class FloorAdapter extends BaseAdapter {
 
     private Context context;
-    private ArrayList<NavDrawerItem> navDrawerItems;
+    private ArrayList<Floor> floorItems;
 
-    public NavDrawerAdapter(Context context, ArrayList<NavDrawerItem> navDrawerItems){
+    public FloorAdapter(Context context, ArrayList<Floor> floorItems) {
         this.context = context;
-        this.navDrawerItems = navDrawerItems;
+        this.floorItems = floorItems;
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         if (convertView == null) {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
-            convertView = inflater.inflate(R.layout.nav_drawer_list_item, null);
+            convertView = inflater.inflate(R.layout.floor_list_item, null);
         }
 
-        ImageView icon = (ImageView) convertView.findViewById(R.id.iv_icon);
-        TextView title = (TextView) convertView.findViewById(R.id.tv_title);
+        TextView tvFloor = (TextView) convertView.findViewById(R.id.tv_floor);
+        TextView tvPriceRange = (TextView) convertView.findViewById(R.id.tv_price_range);
 
-        icon.setImageResource(navDrawerItems.get(position).getIcon());
-        title.setText(navDrawerItems.get(position).getTitle());
+        tvFloor.setText("FLOOR " + floorItems.get(position).getFloor());
+        tvPriceRange.setText("$" + Utility.formatPrice(floorItems.get(position).getMinPrice()) + " - $" + Utility.formatPrice(floorItems.get(position).getMaxPrice()));
 
         return convertView;
     }
 
     @Override
     public int getCount() {
-        return navDrawerItems.size();
+        return floorItems.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return navDrawerItems.get(position);
+        return floorItems.get(position);
     }
 
     @Override

@@ -1,7 +1,7 @@
 package com.btofindr.model;
 
 /**
- * Created by calvi on 1/10/2016.
+ * Created by Calvin on 1/10/2016.
  */
 
 public class Profile {

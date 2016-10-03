@@ -1,5 +1,9 @@
 package com.btofindr.model;
 
+/**
+ * Created by Sherry on 31/08/2016.
+ */
+
 public class NavDrawerItem {
 
     private int icon;

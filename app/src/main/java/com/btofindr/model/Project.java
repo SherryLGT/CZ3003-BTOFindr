@@ -2,6 +2,10 @@ package com.btofindr.model;
 
 import java.util.ArrayList;
 
+/**
+ * Created by Sherry on 31/08/2016.
+ */
+
 public class Project {
 
     private String projectId;

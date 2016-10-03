@@ -23,6 +23,10 @@ import com.google.gson.reflect.TypeToken;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Created by Sherry on 31/08/2016.
+ */
+
 public class SearchResultFragment extends Fragment {
 
     private ProgressDialog dialog;
@@ -32,11 +36,11 @@ public class SearchResultFragment extends Fragment {
     private ListView lvBlocks;
 
     private Gson gson;
-    private float scale;
     private String response;
     private String[] data;
     private SearchParameter parameter;
     private ArrayList<Block> blockList;
+    public static Block selectedBlock;
 
     public SearchResultFragment() {
     }
@@ -52,6 +56,7 @@ public class SearchResultFragment extends Fragment {
         parameter = SearchFragment.parameter;
         dialog = new ProgressDialog(getContext());
         dialog.setMessage("Loading...");
+        dialog.setCancelable(false);
 
         spinSort.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -83,7 +88,6 @@ public class SearchResultFragment extends Fragment {
         protected void onPreExecute() {
             dialog.show();
             gson = new Gson();
-            scale = getActivity().getResources().getDisplayMetrics().density;
 
             blockList = new ArrayList<Block>();
             blockItems = new ArrayList<BlockItem>();
@@ -122,7 +126,8 @@ public class SearchResultFragment extends Fragment {
     private class blockItemClickListener implements ListView.OnItemClickListener {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
+            selectedBlock = blockList.get(position);
+            getFragmentManager().beginTransaction().replace(R.id.fl_container, new BlockFragment()).addToBackStack("BlockFragment").commit();
         }
     }
 }

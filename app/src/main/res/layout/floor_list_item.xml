@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Created by Sherry on 31/08/2016. -->
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingTop="@dimen/grid_margin"
+    android:paddingBottom="@dimen/grid_margin">
+
+    <TextView
+        android:id="@+id/tv_floor"
+        android:layout_width="280dp"
+        android:layout_height="match_parent"
+        android:textSize="@dimen/text_floor"/>
+
+    <TextView
+        android:id="@+id/tv_price_range"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_alignEnd="@id/tv_floor"
+        android:textSize="@dimen/text_floor"/>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@id/tv_price_range"
+        android:layout_centerVertical="true"
+        android:layout_alignParentEnd="true"
+        android:src="@drawable/ic_right_arrow"
+        android:contentDescription="@string/image"/>
+
+</RelativeLayout>

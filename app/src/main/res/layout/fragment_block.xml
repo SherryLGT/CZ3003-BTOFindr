@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Created by Sherry on 31/08/2016. -->
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    android:background="@color/cream">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:descendantFocusability="blocksDescendants">
+
+        <ImageView
+            android:id="@+id/iv_project"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/project_image_height"
+            android:scaleType="centerCrop"
+            android:contentDescription="@string/image"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/grid_margin"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/text_title"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:id="@+id/tv_address"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/text_details"/>
+
+            <TextView
+                android:id="@+id/tv_unit_types"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/text_details"
+                android:textColor="@color/red"/>
+
+            <TextView
+                android:id="@+id/tv_price_range"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/text_details"
+                android:textStyle="italic"/>
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/btn_view_map_plan"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="18dp"
+            android:text="@string/btn_view_map_plan"
+            android:textSize="@dimen/text_title"
+            android:theme="@style/AppTheme.Button"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_margin="5dp"
+            android:background="@drawable/content_layout">
+
+            <LinearLayout
+                android:id="@+id/ll_unit_types"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_quotas"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/grid_margin"
+                android:layout_marginStart="@dimen/grid_margin"
+                android:layout_marginEnd="@dimen/grid_margin"
+                android:layout_marginBottom="8dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tv_quota_chinese"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"/>
+
+                <TextView
+                    android:id="@+id/tv_quota_malay"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="30dp"
+                    android:layout_marginEnd="30dp"/>
+
+                <TextView
+                    android:id="@+id/tv_quota_others"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"/>
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginStart="@dimen/grid_margin"
+                android:layout_marginEnd="@dimen/grid_margin"
+                android:background="@color/gray"/>
+
+            <ListView
+                android:id="@+id/lv_floors"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/grid_margin"/>
+        </LinearLayout>
+    </LinearLayout>
+
+</ScrollView>
