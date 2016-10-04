@@ -22,7 +22,7 @@ import java.text.DecimalFormat;
 
 public class Utility {
     static String API_URL = "http://btofindr.cczy.io/api/";
-
+    static String lala = "haha";
     // dp to pixel
     public static int getPixels(int dp, float scale) {
         return ((int) (dp * scale + 0.5f));
