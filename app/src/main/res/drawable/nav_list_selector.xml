@@ -2,8 +2,64 @@
 <!-- Created by Sherry on 31/08/2016. -->
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item android:drawable="@color/dark_red" android:state_activated="false"/>
-    <item android:drawable="@drawable/nav_list_item_selected" android:state_pressed="true"/>
-    <item android:drawable="@drawable/nav_list_item_selected" android:state_activated="true"/>
+    <item
+        android:state_activated="false"
+        android:drawable="@color/dark_red"/>
+
+    <item
+        android:state_pressed="true">
+
+        <layer-list>
+            <item>
+                <shape
+                    android:shape="rectangle">
+
+                    <stroke
+                        android:width="5dp"
+                        android:color="@color/white"/>
+                </shape>
+            </item>
+
+            <item
+                android:left="5dp">
+
+                <shape
+                    android:shape="rectangle">
+
+                    <stroke
+                        android:width="5dp"
+                        android:color="@color/dark_red"/>
+                </shape>
+            </item>
+        </layer-list>
+    </item>
+
+    <item
+        android:state_activated="true">
+
+        <layer-list>
+            <item>
+                <shape
+                    android:shape="rectangle">
+
+                    <stroke
+                        android:width="5dp"
+                        android:color="@color/white"/>
+                </shape>
+            </item>
+
+            <item
+                android:left="5dp">
+
+                <shape
+                    android:shape="rectangle">
+
+                    <stroke
+                        android:width="5dp"
+                        android:color="@color/dark_red"/>
+                </shape>
+            </item>
+        </layer-list>
+    </item>
 
 </selector>

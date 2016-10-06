@@ -5,6 +5,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -44,6 +45,10 @@ public class ProfileFragment extends Fragment {
         profile = gson.fromJson(Utility.readFromFile("profile", ProfileFragment.this.getContext()), Profile.class);
         if (profile == null) {
             profile = new Profile();
+            etAvgIncome.setSelectAllOnFocus(true);
+            etCPFBal.setSelectAllOnFocus(true);
+            etCPFCon.setSelectAllOnFocus(true);
+            etLoanTenure.setSelectAllOnFocus(true);
         }
 
         etPostalCode.setText(profile.getPostalCode());
@@ -60,7 +65,6 @@ public class ProfileFragment extends Fragment {
                 profile.setCurrentCpf(Double.parseDouble(etCPFBal.getText().toString()));
                 profile.setMonthlyCpf(Double.parseDouble(etCPFCon.getText().toString()));
                 profile.setLoanTenure(Integer.parseInt(etLoanTenure.getText().toString()));
-
 
                 if(Utility.writeToFile("profile", gson.toJson(profile), ProfileFragment.this.getContext()))
                 {

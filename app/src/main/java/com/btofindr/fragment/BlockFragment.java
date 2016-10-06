@@ -2,32 +2,23 @@ package com.btofindr.fragment;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.TabHost;
-import android.widget.TabWidget;
 import android.widget.TextView;
 
 import com.btofindr.R;
-import com.btofindr.activity.MainActivity;
 import com.btofindr.adapter.FloorAdapter;
 import com.btofindr.controller.Utility;
 import com.btofindr.model.Block;
@@ -54,8 +45,8 @@ public class BlockFragment extends Fragment {
     private ListView lvFloors;
 
     private Gson gson;
-    private float scale;
     private Block block;
+    private float scale;
     private static int selectedView = -1;
 
     public BlockFragment() {}
@@ -154,8 +145,9 @@ public class BlockFragment extends Fragment {
 
         @Override
         protected void onPostExecute(Object o) {
+            llUnitTypes.setWeightSum(block.getUnitTypes().size());
             for(UnitType unitType : block.getUnitTypes()) {
-                Button tab = new Button(getContext());
+                final Button tab = generateButton();
                 tab.setText(unitType.getUnitTypeName());
 
                 tvQuotaChinese.setText("Chinese: "  + unitType.getQuotaChinese());
@@ -187,7 +179,11 @@ public class BlockFragment extends Fragment {
                 tab.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        for(int i = 0; i < llUnitTypes.getChildCount(); i++) {
+                            llUnitTypes.getChildAt(i).setSelected(false);
+                        }
                         lvFloors.setAdapter(new FloorAdapter(getContext(), floorItems));
+                        tab.setSelected(true);
                     }
                 });
                 llUnitTypes.addView(tab);
@@ -216,5 +212,16 @@ public class BlockFragment extends Fragment {
 
             return block;
         }
+    }
+
+    private Button generateButton() {
+        Button btn = new Button(getContext());
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT, 1.0f);
+        btn.setLayoutParams(params);
+        btn.setPadding(Utility.getPixels(10, scale), Utility.getPixels(10, scale), Utility.getPixels(10, scale), Utility.getPixels(10, scale));
+        btn.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.tab_list_selector));
+        btn.setTextColor(ContextCompat.getColorStateList(getContext(), R.color.text_selector_black_gray));
+
+        return btn;
     }
 }

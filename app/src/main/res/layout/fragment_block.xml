@@ -73,18 +73,16 @@
                 android:id="@+id/ll_unit_types"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
-            </LinearLayout>
+                android:orientation="horizontal"/>
 
-            <LinearLayout
+            <RelativeLayout
                 android:id="@+id/ll_quotas"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/grid_margin"
                 android:layout_marginStart="@dimen/grid_margin"
                 android:layout_marginEnd="@dimen/grid_margin"
-                android:layout_marginBottom="8dp"
-                android:orientation="horizontal">
+                android:layout_marginBottom="8dp">
 
                 <TextView
                     android:id="@+id/tv_quota_chinese"
@@ -95,14 +93,14 @@
                     android:id="@+id/tv_quota_malay"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:layout_marginStart="30dp"
-                    android:layout_marginEnd="30dp"/>
+                    android:layout_centerInParent="true"/>
 
                 <TextView
                     android:id="@+id/tv_quota_others"
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"/>
-            </LinearLayout>
+                    android:layout_height="match_parent"
+                    android:layout_alignParentEnd="true"/>
+            </RelativeLayout>
 
             <View
                 android:layout_width="match_parent"

@@ -21,13 +21,15 @@ import java.text.DecimalFormat;
  */
 
 public class Utility {
-    static String API_URL = "http://btofindr.cczy.io/api/";
-    static String lala = "haha";
+    // web service url
+    final static String API_URL = "http://btofindr.cczy.io/api/";
+
     // dp to pixel
     public static int getPixels(int dp, float scale) {
         return ((int) (dp * scale + 0.5f));
     }
 
+    // prepare ethic variable for parsing
     public static char setEthic(String ethic) {
         char character = '-';
 
@@ -48,10 +50,12 @@ public class Utility {
         return character;
     }
 
+    // convert double into string with "thousands" (,) delimiter
     public static String formatPrice(Double value) {
         return String.format("%,d", value.intValue());
     }
 
+    // get request from api (getURL), returns json result
     public static String getRequest(String getURL) {
         try {
             URL url = new URL(API_URL + getURL);
@@ -75,6 +79,7 @@ public class Utility {
         }
     }
 
+    // post request with json parameter (para)to api (postURL), returns json result
     public static String postRequest(String postURL, String para) {
         try {
             URL url = new URL(API_URL + postURL);
@@ -111,6 +116,7 @@ public class Utility {
         }
     }
 
+    // write to specific json data file in local storage
     public static boolean writeToFile(String filename, String data, Context mContext) {
         if (!data.equals("")) {
             try {
@@ -126,7 +132,7 @@ public class Utility {
         return false;
     }
 
-
+    // get specified json data file in local storage, return json result
     public static String readFromFile(String filename, Context mContext) {
         String json = "";
         try {
@@ -141,7 +147,6 @@ public class Utility {
             json = out.toString();
             reader.close();
             in.close();
-
         } catch (Exception e) {
             e.printStackTrace();
         }

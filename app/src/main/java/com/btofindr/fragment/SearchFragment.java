@@ -14,8 +14,8 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.btofindr.R;
+import com.btofindr.activity.MainActivity;
 import com.btofindr.controller.Utility;
-import com.btofindr.model.Block;
 import com.btofindr.model.Profile;
 import com.btofindr.model.Project;
 import com.btofindr.model.SearchParameter;
@@ -99,6 +99,7 @@ public class SearchFragment extends Fragment {
 
                 parameter = new SearchParameter(townNames, ethic, unitTypes, maxPrice, minPrice, 'P', profile.getPostalCode());
                 getFragmentManager().beginTransaction().replace(R.id.fl_container, new SearchResultFragment()).addToBackStack("SearchResultFragment").commit();
+                ((MainActivity) getActivity()).setActionBarTitle(getResources().getString(R.string.title_search_results));
             }
         });
 
@@ -199,8 +200,8 @@ public class SearchFragment extends Fragment {
         params.setMargins(Utility.getPixels(3, scale), Utility.getPixels(5, scale), Utility.getPixels(3, scale), Utility.getPixels(5, scale));
         btn.setPadding(Utility.getPixels(3, scale), Utility.getPixels(3, scale), Utility.getPixels(3, scale), Utility.getPixels(3, scale));
         btn.setLayoutParams(params);
-        btn.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.rounded_button));
-        btn.setTextColor(ContextCompat.getColorStateList(getContext(), R.color.text_selector));
+        btn.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.rounded_button_selector));
+        btn.setTextColor(ContextCompat.getColorStateList(getContext(), R.color.text_selector_black_white));
 
         return btn;
     }

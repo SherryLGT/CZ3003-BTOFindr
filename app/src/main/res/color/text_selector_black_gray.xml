@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Created by Sherry on 31/08/2016. -->
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_pressed="true"
+        android:color="@color/black"/>
+    <item android:state_selected="true"
+        android:color="@color/black"/>
+    <item android:color="@color/medium_gray"/>
+</selector>

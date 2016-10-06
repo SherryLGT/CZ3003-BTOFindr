@@ -11,6 +11,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.btofindr.R;
+import com.btofindr.activity.MainActivity;
 
 /**
  * Created by Sherry on 31/08/2016.
@@ -47,6 +48,7 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 getFragmentManager().beginTransaction().replace(R.id.fl_container, new SearchFragment()).addToBackStack("SearchFragment").commit();
+                ((MainActivity) getActivity()).setActionBarTitle(getResources().getString(R.string.title_search));
             }
         });
 

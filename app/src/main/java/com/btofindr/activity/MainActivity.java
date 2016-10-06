@@ -117,11 +117,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    public void setTitle(CharSequence title) {
-        getActionBar().setTitle(title);
-    }
-
-    @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
         navDrawerToggle.syncState();
@@ -162,5 +157,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         lvNavDrawer.setItemChecked(0, true);
+    }
+
+    public void setActionBarTitle(String title) {
+        getSupportActionBar().setTitle(title);
     }
 }
