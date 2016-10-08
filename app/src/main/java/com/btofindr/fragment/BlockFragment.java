@@ -12,6 +12,7 @@ import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -30,6 +31,9 @@ import com.google.gson.Gson;
 import java.io.InputStream;
 import java.util.ArrayList;
 
+import static com.btofindr.activity.MainActivity.scale;
+import static com.btofindr.fragment.SearchResultFragment.selectedBlock;
+
 /**
  * Created by Sherry on 31/08/2016.
  */
@@ -45,9 +49,10 @@ public class BlockFragment extends Fragment {
     private ListView lvFloors;
 
     private Gson gson;
-    private Block block;
-    private float scale;
     private static int selectedView = -1;
+    public static Block block;
+    public static String selectedUnitType;
+    public static int selectedFloor;
 
     public BlockFragment() {}
 
@@ -68,7 +73,7 @@ public class BlockFragment extends Fragment {
         tvQuotaOthers = (TextView) rootView.findViewById(R.id.tv_quota_others);
         lvFloors = (ListView) rootView.findViewById(R.id.lv_floors);
 
-        block = SearchResultFragment.selectedBlock;
+        block = selectedBlock;
         dialog = new ProgressDialog(getContext());
         dialog.setMessage("Loading...");
         dialog.setCancelable(false);
@@ -140,7 +145,6 @@ public class BlockFragment extends Fragment {
         protected void onPreExecute() {
             dialog.show();
             gson = new Gson();
-            scale = getActivity().getResources().getDisplayMetrics().density;
         }
 
         @Override
@@ -183,7 +187,9 @@ public class BlockFragment extends Fragment {
                             llUnitTypes.getChildAt(i).setSelected(false);
                         }
                         lvFloors.setAdapter(new FloorAdapter(getContext(), floorItems));
+                        lvFloors.setOnItemClickListener(new floorItemClickListener());
                         tab.setSelected(true);
+                        selectedUnitType = tab.getText().toString();
                     }
                 });
                 llUnitTypes.addView(tab);
@@ -223,5 +229,13 @@ public class BlockFragment extends Fragment {
         btn.setTextColor(ContextCompat.getColorStateList(getContext(), R.color.text_selector_black_gray));
 
         return btn;
+    }
+
+    private class floorItemClickListener implements ListView.OnItemClickListener {
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            selectedFloor = position;
+            getFragmentManager().beginTransaction().replace(R.id.fl_container, new FloorFragment()).addToBackStack("FloorFragment").commit();
+        }
     }
 }

@@ -15,15 +15,16 @@ import com.btofindr.controller.Utility;
 import com.btofindr.model.Profile;
 import com.google.gson.Gson;
 
+import static com.btofindr.activity.MainActivity.profile;
+
 /**
  * Created by Sherry on 31/08/2016.
  */
 
 public class ProfileFragment extends Fragment {
 
-    EditText etPostalCode, etAvgIncome, etCPFBal, etCPFCon, etLoanTenure;
-    Button btnSave;
-    Profile profile;
+    private EditText etPostalCode, etAvgIncome, etCPFBal, etCPFCon, etLoanTenure;
+    private Button btnSave;
     private Gson gson = new Gson();
 
     public ProfileFragment() {
@@ -41,8 +42,7 @@ public class ProfileFragment extends Fragment {
         etLoanTenure = (EditText) rootView.findViewById(R.id.et_loan_tenure);
         btnSave = (Button) rootView.findViewById(R.id.btn_save);
 
-
-        profile = gson.fromJson(Utility.readFromFile("profile", ProfileFragment.this.getContext()), Profile.class);
+        profile = gson.fromJson(Utility.readFromFile("profile", this.getContext()), Profile.class);
         if (profile == null) {
             profile = new Profile();
             etAvgIncome.setSelectAllOnFocus(true);
@@ -66,7 +66,7 @@ public class ProfileFragment extends Fragment {
                 profile.setMonthlyCpf(Double.parseDouble(etCPFCon.getText().toString()));
                 profile.setLoanTenure(Integer.parseInt(etLoanTenure.getText().toString()));
 
-                if(Utility.writeToFile("profile", gson.toJson(profile), ProfileFragment.this.getContext()))
+                if(Utility.writeToFile("profile", gson.toJson(profile), getContext()))
                 {
                     Toast.makeText(ProfileFragment.this.getContext(), "Profile Saved", Toast.LENGTH_SHORT).show();
                 }

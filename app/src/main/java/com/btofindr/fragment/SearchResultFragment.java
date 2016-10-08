@@ -31,7 +31,6 @@ public class SearchResultFragment extends Fragment {
 
     private ProgressDialog dialog;
     private ArrayList<BlockItem> blockItems;
-    private BlockAdapter blockAdapter;
     private Spinner spinSort;
     private ListView lvBlocks;
 
@@ -95,8 +94,7 @@ public class SearchResultFragment extends Fragment {
 
         @Override
         protected void onPostExecute(Object o) {
-            blockAdapter = new BlockAdapter(getContext(), blockItems);
-            lvBlocks.setAdapter(blockAdapter);
+            lvBlocks.setAdapter(new BlockAdapter(getContext(), blockItems));
             lvBlocks.setOnItemClickListener(new blockItemClickListener());
             dialog.dismiss();
         }

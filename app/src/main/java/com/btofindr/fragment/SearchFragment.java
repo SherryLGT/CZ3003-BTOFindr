@@ -26,6 +26,9 @@ import com.google.gson.Gson;
 
 import java.util.ArrayList;
 
+import static com.btofindr.activity.MainActivity.profile;
+import static com.btofindr.activity.MainActivity.scale;
+
 /**
  * Created by Sherry on 31/08/2016.
  */
@@ -41,7 +44,6 @@ public class SearchFragment extends Fragment {
 
     private Gson gson;
     private boolean odd;
-    private float scale;
     private String[] data;
     private ArrayList<Project> projectList;
     private ArrayList<UnitType> unitTypeList;
@@ -92,7 +94,7 @@ public class SearchFragment extends Fragment {
                 minPrice = sbPriceRange.getSelectedMinValue().intValue();
                 maxPrice = sbPriceRange.getSelectedMaxValue().intValue();
 
-                Profile profile = gson.fromJson(Utility.readFromFile("profile", SearchFragment.this.getContext()), Profile.class);
+                profile = gson.fromJson(Utility.readFromFile("profile", getContext()), Profile.class);
                 if (profile == null) {
                     profile = new Profile();
                 }
@@ -112,7 +114,6 @@ public class SearchFragment extends Fragment {
             dialog.show();
             odd = true;
             gson = new Gson();
-            scale = getActivity().getResources().getDisplayMetrics().density;
 
             projectList = new ArrayList<Project>();
             unitTypeList = new ArrayList<UnitType>();

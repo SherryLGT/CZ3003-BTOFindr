@@ -15,11 +15,9 @@ import android.widget.TextView;
 import com.btofindr.R;
 import com.btofindr.controller.Utility;
 import com.btofindr.model.BlockItem;
-import com.btofindr.model.UnitType;
 
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Iterator;
 
 /**
  * Created by Sherry on 31/08/2016.
