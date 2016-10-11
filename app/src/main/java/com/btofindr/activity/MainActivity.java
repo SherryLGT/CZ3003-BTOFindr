@@ -20,7 +20,7 @@ import com.btofindr.fragment.HomeFragment;
 import com.btofindr.fragment.ProfileFragment;
 import com.btofindr.model.NavDrawerItem;
 import com.google.gson.Gson;
-
+import com.google.firebase.messaging.FirebaseMessaging;
 import java.util.ArrayList;
 
 /**
@@ -77,6 +77,8 @@ public class MainActivity extends AppCompatActivity {
         lvNavDrawer.setItemChecked(0, true);
 
         scale = this.getResources().getDisplayMetrics().density;
+
+        FirebaseMessaging.getInstance().subscribeToTopic("projects");
     }
 
     private class navDrawerItemClickListener implements ListView.OnItemClickListener {

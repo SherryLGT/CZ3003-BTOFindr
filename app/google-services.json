@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "777178452454",
+    "firebase_url": "https://btofindr.firebaseio.com",
+    "project_id": "btofindr",
+    "storage_bucket": "btofindr.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:777178452454:android:91f6b9ac20d960f7",
+        "android_client_info": {
+          "package_name": "com.btofindr"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "777178452454-vkdstnu15ml0fsb0f5iaucv6tbb9j3qg.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBl0YmgjrmhyyViZbRnYYNWY2Se-aLsXjU"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
