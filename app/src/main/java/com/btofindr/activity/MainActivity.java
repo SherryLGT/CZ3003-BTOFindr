@@ -16,13 +16,9 @@ import android.widget.ListView;
 
 import com.btofindr.R;
 import com.btofindr.adapter.NavDrawerAdapter;
-import com.btofindr.controller.Utility;
 import com.btofindr.fragment.HomeFragment;
 import com.btofindr.fragment.ProfileFragment;
-import com.btofindr.fragment.SearchFragment;
-import com.btofindr.model.Block;
 import com.btofindr.model.NavDrawerItem;
-import com.btofindr.model.Profile;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
@@ -44,9 +40,6 @@ public class MainActivity extends AppCompatActivity {
     private FrameLayout flContainer;
     private Gson gson;
     public static float scale;
-    public static Profile profile;
-    public static Block favourites;
-    public static Block history;
 
     @Override @SuppressWarnings("ResourceType")
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,10 +77,6 @@ public class MainActivity extends AppCompatActivity {
         lvNavDrawer.setItemChecked(0, true);
 
         scale = this.getResources().getDisplayMetrics().density;
-        gson = new Gson();
-        profile = gson.fromJson(Utility.readFromFile("profile", this), Profile.class);
-        favourites = gson.fromJson(Utility.readFromFile("favourites", this), Block.class);
-        history = gson.fromJson(Utility.readFromFile("history", this), Block.class);
     }
 
     private class navDrawerItemClickListener implements ListView.OnItemClickListener {

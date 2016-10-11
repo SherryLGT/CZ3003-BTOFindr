@@ -2,19 +2,23 @@ package com.btofindr.controller;
 
 import android.content.Context;
 
+import com.btofindr.model.Block;
+import com.btofindr.model.Unit;
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
+import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
-import java.io.FileOutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Sherry on 31/08/2016.
@@ -152,5 +156,4 @@ public class Utility {
         }
         return json;
     }
-
 }

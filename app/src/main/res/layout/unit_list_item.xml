@@ -10,7 +10,7 @@
         android:id="@+id/tv_unit_no"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:layout_marginEnd="95dp"
+        android:layout_marginEnd="90dp"
         android:gravity="center"/>
 
     <TextView
@@ -22,18 +22,18 @@
 
     <ImageView
         android:id="@+id/iv_calculate"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="5dp"
+        android:layout_width="@dimen/unit_icon"
+        android:layout_height="@dimen/unit_icon"
+        android:layout_marginEnd="3dp"
         android:gravity="center"
         android:background="@drawable/button_rounded_edge"
-        android:src="@drawable/ic_favourite"
+        android:src="@drawable/ic_calculate"
         android:contentDescription="@string/image"/>
 
     <ImageView
-        android:id="@+id/iv_favourites"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:id="@+id/iv_favourite"
+        android:layout_width="@dimen/unit_icon"
+        android:layout_height="@dimen/unit_icon"
         android:gravity="center"
         android:background="@drawable/button_rounded_edge"
         android:src="@drawable/ic_favourite"

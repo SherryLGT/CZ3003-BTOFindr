@@ -20,6 +20,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.btofindr.R;
+import com.btofindr.activity.MainActivity;
 import com.btofindr.adapter.FloorAdapter;
 import com.btofindr.controller.Utility;
 import com.btofindr.model.Block;
@@ -111,6 +112,12 @@ public class BlockFragment extends Fragment {
         });
 
         return rootView;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        ((MainActivity) getActivity()).setActionBarTitle(getResources().getString(R.string.title_search_results));
     }
 
     private class getImage extends AsyncTask<String, Void, Bitmap> {

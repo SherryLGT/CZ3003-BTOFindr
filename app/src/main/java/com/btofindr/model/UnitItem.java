@@ -6,14 +6,24 @@ package com.btofindr.model;
 
 public class UnitItem {
 
+    private int unitId;
     private String unitNo;
     private Double price;
 
     public UnitItem(){};
 
-    public UnitItem(String unitNo, Double price){
+    public UnitItem(int unitId, String unitNo, Double price){
+        this.unitId = unitId;
         this.unitNo = unitNo;
         this.price = price;
+    }
+
+    public int getUnitId() {
+        return unitId;
+    }
+
+    public void setUnitId(int unitId) {
+        this.unitId = unitId;
     }
 
     public String getUnitNo() {

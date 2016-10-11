@@ -5,7 +5,6 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -15,8 +14,6 @@ import com.btofindr.controller.Utility;
 import com.btofindr.model.Profile;
 import com.google.gson.Gson;
 
-import static com.btofindr.activity.MainActivity.profile;
-
 /**
  * Created by Sherry on 31/08/2016.
  */
@@ -25,6 +22,7 @@ public class ProfileFragment extends Fragment {
 
     private EditText etPostalCode, etAvgIncome, etCPFBal, etCPFCon, etLoanTenure;
     private Button btnSave;
+    private Profile profile;
     private Gson gson = new Gson();
 
     public ProfileFragment() {

@@ -11,15 +11,18 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.btofindr.R;
+import com.btofindr.activity.MainActivity;
 import com.btofindr.adapter.UnitAdapter;
 import com.btofindr.controller.Utility;
 import com.btofindr.model.Floor;
 import com.btofindr.model.Unit;
 import com.btofindr.model.UnitItem;
 import com.btofindr.model.UnitType;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 
+import static com.btofindr.activity.MainActivity.scale;
 import static com.btofindr.fragment.BlockFragment.block;
 import static com.btofindr.fragment.BlockFragment.selectedFloor;
 import static com.btofindr.fragment.BlockFragment.selectedUnitType;
@@ -33,7 +36,7 @@ public class FloorFragment extends Fragment {
     private TextView tvHeadaer;
     private ListView lvUnits;
 
-    private float scale;
+    private Gson gson;
     private ArrayList<Floor> floorItems;
     private ArrayList<UnitItem> unitItems;
 
@@ -70,9 +73,10 @@ public class FloorFragment extends Fragment {
 
         for(UnitType unitType : block.getUnitTypes()) {
             if (unitType.getUnitTypeName().equals(selectedUnitType)) {
+                unitType.setBlock(block);
                 for (Unit unit : unitType.getUnits()) {
                     if (unit.getUnitNo().substring(0, 3).equals(floorItems.get(selectedFloor).getFloor())) {
-                        unitItems.add(new UnitItem(unit.getUnitNo(), unit.getPrice()));
+                        unitItems.add(new UnitItem(unit.getUnitId(), unit.getUnitNo(), unit.getPrice()));
                     }
                 }
             }
@@ -86,8 +90,14 @@ public class FloorFragment extends Fragment {
         divider.setLayoutParams(params);
         divider.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.gray));
 
-        tvHeadaer.setText((block.getProject().getProjectName() + " - " + selectedUnitType + " LEVEL " + selectedFloor).toUpperCase());
+        tvHeadaer.setText((block.getProject().getProjectName() + " - " + selectedUnitType + " LEVEL " + floorItems.get(selectedFloor).getFloor()).toUpperCase());
 
         return rootView;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        ((MainActivity) getActivity()).setActionBarTitle(getResources().getString(R.string.title_search_results));
     }
 }

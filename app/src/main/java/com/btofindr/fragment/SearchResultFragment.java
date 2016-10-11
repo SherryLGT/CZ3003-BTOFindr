@@ -12,6 +12,7 @@ import android.widget.ListView;
 import android.widget.Spinner;
 
 import com.btofindr.R;
+import com.btofindr.activity.MainActivity;
 import com.btofindr.adapter.BlockAdapter;
 import com.btofindr.controller.Utility;
 import com.btofindr.model.Block;
@@ -36,7 +37,6 @@ public class SearchResultFragment extends Fragment {
 
     private Gson gson;
     private String response;
-    private String[] data;
     private SearchParameter parameter;
     private ArrayList<Block> blockList;
     public static Block selectedBlock;
@@ -82,6 +82,12 @@ public class SearchResultFragment extends Fragment {
         return rootView;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        ((MainActivity) getActivity()).setActionBarTitle(getResources().getString(R.string.title_search_results));
+    }
+
     private class loadData extends AsyncTask<Void, Integer, Object> {
         @Override
         protected void onPreExecute() {
@@ -101,7 +107,6 @@ public class SearchResultFragment extends Fragment {
 
         @Override
         protected Object doInBackground(Void... params) {
-            String string = gson.toJson(parameter);
             response = Utility.postRequest("Block/SearchBlocks", gson.toJson(parameter));
             blockList = gson.fromJson(response, new TypeToken<List<Block>>() {
             }.getType());
