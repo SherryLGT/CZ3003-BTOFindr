@@ -77,8 +77,6 @@ public class MainActivity extends AppCompatActivity {
         lvNavDrawer.setItemChecked(0, true);
 
         scale = this.getResources().getDisplayMetrics().density;
-
-        FirebaseMessaging.getInstance().subscribeToTopic("projects");
     }
 
     private class navDrawerItemClickListener implements ListView.OnItemClickListener {

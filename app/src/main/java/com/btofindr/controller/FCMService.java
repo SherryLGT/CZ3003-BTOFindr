@@ -16,9 +16,9 @@ import com.google.firebase.messaging.RemoteMessage;
  * Created by calvi on 12/10/2016.
  */
 
-public class MyFirebaseMessagingService  extends FirebaseMessagingService {
+public class FCMService extends FirebaseMessagingService {
 
-    private static final String TAG = "MyFirebaseMsgService";
+    private static final String TAG = "FCMService";
     /**
      * Called when message is received.
      *

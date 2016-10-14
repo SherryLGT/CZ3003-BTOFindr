@@ -104,6 +104,7 @@
     <string name="lbl_cpf_balance">CURRENT CPF BALANCE</string>
     <string name="lbl_cpf_contribution">MONTHLY CPF CONTRIBUTION</string>
     <string name="lbl_loan_tenure">LOAN TENURE</string>
+    <string name="lbl_unittype_sub_title">UNIT TYPES ALERT SUBSCRIPTION</string>
     <string name="btn_save">SAVE</string>
 
     <!-- Action -->

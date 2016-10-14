@@ -62,7 +62,7 @@ public class Utility {
     // get request from api (getURL), returns json result
     public static String getRequest(String getURL) {
         try {
-            URL url = new URL(API_URL + getURL);
+            URL url = new URL(API_URL + getURL.replace(" ","%20"));
             HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
             try {
                 BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
