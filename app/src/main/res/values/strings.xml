@@ -74,6 +74,8 @@
     <string name="lbl_balance">Balance of the purchase price \n (Per month for 20 years):</string>
     <string name="lbl_by_cpf">Payment by CPF</string>
     <string name="lbl_by_cash">Payment by CASH</string>
+    <string name="lbl_keys_collection">Collection of keys</string>
+    <string name="lbl_stamp_duty">Stamp Duty &amp; Legal Fees:</string>
 
     <!-- Map/Plan -->
     <string name="btn_view_map_plan">View Maps &amp; Plans</string>
