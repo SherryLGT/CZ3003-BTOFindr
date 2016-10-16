@@ -12,16 +12,21 @@ public class Unit {
     private int floorArea;
     private boolean avail;
     private UnitType unitType;
+    private int faveCount;
+    private FeesPayable fees;
 
     public Unit(){};
 
-    public Unit(int unitId, String unitNo, Double price, int floorArea, boolean avail, UnitType unitType) {
+    public Unit(int unitId, String unitNo, Double price, int floorArea, boolean avail, UnitType unitType
+        ,int faveCount, FeesPayable fees) {
         this.unitId = unitId;
         this.unitNo = unitNo;
         this.price = price;
         this.floorArea = floorArea;
         this.avail = avail;
         this.unitType = unitType;
+        this.faveCount = faveCount;
+        this.fees = fees;
     }
 
     public int getUnitId() {
@@ -70,5 +75,21 @@ public class Unit {
 
     public void setUnitType(UnitType unitType) {
         this.unitType = unitType;
+    }
+
+    public int getFaveCount() {
+        return faveCount;
+    }
+
+    public void setFaveCount(int faveCount) {
+        this.faveCount = faveCount;
+    }
+
+    public FeesPayable getFees() {
+        return fees;
+    }
+
+    public void setFees(FeesPayable fees) {
+        this.fees = fees;
     }
 }

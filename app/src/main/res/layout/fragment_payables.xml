@@ -1,0 +1,293 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/cream">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_margin="@dimen/grid_margin">
+
+
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fillViewport="true">
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="@dimen/grid_padding"
+                android:background="@drawable/content_layout">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/lbl_unit_details"
+                    android:textStyle="normal|bold"
+                    android:id="@+id/title_unit_details"
+                    android:padding="5dp"/>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@android:color/darker_gray"
+                    android:layout_below="@+id/title_unit_details"/>
+
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/lbl_unit_number"
+                    android:id="@+id/title_unit_number"
+                    android:layout_below="@+id/title_unit_details"
+                    android:padding="5dp"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Unit Number value"
+                    android:id="@+id/unit_number_value"
+                    android:layout_alignParentEnd="true"
+                    android:padding="5dp"
+                    android:layout_below="@+id/title_unit_details"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/lbl_unit_type"
+                    android:id="@+id/title_unit_type"
+                    android:layout_below="@+id/title_unit_number"
+                    android:padding="5dp"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Unit type value"
+                    android:id="@+id/unit_type_value"
+                    android:layout_alignParentEnd="true"
+                    android:padding="5dp"
+                    android:layout_below="@+id/title_unit_number"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/lbl_price"
+                    android:id="@+id/title_unit_price"
+                    android:layout_below="@+id/title_unit_type"
+                    android:padding="5dp"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Price value"
+                    android:id="@+id/unit_price_value"
+                    android:layout_alignParentEnd="true"
+                    android:padding="5dp"
+                    android:layout_below="@+id/title_unit_type"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/lbl_payables"
+                    android:textStyle="normal|bold"
+                    android:id="@+id/title_payables"
+                    android:layout_below="@+id/title_unit_price"
+                    android:padding="5dp"/>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@android:color/darker_gray"
+                    android:layout_below="@+id/title_payables"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/lbl_fees_payable"
+                    android:id="@+id/title_fees_payable"
+                    android:layout_below="@+id/title_payables"
+                    android:padding="5dp"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/lbl_application_fee"
+                    android:id="@+id/title_application_fee"
+                    android:layout_below="@+id/title_fees_payable"
+                    android:padding="5dp"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Application Fee Value"
+                    android:id="@+id/application_fee_value"
+                    android:layout_alignParentEnd="true"
+                    android:padding="5dp"
+                    android:layout_below="@+id/title_fees_payable"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/lbl_booking_fee"
+                    android:id="@+id/title_booking_fee"
+                    android:layout_below="@+id/title_application_fee"
+                    android:padding="5dp"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Booking Fee Value"
+                    android:id="@+id/booking_fee_value"
+                    android:layout_alignParentEnd="true"
+                    android:padding="5dp"
+                    android:layout_below="@+id/title_application_fee"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/lbl_signing_agreement"
+                    android:textStyle="normal|bold"
+                    android:id="@+id/title_signing_agreement"
+                    android:layout_below="@+id/title_booking_fee"
+                    android:paddingLeft="5dp"
+                    android:paddingTop="@dimen/grid_padding"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/lbl_downpayment"
+                    android:id="@+id/title_downpayment"
+                    android:layout_below="@+id/title_signing_agreement"
+                    android:paddingTop="5dp"
+                    android:paddingLeft="@dimen/grid_padding"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/lbl_by_cpf"
+                    android:id="@+id/title_by_cpf"
+                    android:layout_below="@+id/title_downpayment"
+                    android:paddingTop="5dp"
+                    android:paddingLeft="@dimen/grid_padding"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="By CPF Value"
+                    android:id="@+id/by_cpf_value"
+                    android:layout_alignParentEnd="true"
+                    android:padding="5dp"
+                    android:layout_below="@+id/title_downpayment"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/lbl_by_cash"
+                    android:id="@+id/title_by_cash"
+                    android:layout_below="@+id/title_by_cpf"
+                    android:paddingTop="5dp"
+                    android:paddingLeft="@dimen/grid_padding"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="By Cash Value"
+                    android:id="@+id/by_cash_value"
+                    android:layout_alignParentEnd="true"
+                    android:padding="5dp"
+                    android:layout_below="@+id/title_by_cpf"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/lbl_keys_collection"
+                    android:textStyle="normal|bold"
+                    android:id="@+id/title_keys_collection"
+                    android:layout_below="@+id/title_by_cash"
+                    android:paddingTop="@dimen/grid_padding"
+                    android:paddingLeft="5dp"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/lbl_stamp_duty"
+                    android:id="@+id/title_stamp_duty"
+                    android:layout_below="@+id/title_keys_collection"
+                    android:paddingTop="5dp"
+                    android:paddingLeft="@dimen/grid_padding" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/lbl_by_cpf"
+                    android:id="@+id/title_stamp_duty_by_cpf"
+                    android:layout_below="@+id/title_stamp_duty"
+                    android:paddingTop="5dp"
+                    android:paddingLeft="@dimen/grid_padding"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Stamp duty CPF Value"
+                    android:id="@+id/stamp_duty_by_cpf_value"
+                    android:layout_alignParentEnd="true"
+                    android:padding="5dp"
+                    android:layout_below="@+id/title_stamp_duty"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/lbl_by_cash"
+                    android:id="@+id/title_stamp_duty_by_cash"
+                    android:layout_below="@+id/title_stamp_duty_by_cpf"
+                    android:paddingTop="5dp"
+                    android:paddingLeft="@dimen/grid_padding"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Stamp duty Cash Value"
+                    android:id="@+id/stamp_duty_by_cash_value"
+                    android:layout_alignParentEnd="true"
+                    android:padding="5dp"
+                    android:layout_below="@+id/title_stamp_duty_by_cpf"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/lbl_balance"
+                    android:id="@+id/title_balance"
+                    android:layout_below="@+id/title_stamp_duty_by_cash"
+                    android:paddingTop="@dimen/grid_padding"
+                    android:paddingLeft="@dimen/grid_padding"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/lbl_by_cpf"
+                    android:id="@+id/title_balance_by_cpf"
+                    android:layout_below="@+id/title_balance"
+                    android:paddingTop="5dp"
+                    android:paddingLeft="@dimen/grid_padding"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Balance CPF Value"
+                    android:id="@+id/balance_cpf_value"
+                    android:layout_alignParentEnd="true"
+                    android:padding="5dp"
+                    android:layout_below="@+id/title_balance"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/lbl_by_cash"
+                    android:id="@+id/title_balance_by_cash"
+                    android:layout_below="@+id/title_balance_by_cpf"
+                    android:paddingTop="5dp"
+                    android:paddingLeft="@dimen/grid_padding"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Balance Cash Value"
+                    android:id="@+id/balance_cash_value"
+                    android:layout_alignParentEnd="true"
+                    android:padding="5dp"
+                    android:layout_below="@+id/title_balance_by_cpf"/>
+
+
+
+
+
+
+
+
+
+            </RelativeLayout>
+        </ScrollView>
+    </LinearLayout>
+</RelativeLayout>

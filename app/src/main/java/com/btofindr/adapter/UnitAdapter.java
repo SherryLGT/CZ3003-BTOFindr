@@ -2,6 +2,7 @@ package com.btofindr.adapter;
 
 import android.app.Activity;
 import android.content.Context;
+import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +17,7 @@ import android.widget.Toast;
 import com.btofindr.R;
 import com.btofindr.activity.MainActivity;
 import com.btofindr.controller.Utility;
+import com.btofindr.fragment.PayablesFragment;
 import com.btofindr.model.UnitItem;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -76,7 +78,9 @@ public class UnitAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 selectedUnitId = unitItems.get(position).getUnitId();
-//                ((Activity) context).getFragmentManager().beginTransaction().replace(R.id.fl_container, new CalculatePayablesFragment()).addToBackStack("CalculatePayablesFragment").commit();
+                Fragment f = PayablesFragment.newInstance(selectedUnitId);
+
+                ((MainActivity) context).getSupportFragmentManager().beginTransaction().replace(R.id.fl_container, f ).addToBackStack("CalculatePayablesFragment").commit();
                 ((MainActivity) context).setActionBarTitle(context.getResources().getString(R.string.title_calculate_payables));
             }
         });
