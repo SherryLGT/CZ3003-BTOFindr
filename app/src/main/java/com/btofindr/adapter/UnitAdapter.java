@@ -2,6 +2,7 @@ package com.btofindr.adapter;
 
 import android.app.Activity;
 import android.content.Context;
+import android.os.AsyncTask;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
@@ -10,7 +11,6 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -101,6 +101,7 @@ public class UnitAdapter extends BaseAdapter {
                     favourites.add(selected);
                     if(Utility.writeToFile("favourites", gson.toJson(favourites), context))
                     {
+                        new addFavouriteCount().execute(selected);
                         Toast.makeText(context, "Added to Favourites", Toast.LENGTH_SHORT).show();
                         ((ImageView) v).setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_favourited));
                         ((ImageView) v).setTag(R.drawable.ic_favourited);
@@ -119,6 +120,7 @@ public class UnitAdapter extends BaseAdapter {
 
                     if(Utility.writeToFile("favourites", gson.toJson(favourites), context))
                     {
+                        new removeFavouriteCount().execute(selected);
                         Toast.makeText(context, "Removed from Favourites", Toast.LENGTH_SHORT).show();
                         ((ImageView) v).setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_favourite));
                         ((ImageView) v).setTag(R.drawable.ic_favourite);
@@ -147,5 +149,21 @@ public class UnitAdapter extends BaseAdapter {
     @Override
     public long getItemId(int position) {
         return position;
+    }
+
+    private class addFavouriteCount extends AsyncTask<Integer, Void, Void> {
+        @Override
+        protected Void doInBackground(Integer... params) {
+            Utility.getRequest("Unit/AddFaveUnit?unitId="+params[0].toString());
+            return null;
+        }
+    }
+
+    private class removeFavouriteCount extends AsyncTask<Integer, Void, Void> {
+        @Override
+        protected Void doInBackground(Integer... params) {
+            Utility.getRequest("Unit/RemoveFaveUnit?unitId="+params[0].toString());
+            return null;
+        }
     }
 }
