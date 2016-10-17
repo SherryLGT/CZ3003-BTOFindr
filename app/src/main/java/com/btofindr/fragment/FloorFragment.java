@@ -18,7 +18,6 @@ import com.btofindr.model.Floor;
 import com.btofindr.model.Unit;
 import com.btofindr.model.UnitItem;
 import com.btofindr.model.UnitType;
-import com.google.gson.Gson;
 
 import java.util.ArrayList;
 
@@ -36,7 +35,6 @@ public class FloorFragment extends Fragment {
     private TextView tvHeadaer;
     private ListView lvUnits;
 
-    private Gson gson;
     private ArrayList<Floor> floorItems;
     private ArrayList<UnitItem> unitItems;
 

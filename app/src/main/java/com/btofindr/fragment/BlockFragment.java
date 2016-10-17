@@ -18,6 +18,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.btofindr.R;
 import com.btofindr.activity.MainActivity;
@@ -50,7 +51,7 @@ public class BlockFragment extends Fragment {
     private ListView lvFloors;
 
     private Gson gson;
-    private static int selectedView = -1;
+    public static int selectedView = -1;
     public static Block block;
     public static String selectedUnitType;
     public static int selectedFloor;
@@ -104,7 +105,12 @@ public class BlockFragment extends Fragment {
                     }
                 }).setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-
+                        if (selectedView == -1) {
+                            Toast.makeText(getContext(), "Please select a choice", Toast.LENGTH_SHORT).show();
+                        }
+                        else {
+                            getFragmentManager().beginTransaction().replace(R.id.fl_container, new MapPlanFragment()).addToBackStack("MapPlanFragment").commit();
+                        }
                     }
                 }).setNegativeButton("Cancel", null);
                 builder.create().show();
@@ -138,6 +144,7 @@ public class BlockFragment extends Fragment {
             try {
                 InputStream in = new java.net.URL(block.getProject().getProjectImage()).openStream();
                 bitmap = BitmapFactory.decodeStream(in);
+                in.close();
             }
             catch (Exception e) {
                 e.printStackTrace();

@@ -99,6 +99,7 @@ public class BlockAdapter extends BaseAdapter {
             try {
                 InputStream in = new java.net.URL(url).openStream();
                 bitmap = BitmapFactory.decodeStream(in);
+                in.close();
             }
             catch (Exception e) {
                 e.printStackTrace();
