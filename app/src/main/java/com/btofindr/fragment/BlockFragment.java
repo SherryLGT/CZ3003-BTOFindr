@@ -9,6 +9,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,9 +30,12 @@ import com.btofindr.model.Floor;
 import com.btofindr.model.Unit;
 import com.btofindr.model.UnitType;
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import java.io.InputStream;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.List;
 
 import static com.btofindr.activity.MainActivity.scale;
 import static com.btofindr.fragment.SearchResultFragment.selectedBlock;
@@ -49,6 +53,7 @@ public class BlockFragment extends Fragment {
     private LinearLayout llUnitTypes;
     private TextView tvQuotaChinese, tvQuoteMalay, tvQuotaOthers;
     private ListView lvFloors;
+    private ArrayList<Integer> history;
 
     private Gson gson;
     public static int selectedView = -1;
@@ -60,9 +65,7 @@ public class BlockFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
-        View rootView = inflater.inflate(R.layout.fragment_block, container, false);
-
+            View rootView = inflater.inflate(R.layout.fragment_block, container, false);
         ivProjectImage = (ImageView) rootView.findViewById(R.id.iv_project);
         tvTitle = (TextView) rootView.findViewById(R.id.tv_title);
         tvAddress = (TextView) rootView.findViewById(R.id.tv_address);
@@ -81,7 +84,6 @@ public class BlockFragment extends Fragment {
         dialog.setCancelable(false);
         new getImage().execute();
         new loadData().execute();
-
         tvTitle.setText(block.getProject().getProjectName());
         tvAddress.setText(block.getBlockNo() + " " + block.getStreet());
         String unitTypeNames = "";
@@ -92,6 +94,7 @@ public class BlockFragment extends Fragment {
                 unitTypeNames += ", ";
             }
         }
+
         tvUnitTypes.setText(unitTypeNames);
         tvPriceRange.setText("Price: $" + Utility.formatPrice(block.getMinPrice()) + " - $" + Utility.formatPrice(block.getMaxPrice()));
         btnViewMapPlan.setOnClickListener(new View.OnClickListener() {
@@ -117,6 +120,21 @@ public class BlockFragment extends Fragment {
             }
         });
 
+        gson = new Gson();
+        history = gson.fromJson(Utility.readFromFile("history", getContext()), new TypeToken<List<Integer>>() {
+        }.getType());
+        if(history==null){
+            history = new ArrayList<Integer>();
+        }
+        if(history.contains(block.getBlockId())){
+            history.remove((Integer) block.getBlockId());
+        }
+        history.add(block.getBlockId());
+        if(Utility.writeToFile("history", gson.toJson(history), getContext()))
+        {
+            ArrayList<Integer> newhistory = gson.fromJson(Utility.readFromFile("history", getContext()), new TypeToken<List<Integer>>() {
+            }.getType());
+        }
         return rootView;
     }
 
@@ -229,7 +247,6 @@ public class BlockFragment extends Fragment {
         @Override
         protected Object doInBackground(Void... params) {
             block = gson.fromJson(Utility.getRequest("Block/GetBlockWithUnits?blockId="+block.getBlockId()), Block.class);
-
             return block;
         }
     }

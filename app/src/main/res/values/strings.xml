@@ -109,4 +109,5 @@
 
     <!-- Action -->
     <string name="btn_delete">DELETE</string>
+    <string name="btn_calculate_payables">CALCULATE PAYABLES</string>
 </resources>

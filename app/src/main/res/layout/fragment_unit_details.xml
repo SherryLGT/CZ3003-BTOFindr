@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Created by Shi Qi on 18/10/2016. -->
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    android:background="@color/cream">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:descendantFocusability="blocksDescendants">
+
+        <ImageView
+            android:id="@+id/iv_project"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/project_image_height"
+            android:scaleType="centerCrop"
+            android:contentDescription="@string/image"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/grid_margin"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/text_title"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:id="@+id/tv_address"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/text_details"/>
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/btn_view_map_plan"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="18dp"
+            android:text="@string/btn_view_map_plan"
+            android:textSize="@dimen/text_title"
+            android:theme="@style/AppTheme.Button"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@drawable/content_layout">
+
+            <LinearLayout
+                android:id="@+id/ll_unit_details"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"/>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="@dimen/grid_padding"
+                android:background="@drawable/content_layout">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/lbl_unit_details"
+                    android:textStyle="normal|bold"
+                    android:id="@+id/title_unit_details"
+                    android:padding="5dp"/>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@android:color/darker_gray"
+                    android:layout_below="@+id/title_unit_details"/>
+
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/lbl_unit_number"
+                    android:id="@+id/title_unit_number"
+                    android:layout_below="@+id/title_unit_details"
+                    android:padding="5dp"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Unit Number value"
+                    android:id="@+id/tv_unit_number"
+                    android:layout_alignParentEnd="true"
+                    android:padding="5dp"
+                    android:layout_below="@+id/title_unit_details"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/lbl_unit_type"
+                    android:id="@+id/title_unit_type"
+                    android:layout_below="@+id/title_unit_number"
+                    android:padding="5dp"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Unit type value"
+                    android:id="@+id/tv_unit_type"
+                    android:layout_alignParentEnd="true"
+                    android:padding="5dp"
+                    android:layout_below="@+id/title_unit_number"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/lbl_price"
+                    android:id="@+id/title_unit_price"
+                    android:layout_below="@+id/title_unit_type"
+                    android:padding="5dp"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Price value"
+                    android:id="@+id/tv_price"
+                    android:layout_alignParentEnd="true"
+                    android:padding="5dp"
+                    android:layout_below="@+id/title_unit_type"/>
+
+            </RelativeLayout>
+
+
+            <Button
+                android:id="@+id/btn_calculate_payables"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="18dp"
+                android:text="@string/btn_calculate_payables"
+                android:textSize="@dimen/text_title"
+                android:theme="@style/AppTheme.Button"/>
+
+        </LinearLayout>
+    </LinearLayout>
+
+</ScrollView>

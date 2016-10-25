@@ -35,18 +35,45 @@
         android:theme="@style/AppTheme.Button"/>
 
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_margin="@dimen/grid_margin"
-        android:padding="@dimen/grid_padding"
-        android:layout_below="@id/btn_search"
-        android:fillViewport="true">
-
-        <ListView
-            android:id="@+id/lv_recently_viewed"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-    </ScrollView>
+            android:layout_height="350dp"
+            android:orientation="vertical"
+            android:background="@drawable/content_layout"
+            android:layout_below="@id/btn_search">
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="RECENTLY VIEWED"
+                android:textColor="@color/gray"
+                android:textStyle="normal|bold"
+                android:textSize="16dp"
+                android:padding="5dp"/>
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="@dimen/grid_margin"
+            android:padding="2dp"
+            android:fillViewport="true">
+
+            <ListView
+                android:id="@+id/lv_recently_viewed"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+        </ScrollView>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:id="@+id/tv_norv"
+                android:layout_height="match_parent"
+                android:textColor="@color/gray"
+                android:text="NO RECENTLY VIEWED"
+                android:visibility="invisible"
+                android:textAlignment="center"
+                android:textStyle="normal|bold"
+                android:layout_margin="30dp"
+                android:textSize="15dp"/>
+    </LinearLayout>
 </RelativeLayout>

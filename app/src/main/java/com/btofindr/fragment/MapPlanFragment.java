@@ -36,6 +36,7 @@ public class MapPlanFragment extends Fragment {
     private Bitmap bitmap;
     private int height;
 
+
     public MapPlanFragment() {}
 
     @Override
@@ -47,6 +48,7 @@ public class MapPlanFragment extends Fragment {
         ivImage = (ImageView) rootView.findViewById(R.id.iv_image);
 
         title = getContext().getResources().getStringArray(R.array.map_plan_list);
+
         tvTitle.setText((block.getProject().getProjectName() + " - " + title[selectedView]).toUpperCase());
 
         dialog = new ProgressDialog(getContext());

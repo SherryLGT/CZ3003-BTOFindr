@@ -9,6 +9,8 @@ public class UnitItem {
     private int unitId;
     private String unitNo;
     private Double price;
+    private UnitType unitType;
+
 
     public UnitItem(){};
 
@@ -16,6 +18,7 @@ public class UnitItem {
         this.unitId = unitId;
         this.unitNo = unitNo;
         this.price = price;
+        this.unitType = unitType;
     }
 
     public int getUnitId() {
@@ -40,5 +43,13 @@ public class UnitItem {
 
     public void setPrice(Double price) {
         this.price = price;
+    }
+
+    public UnitType getUnitType() {
+        return unitType;
+    }
+
+    public void setUnitType(UnitType unitType) {
+        this.unitType = unitType;
     }
 }

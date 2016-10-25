@@ -1,15 +1,18 @@
 package com.btofindr.fragment;
 
+import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
-import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -20,12 +23,13 @@ import com.btofindr.adapter.HistoryAdapter;
 import com.btofindr.controller.Utility;
 import com.btofindr.model.Block;
 import com.btofindr.model.BlockItem;
+import com.btofindr.model.Unit;
+import com.btofindr.model.UnitItem;
+import com.btofindr.model.UnitType;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.hudomju.swipe.SwipeToDismissTouchListener;
 import com.hudomju.swipe.adapter.ListViewAdapter;
-
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,58 +37,86 @@ import java.util.List;
 import static android.view.View.VISIBLE;
 import static com.btofindr.fragment.SearchResultFragment.selectedBlock;
 
-/**
- * Created by Sherry on 31/08/2016.
- */
-
-public class HomeFragment extends Fragment {
-
-    private ImageView ivMain;
-    private TextView tvMain;
-    private Button btnSearch;
-    private ListView lvRecentlyViewed;
-    private HistoryAdapter ha;
-    private Gson gson;
-    private TextView tv_noRecentlyViewed;
+public class HistoryFragment extends Fragment {
+    private ArrayList<Integer> globalHistory;
+    private ProgressDialog dialog;
     private ArrayList<BlockItem> blockItems;
+    private ListView lvBlocks;
     private ArrayList<Block> blockList;
-    private ArrayList<Integer> recentlyViewed;
-    public static boolean noHistory;
-    private View rootView;
+    private FloatingActionButton deleteBtn;
+    private TextView tvNoHistory;
+    public static MenuItem mMenuItem2;
+    private Gson gson;
+    private String response;
+    private ArrayList<UnitItem> unitItems;
+    public static int editModeHistory;
+    public static ArrayList<Integer> selectedHistoryCheckbox;
+    public static ArrayList<Integer> selectedHistoryCheckboxPosition;
+    public static boolean noHistory = true;
+    HistoryAdapter ha;
+    View rootView;
 
-    public HomeFragment(){}
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public HistoryFragment() {
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
-        rootView = inflater.inflate(R.layout.fragment_home, container, false);
-
-        ivMain = (ImageView) rootView.findViewById(R.id.iv_main);
-        tvMain = (TextView) rootView.findViewById(R.id.tv_main);
-        btnSearch = (Button) rootView.findViewById(R.id.btn_search);
-        lvRecentlyViewed = (ListView) rootView.findViewById(R.id.lv_recently_viewed);
-        tv_noRecentlyViewed = (TextView) rootView.findViewById(R.id.tv_norv);
-
-        ivMain.setImageResource(R.drawable.main);
-        tvMain.setText("Tampines North Height");
+        rootView = inflater.inflate(R.layout.fragment_history, container, false);
+        lvBlocks = (ListView) rootView.findViewById(R.id.lv_blocks);
+        tvNoHistory = (TextView) rootView.findViewById(R.id.tv_nohistory);
+        deleteBtn = (FloatingActionButton) rootView.findViewById(R.id.FAB);
+        editModeHistory = 0;
         setHasOptionsMenu(true);
-        btnSearch.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getFragmentManager().beginTransaction().replace(R.id.fl_container, new SearchFragment()).addToBackStack("SearchFragment").commit();
-                ((MainActivity) getActivity()).setActionBarTitle(getResources().getString(R.string.title_search));
-            }
-        });
-
         new loadData().execute();
+        //dialog = new ProgressDialog(getActivity());
+        //dialog.setMessage("Loading...");
+        //dialog.setCancelable(false);
         return rootView;
     }
 
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu,MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        if(!noHistory){
+            menu.getItem(0).setVisible(true);
+        }
+        else{
+            menu.getItem(0).setVisible(false);
+
+        }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        mMenuItem2 =  item;
+        switch (item.getItemId()) {
+            case R.id.action_edit:
+                if(lvBlocks.getChoiceMode()==ListView.CHOICE_MODE_NONE){
+                    lvBlocks.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
+                    selectedHistoryCheckbox = new ArrayList<Integer>();
+                    selectedHistoryCheckboxPosition = new ArrayList<Integer>();
+                    deleteBtn.setVisibility(VISIBLE);
+                }
+                else{
+                    lvBlocks.setChoiceMode(ListView.CHOICE_MODE_NONE);
+                    deleteBtn.setVisibility(View.INVISIBLE);
+                }
+                editModeHistory = lvBlocks.getChoiceMode();
+                lvBlocks.setAdapter(ha);
+                return false;
+            default:
+                break;
+        }
+        return false;
+    }
+
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        ((MainActivity) getActivity()).setActionBarTitle(getResources().getString(R.string.title_history));
+    }
 
     private class loadData extends AsyncTask<Void, Integer, Object> {
         @Override
@@ -92,16 +124,19 @@ public class HomeFragment extends Fragment {
             //dialog.show();
             gson = new Gson();
             blockList = new ArrayList<Block>();
+            blockItems = new ArrayList<BlockItem>();
+            unitItems = new ArrayList<UnitItem>();
         }
 
         @Override
         protected void onPostExecute(Object o) {
-            ha = new HistoryAdapter(getActivity(), blockItems, recentlyViewed,rootView);
-            lvRecentlyViewed.setOnItemClickListener(new blockItemClickListener());
+            ha = new HistoryAdapter(getActivity(), blockItems, globalHistory,rootView);
+
+            lvBlocks.setOnItemClickListener(new blockItemClickListener());
 
             final SwipeToDismissTouchListener<ListViewAdapter> touchListener =
                     new SwipeToDismissTouchListener<>(
-                            new ListViewAdapter(lvRecentlyViewed),
+                            new ListViewAdapter(lvBlocks),
                             new SwipeToDismissTouchListener.DismissCallbacks<ListViewAdapter>() {
                                 @Override
                                 public boolean canDismiss(int position) {
@@ -111,11 +146,18 @@ public class HomeFragment extends Fragment {
                                 @Override
                                 public void onDismiss(ListViewAdapter view, int position) {
                                     int blockId = blockItems.get(position).getBlockId();
-                                    ha.remove(blockId,2);
-                                    recentlyViewed.remove((Integer)blockId);
 
-                                    if(Utility.writeToFile("history", gson.toJson(recentlyViewed), getActivity())){
-                                        Toast.makeText(getContext(), "Removed from History", Toast.LENGTH_SHORT).show();
+                                    ha.remove(blockId,2);
+                                    if(ha.getCount()==0){
+                                        setHasOptionsMenu(false);
+                                        tvNoHistory.setVisibility(VISIBLE);
+                                    }
+
+                                    globalHistory.remove((Integer)blockId);
+
+                                    if(Utility.writeToFile("history", gson.toJson(globalHistory), getActivity())){
+                                        deleteBtn.setVisibility(View.INVISIBLE);
+                                        Toast.makeText(getActivity(), "Removed from History", Toast.LENGTH_SHORT).show();
 
                                     }
                                     else
@@ -126,11 +168,9 @@ public class HomeFragment extends Fragment {
                                 }
                             });
 
-
-            //touchListener.setDismissDelay(TIME_TO_AUTOMATICALLY_DISMISS_ITEM);
-            lvRecentlyViewed.setOnTouchListener(touchListener);
-            lvRecentlyViewed.setOnScrollListener((AbsListView.OnScrollListener) touchListener.makeScrollListener());
-            lvRecentlyViewed.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            lvBlocks.setOnTouchListener(touchListener);
+            lvBlocks.setOnScrollListener((AbsListView.OnScrollListener) touchListener.makeScrollListener());
+            lvBlocks.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     if (touchListener.existPendingDismisses()) {
@@ -143,21 +183,17 @@ public class HomeFragment extends Fragment {
                 }
             });
 
-
-
-            if(ha.getCount()>0) {
-                lvRecentlyViewed.setAdapter(ha);
+            if(ha.getCount()>=1) {
+                lvBlocks.setAdapter(ha);
             }
             else{
-
-                tv_noRecentlyViewed.setVisibility(VISIBLE);
+                tvNoHistory.setVisibility(VISIBLE);
             }
             //dialog.dismiss();
         }
 
         @Override
         protected Object doInBackground(Void... params) {
-
             ArrayList<Integer> history = gson.fromJson(Utility.readFromFile("history", getActivity()), new TypeToken<List<Integer>>() {
             }.getType());
 
@@ -165,11 +201,11 @@ public class HomeFragment extends Fragment {
                 history = new ArrayList<Integer>();
             }
 
-            blockItems = new ArrayList<BlockItem>();
-            recentlyViewed = history;
+            globalHistory = history;
             for(int i=(history.size()-1); i>=0;i--){
                 BlockItem blockItem = new BlockItem();
-                String response = Utility.getRequest("Block/GetBlockWithUnits?blockId="+history.get(i));
+                UnitType unitType = new UnitType();
+                response = Utility.getRequest("Block/GetBlockWithUnits?blockId="+history.get(i));
                 Block b = gson.fromJson(response,Block.class);
                 blockList.add(b);
                 blockItem.setBlockId(b.getBlockId());
@@ -183,13 +219,12 @@ public class HomeFragment extends Fragment {
                 blockItems.add(blockItem);
             }
             if(blockList.isEmpty()&&!noHistory){
-                getFragmentManager().beginTransaction().replace(R.id.fl_container, new HomeFragment()).addToBackStack("FavouriteFragment").commit();
+                getFragmentManager().beginTransaction().replace(R.id.fl_container, new HistoryFragment()).addToBackStack("FavouriteFragment").commit();
                 noHistory = true;
             }else if(!blockList.isEmpty()&&noHistory){
                 noHistory = false;
-                getFragmentManager().beginTransaction().replace(R.id.fl_container, new HomeFragment()).addToBackStack("FavouriteFragment").commit();
+                getFragmentManager().beginTransaction().replace(R.id.fl_container, new HistoryFragment()).addToBackStack("FavouriteFragment").commit();
             }
-
             return blockList;
         }
     }

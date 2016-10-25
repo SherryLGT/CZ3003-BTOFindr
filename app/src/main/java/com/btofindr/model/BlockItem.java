@@ -8,6 +8,7 @@ import java.util.ArrayList;
 
 public class BlockItem {
 
+    private int blockId;
     private String icon;
     private String projectName;
     private String blockNo;
@@ -19,6 +20,7 @@ public class BlockItem {
     public BlockItem(){};
 
     public BlockItem(String icon, String projectName, String blockNo, String street, ArrayList<UnitType> unitTypes, Double minPrice, Double maxPrice){
+        this.blockId=blockId;
         this.icon = icon;
         this.projectName = projectName;
         this.blockNo = blockNo;
@@ -82,5 +84,13 @@ public class BlockItem {
 
     public void setMaxPrice(Double maxPrice) {
         this.maxPrice = maxPrice;
+    }
+
+    public int getBlockId() {
+        return blockId;
+    }
+
+    public void setBlockId(int blockId) {
+        this.blockId = blockId;
     }
 }

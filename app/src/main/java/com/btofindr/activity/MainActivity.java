@@ -1,6 +1,7 @@
 package com.btofindr.activity;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.TypedArray;
 import android.os.Bundle;
@@ -8,20 +9,28 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.FrameLayout;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.btofindr.R;
 import com.btofindr.adapter.NavDrawerAdapter;
+import com.btofindr.fragment.FavouriteFragment;
+import com.btofindr.fragment.HistoryFragment;
 import com.btofindr.fragment.HomeFragment;
 import com.btofindr.fragment.ProfileFragment;
 import com.btofindr.model.NavDrawerItem;
 import com.google.gson.Gson;
 import com.google.firebase.messaging.FirebaseMessaging;
 import java.util.ArrayList;
+
+import static java.security.AccessController.getContext;
 
 /**
  * Created by Sherry on 31/08/2016.
@@ -36,10 +45,12 @@ public class MainActivity extends AppCompatActivity {
     private DrawerLayout navDrawerLayout;
     private ListView lvNavDrawer;
     private ActionBarDrawerToggle navDrawerToggle;
-
+    private Toolbar toolbar;
     private FrameLayout flContainer;
     private Gson gson;
     public static float scale;
+
+    //TODO: Edit, History, Bulk Delete(is actually edit) SWIPE lEFT TO dELETE YAA AND no favourites <- idk how display
 
     @Override @SuppressWarnings("ResourceType")
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,6 +90,16 @@ public class MainActivity extends AppCompatActivity {
         scale = this.getResources().getDisplayMetrics().density;
     }
 
+    //START
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu, menu);
+        MenuItem item = menu.findItem(R.id.action_edit);
+        item.setVisible(false);
+        return true;
+    }
+    //END - SQ
+
     private class navDrawerItemClickListener implements ListView.OnItemClickListener {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -100,9 +121,11 @@ public class MainActivity extends AppCompatActivity {
                     break;
                 case 2: // Favourites
                     getSupportActionBar().setTitle(R.string.title_favourites);
+                    getSupportFragmentManager().beginTransaction().replace(R.id.fl_container, new FavouriteFragment()).commit();
                     break;
                 case 3: // History
                     getSupportActionBar().setTitle(R.string.title_history);
+                    getSupportFragmentManager().beginTransaction().replace(R.id.fl_container, new HistoryFragment()).commit();
                     break;
                 case 4: // Recommended
                     getSupportActionBar().setTitle(R.string.title_recommended);
@@ -133,13 +156,22 @@ public class MainActivity extends AppCompatActivity {
         navDrawerToggle.onConfigurationChanged(newConfig);
     }
 
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (navDrawerLayout.isDrawerOpen(lvNavDrawer)) {
+
+        //START SQ
+        int id = item.getItemId();
+
+        if (id == R.id.action_edit) {
+        }
+        //END SQ
+        else if (navDrawerLayout.isDrawerOpen(lvNavDrawer)) {
             navDrawerLayout.closeDrawer(lvNavDrawer);
         } else {
             navDrawerLayout.openDrawer(lvNavDrawer);
         }
+
         return super.onOptionsItemSelected(item);
     }
 
