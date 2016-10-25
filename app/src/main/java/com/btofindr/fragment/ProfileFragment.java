@@ -134,7 +134,7 @@ public class ProfileFragment extends Fragment {
 
             unitTypes = gson.fromJson(Utility.getRequest("UnitType/GetUnitTypes"), String[].class);
 
-            String[] data = gson.fromJson(Utility.getRequest("UnitType/GetNotifications?deviceId=" + FirebaseInstanceId.getInstance().getToken()), String[].class);
+            String[] data = gson.fromJson(Utility.getRequest("UnitTypePublisher/GetSubscriptions?deviceId=" + FirebaseInstanceId.getInstance().getToken()), String[].class);
             for (String type : data) {
                 selUnitTypes.add(type);
             }
@@ -161,9 +161,9 @@ public class ProfileFragment extends Fragment {
 
             for (String unitType : unitTypes) {
                 if (selUnitTypes.contains(unitType))
-                    Utility.getRequest("UnitType/RegisterNotification?unitTypeName=" + unitType + "&deviceId=" + FirebaseInstanceId.getInstance().getToken());
+                    Utility.getRequest("UnitTypePublisher/Subscribe?unitTypeName=" + unitType + "&deviceId=" + FirebaseInstanceId.getInstance().getToken());
                 else
-                    Utility.getRequest("UnitType/UnregisterNotification?unitTypeName=" + unitType + "&deviceId=" + FirebaseInstanceId.getInstance().getToken());
+                    Utility.getRequest("UnitTypePublisher/Unsubscribe?unitTypeName=" + unitType + "&deviceId=" + FirebaseInstanceId.getInstance().getToken());
             }
 
             return null;

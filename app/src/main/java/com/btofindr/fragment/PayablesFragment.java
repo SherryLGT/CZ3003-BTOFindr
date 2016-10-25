@@ -32,7 +32,7 @@ import org.w3c.dom.Text;
 public class PayablesFragment extends Fragment {
 
     private TextView tvUnitNumber, tvUnitType, tvPrice, tvApplicationFee, tvBookingFee, tvPaymentCPF, tvPaymentCash,
-        tvStampDutyCPF, tvStampDutyCash, tvBalanceCPF, tvBalanceCash;
+            tvStampDutyCPF, tvStampDutyCash, tvBalanceCPF, tvBalanceCash, tvBalanceTitle;
     private Profile profile;
     private Gson gson = new Gson();
     private String response;
@@ -43,7 +43,7 @@ public class PayablesFragment extends Fragment {
         // Required empty public constructor
     }
 
-    public static PayablesFragment newInstance(int selectedUnitID){
+    public static PayablesFragment newInstance(int selectedUnitID) {
         PayablesFragment pf = new PayablesFragment();
         Bundle bd = new Bundle(1);
         bd.putInt("selectedUnitID", selectedUnitID);
@@ -52,13 +52,11 @@ public class PayablesFragment extends Fragment {
     }
 
 
-
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_payables, container, false);
-        String para="";
+        String para = "";
 
         ((MainActivity) getContext()).setActionBarTitle("CALCULATE PAYABLES");
         Bundle args = getArguments();
@@ -75,7 +73,7 @@ public class PayablesFragment extends Fragment {
         tvStampDutyCash = (TextView) rootView.findViewById(R.id.stamp_duty_by_cash_value);
         tvBalanceCPF = (TextView) rootView.findViewById(R.id.balance_cpf_value);
         tvBalanceCash = (TextView) rootView.findViewById(R.id.balance_cash_value);
-
+        tvBalanceTitle = (TextView) rootView.findViewById(R.id.title_balance);
         profile = gson.fromJson(Utility.readFromFile("profile", this.getContext()), Profile.class);
 
         new loadData().execute();
@@ -83,6 +81,7 @@ public class PayablesFragment extends Fragment {
 
         return rootView;
     }
+
     private class loadData extends AsyncTask<Void, Integer, String> {
         ProgressDialog pDialog;
 
@@ -105,9 +104,9 @@ public class PayablesFragment extends Fragment {
             int selectedUnitID = args.getInt("selectedUnitID", 0);
             response = Utility.postRequest("Unit/GetUnitWithPayables?unitId=" + selectedUnitID,
                     gson.toJson(profile));
-            unit = gson.fromJson( response,Unit.class);
+            unit = gson.fromJson(response, Unit.class);
 
-            if(response == null)
+            if (response == null)
                 Log.d("Payables", "null");
 
             return "Executed!";
@@ -119,8 +118,7 @@ public class PayablesFragment extends Fragment {
             super.onPostExecute(result);
 
 
-
-            if(profile == null) {
+            if (profile == null) {
                 tvUnitNumber.setText("-");
                 tvUnitType.setText("-");
                 tvPrice.setText("-");
@@ -138,7 +136,7 @@ public class PayablesFragment extends Fragment {
 
                 //adb.setIcon(android.R.drawable.ic_dialog_alert);
 
-                adb.setPositiveButton("OK", new DialogInterface.OnClickListener(){
+                adb.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
 
                         ((MainActivity) getContext()).getSupportFragmentManager().beginTransaction().replace(R.id.fl_container,
@@ -146,33 +144,33 @@ public class PayablesFragment extends Fragment {
                         ((MainActivity) getContext()).setActionBarTitle("PROFILE");
                         dialog.dismiss();
 
-                    } });
+                    }
+                });
 
 
                 adb.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
 
                         dialog.dismiss();
-                    } });
+                    }
+                });
                 adb.show();
-            }
-            else {
+            } else {
                 tvUnitNumber.setText(unit.getUnitNo());
                 tvUnitType.setText(unit.getUnitType().getUnitTypeName());
                 tvPrice.setText(Utility.formatPrice(unit.getPrice()));
                 tvApplicationFee.setText("$" + Utility.formatPrice(unit.getFees().getApplFee()));
-                tvBookingFee.setText("$" +Utility.formatPrice(unit.getFees().getOptionFee()));
-                tvPaymentCPF.setText("$" +Utility.formatPrice(unit.getFees().getSigningFeesCpf()));
-                tvPaymentCash.setText("$" +Utility.formatPrice(unit.getFees().getSigningFeesCash()));
-                tvStampDutyCPF.setText("$" +Utility.formatPrice(unit.getFees().getCollectionFeesCpf()));
-                tvStampDutyCash.setText("$" +Utility.formatPrice(unit.getFees().getCollectionFeesCash()));
-                tvBalanceCPF.setText("$" +Utility.formatPrice(unit.getFees().getMonthlyCpf()));
-                tvBalanceCash.setText("$" +Utility.formatPrice(unit.getFees().getMonthlyCash()));
-
+                tvBookingFee.setText("$" + Utility.formatPrice(unit.getFees().getOptionFee()));
+                tvPaymentCPF.setText("$" + Utility.formatPrice(unit.getFees().getSigningFeesCpf()));
+                tvPaymentCash.setText("$" + Utility.formatPrice(unit.getFees().getSigningFeesCash()));
+                tvStampDutyCPF.setText("$" + Utility.formatPrice(unit.getFees().getCollectionFeesCpf()));
+                tvStampDutyCash.setText("$" + Utility.formatPrice(unit.getFees().getCollectionFeesCash()));
+                tvBalanceCPF.setText("$" + Utility.formatPrice(unit.getFees().getMonthlyCpf()));
+                tvBalanceCash.setText("$" + Utility.formatPrice(unit.getFees().getMonthlyCash()));
+                tvBalanceTitle.setText("Balance of the purchase price \n (Per month for " + profile.getLoanTenure() + " years):");
             }
         }
     }
-
 
 
 }
