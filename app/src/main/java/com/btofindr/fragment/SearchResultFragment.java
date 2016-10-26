@@ -4,12 +4,15 @@ import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.btofindr.R;
 import com.btofindr.activity.MainActivity;
@@ -24,6 +27,8 @@ import com.google.gson.reflect.TypeToken;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.btofindr.activity.MainActivity.scale;
+
 /**
  * Created by Sherry on 31/08/2016.
  */
@@ -32,6 +37,7 @@ public class SearchResultFragment extends Fragment {
 
     private ProgressDialog dialog;
     private ArrayList<BlockItem> blockItems;
+    private LinearLayout llWrapper;
     private Spinner spinSort;
     private ListView lvBlocks;
 
@@ -49,6 +55,7 @@ public class SearchResultFragment extends Fragment {
 
         View rootView = inflater.inflate(R.layout.fragment_search_result, container, false);
 
+        llWrapper = (LinearLayout) rootView.findViewById(R.id.ll_wrapper);
         spinSort = (Spinner) rootView.findViewById(R.id.spin_sort);
         lvBlocks = (ListView) rootView.findViewById(R.id.lv_blocks);
 
@@ -100,8 +107,19 @@ public class SearchResultFragment extends Fragment {
 
         @Override
         protected void onPostExecute(Object o) {
-            lvBlocks.setAdapter(new BlockAdapter(getContext(), blockItems));
-            lvBlocks.setOnItemClickListener(new blockItemClickListener());
+            if(blockItems.isEmpty()) {
+                llWrapper.removeAllViews();
+                llWrapper.setPadding(0, Utility.getPixels(50, scale), 0, 0);
+                TextView tv = new TextView(getContext());
+                tv.setGravity(Gravity.CENTER_HORIZONTAL);
+                tv.setTextSize(Utility.getPixels(5, scale));
+                tv.setText("There are no available blocks \nbased on your search parameters.");
+                llWrapper.addView(tv);
+            }
+            else {
+                lvBlocks.setAdapter(new BlockAdapter(getContext(), blockItems));
+                lvBlocks.setOnItemClickListener(new blockItemClickListener());
+            }
             dialog.dismiss();
         }
 

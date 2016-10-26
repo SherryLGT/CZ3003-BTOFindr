@@ -103,6 +103,7 @@ public class MainActivity extends AppCompatActivity {
     private class navDrawerItemClickListener implements ListView.OnItemClickListener {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            getSupportFragmentManager().popBackStack(null,  getSupportFragmentManager().POP_BACK_STACK_INCLUSIVE);
 
             navDrawerItems.get(0).setIcon(R.drawable.ic_home);
             navDrawerItems.get(1).setIcon(R.drawable.ic_compare);
@@ -187,6 +188,7 @@ public class MainActivity extends AppCompatActivity {
             }).setNegativeButton("No", null).show();
         } else {
             getSupportFragmentManager().popBackStack();
+            getSupportActionBar().setTitle(R.string.app_name);
         }
     }
 
