@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!-- Created by Shi Qi on 13/10/2016. -->
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/cream">
+
+
+    <android.support.design.widget.FloatingActionButton
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:id="@+id/FAB"
+        android:src="@drawable/ic_delete"
+        app:elevation="4dp"
+        app:backgroundTint="@color/red"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_margin="16dp"
+        android:visibility="invisible"
+        />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="@dimen/grid_margin"
+        android:baselineAligned="false">
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:background="@color/cream"
+                android:weightSum="1">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/grid_margin"
+                    android:text="@string/lbl_compare_title" />
+
+                <ScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fillViewport="true">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:orientation="vertical"
+                        android:background="@drawable/content_layout"
+                        android:id="@+id/ll_compare_list"
+                        android:layout_height="wrap_content">
+                        <ListView
+                            android:id="@+id/lv_units"
+                            android:layout_width="match_parent"
+                            android:layout_height="490dp" />
+    <!---->
+                        <!--<TextView-->
+                            <!--android:layout_width="match_parent"-->
+                            <!--android:id="@+id/tv_nofave"-->
+                            <!--android:layout_height="match_parent"-->
+                            <!--android:textColor="@color/dark_gray"-->
+                            <!--android:text="NO FAVOURITES"-->
+                            <!--android:visibility="invisible"-->
+                            <!--android:textAlignment="center"-->
+                            <!--android:layout_margin="30dp"-->
+                            <!--android:textSize="15dp"/>-->
+
+                    </LinearLayout>
+
+                </ScrollView>
+
+                <Button
+                    android:id="@+id/btn_compare"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="18dp"
+                    android:text="@string/btn_compare"
+                    android:textSize="@dimen/text_title"
+                    android:theme="@style/AppTheme.Button"/>
+
+            </LinearLayout>
+
+    </LinearLayout>
+
+</RelativeLayout>
