@@ -21,13 +21,16 @@ import android.widget.Toast;
 
 import com.btofindr.R;
 import com.btofindr.adapter.NavDrawerAdapter;
+import com.btofindr.fragment.CompareUnitsFragment;
 import com.btofindr.fragment.FavouriteFragment;
 import com.btofindr.fragment.HistoryFragment;
 import com.btofindr.fragment.HomeFragment;
 import com.btofindr.fragment.ProfileFragment;
+import com.btofindr.fragment.RecommendedFragment;
 import com.btofindr.model.NavDrawerItem;
 import com.google.gson.Gson;
 import com.google.firebase.messaging.FirebaseMessaging;
+
 import java.util.ArrayList;
 
 import static java.security.AccessController.getContext;
@@ -52,7 +55,8 @@ public class MainActivity extends AppCompatActivity {
 
     //TODO: Edit, History, Bulk Delete(is actually edit) SWIPE lEFT TO dELETE YAA AND no favourites <- idk how display
 
-    @Override @SuppressWarnings("ResourceType")
+    @Override
+    @SuppressWarnings("ResourceType")
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -103,7 +107,7 @@ public class MainActivity extends AppCompatActivity {
     private class navDrawerItemClickListener implements ListView.OnItemClickListener {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            getSupportFragmentManager().popBackStack(null,  getSupportFragmentManager().POP_BACK_STACK_INCLUSIVE);
+            getSupportFragmentManager().popBackStack(null, getSupportFragmentManager().POP_BACK_STACK_INCLUSIVE);
 
             navDrawerItems.get(0).setIcon(R.drawable.ic_home);
             navDrawerItems.get(1).setIcon(R.drawable.ic_compare);
@@ -112,13 +116,14 @@ public class MainActivity extends AppCompatActivity {
             navDrawerItems.get(4).setIcon(R.drawable.ic_recommended);
             navDrawerItems.get(5).setIcon(R.drawable.ic_profile);
 
-            switch(position) {
+            switch (position) {
                 case 0: // Home
                     getSupportActionBar().setTitle(R.string.app_name);
                     getSupportFragmentManager().beginTransaction().replace(R.id.fl_container, new HomeFragment()).commit();
                     break;
                 case 1: // Compare Units
                     getSupportActionBar().setTitle(R.string.title_compare_units);
+                    getSupportFragmentManager().beginTransaction().replace(R.id.fl_container, new CompareUnitsFragment()).commit();
                     break;
                 case 2: // Favourites
                     getSupportActionBar().setTitle(R.string.title_favourites);
@@ -130,6 +135,7 @@ public class MainActivity extends AppCompatActivity {
                     break;
                 case 4: // Recommended
                     getSupportActionBar().setTitle(R.string.title_recommended);
+                    getSupportFragmentManager().beginTransaction().replace(R.id.fl_container, new RecommendedFragment()).commit();
                     break;
                 case 5: // Profile
                     getSupportFragmentManager().beginTransaction().replace(R.id.fl_container, new ProfileFragment()).addToBackStack("ProfileFragment").commit();

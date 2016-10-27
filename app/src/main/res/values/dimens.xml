@@ -18,4 +18,6 @@
     <dimen name="text_title">16sp</dimen>
     <dimen name="text_details">13sp</dimen>
     <dimen name="text_floor">15sp</dimen>
+
+    <dimen name="compare_tab_height">60sp</dimen>
 </resources>
