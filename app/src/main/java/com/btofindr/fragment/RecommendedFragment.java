@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.btofindr.R;
 import com.btofindr.activity.MainActivity;
@@ -24,6 +25,7 @@ import com.btofindr.model.UnitType;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+import static android.view.View.VISIBLE;
 import static com.btofindr.fragment.FavouriteFragment.selectedUnit;
 import static com.btofindr.fragment.FavouriteFragment.selectedUnitItem;
 import static com.btofindr.fragment.FavouriteFragment.selectedBlockItem;
@@ -42,6 +44,7 @@ public class RecommendedFragment extends Fragment {
     private ArrayList<Unit> unitList;
     private ArrayList<Integer> globalFavourites;
     private ListView lv_units;
+    private TextView tv_nofave;
 
     View rootView;
     private String[] recommendedList;
@@ -64,7 +67,7 @@ public class RecommendedFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_favourite, container, false);
         lv_units = (ListView) rootView.findViewById(R.id.lv_units);
-//        tvNoHistory = (TextView) rootView.findViewById(R.id.tv_nohistory);
+        tv_nofave = (TextView) rootView.findViewById(R.id.tv_nofave);
 
         dialog = new ProgressDialog(getActivity());
         dialog.setMessage("Loading...");
@@ -92,23 +95,28 @@ public class RecommendedFragment extends Fragment {
 
         @Override
         protected void onPostExecute(Object o) {
-            FavouriteAdapter fa = new FavouriteAdapter(getActivity(), unitItems, blockItems, globalFavourites, rootView);
-            lv_units.setAdapter(fa);
-            lv_units.setOnItemClickListener(new unitItemClickListener());
+
             dialog.dismiss();
+            if(globalFavourites.size() == 0) {
+                tv_nofave.setText("Please add some favourites for recommendation");
+                tv_nofave.setVisibility(VISIBLE);
+            }else {
+                FavouriteAdapter fa = new FavouriteAdapter(getActivity(), unitItems, blockItems, globalFavourites, rootView);
+                lv_units.setAdapter(fa);
+                lv_units.setOnItemClickListener(new unitItemClickListener());
+                lv_units.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-            lv_units.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        selectedUnit = unitList.get(position);
+                        selectedBlockItem = blockItems.get(position);
+                        selectedUnitItem = unitItems.get(position);
+                        recommend = true;
+                        getFragmentManager().beginTransaction().replace(R.id.fl_container, new UnitDetailsFragment()).addToBackStack("UnitDetailsFragment").commit();
 
-                    selectedUnit = unitList.get(position);
-                    selectedBlockItem = blockItems.get(position);
-                    selectedUnitItem = unitItems.get(position);
-                    recommend =true;
-                    getFragmentManager().beginTransaction().replace(R.id.fl_container, new UnitDetailsFragment()).addToBackStack("UnitDetailsFragment").commit();
-
-                }
-            });
+                    }
+                });
+            }
         }
 
         @Override
@@ -118,8 +126,8 @@ public class RecommendedFragment extends Fragment {
 
             globalFavourites = favourites;
 
-            if(favourites==null){
-                favourites = new ArrayList<Integer>();
+            if(globalFavourites==null){
+                globalFavourites = new ArrayList<Integer>();
             }
             //send in the favourites list into the post request
             unitList = gson.fromJson(Utility.postRequest("Unit/GetRecommendedUnits", gson.toJson(favourites)),
