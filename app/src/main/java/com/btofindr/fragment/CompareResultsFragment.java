@@ -34,6 +34,8 @@ import java.util.ArrayList;
 
 
 import static com.btofindr.fragment.BlockFragment.block;
+import static com.btofindr.fragment.BlockFragment.selectedView;
+
 
 /**
  * Created by Amandaa on 31/08/2016.
@@ -43,25 +45,17 @@ public class CompareResultsFragment extends Fragment {
 
     private ProgressDialog dialog;
     private ImageView ivProjectImage;
-    private TextView tvTitle, tvAddress, tvUnitTypes, tvPriceRange;
+    private TextView tvTitle, tvAddress;
 
     private Button btnViewMapPlan;
     private Button btnTab1;
     private Button btnTab2;
-
-    private LinearLayout llUnitTypes;
-    private TextView tvQuotaChinese, tvQuoteMalay, tvQuotaOthers;
-    private ListView lvFloors;
-    private ArrayList<Integer> history;
 
     private TextView tvUnitNumber, tvUnitType, tvPrice, tvApplicationFee, tvBookingFee, tvPaymentCPF, tvPaymentCash,
             tvStampDutyCPF, tvStampDutyCash, tvBalanceCPF, tvBalanceCash, tvBalanceTitle;
     private Profile profile;
 
     private Gson gson = new Gson();
-    public static int cselectedView = -1;
-
-    public static Block cblock;
 
     public static ArrayList<Bitmap> bitmap;
     public static ArrayList<UnitItem> compareUnitItems = new ArrayList<UnitItem>();
@@ -110,13 +104,13 @@ public class CompareResultsFragment extends Fragment {
             public void onClick(View v) {
                 android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(getContext());
                 builder.setTitle(R.string.view_map_plan_choice);
-                builder.setSingleChoiceItems(R.array.map_plan_list, cselectedView, new DialogInterface.OnClickListener() {
+                builder.setSingleChoiceItems(R.array.map_plan_list, selectedView, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-                        cselectedView = which;
+                        selectedView = which;
                     }
                 }).setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-                        if (cselectedView == -1) {
+                        if (selectedView == -1) {
                             Toast.makeText(getContext(), "Please select a choice", Toast.LENGTH_SHORT).show();
                         }
                         else {
@@ -201,7 +195,7 @@ public class CompareResultsFragment extends Fragment {
 
     private void loadInformation(int i) {
 
-        cblock = blockList.get(i);
+        block = blockList.get(i);
         tvTitle.setText(compareBlockItems.get(i).getProjectName());
         tvAddress.setText(compareBlockItems.get(i).getBlockNo() + " " + compareBlockItems.get(i).getStreet());
         ivProjectImage.setImageBitmap(bitmap.get(i));

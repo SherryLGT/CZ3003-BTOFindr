@@ -33,6 +33,7 @@ import java.util.List;
 import com.hudomju.swipe.SwipeToDismissTouchListener;
 import com.hudomju.swipe.adapter.ListViewAdapter;
 import static android.view.View.VISIBLE;
+import static com.btofindr.fragment.UnitDetailsFragment.recommend;
 
 public class FavouriteFragment extends Fragment {
     private ArrayList<Integer> globalFavourites;
@@ -181,6 +182,7 @@ public class FavouriteFragment extends Fragment {
                         selectedUnit = unitList.get(position);
                         selectedBlockItem = blockItems.get(position);
                         selectedUnitItem = unitItems.get(position);
+                        recommend = false;
                         getFragmentManager().beginTransaction().replace(R.id.fl_container, new UnitDetailsFragment()).addToBackStack("UnitDetailsFragment").commit();
                     }
                 }

@@ -1,6 +1,7 @@
 package com.btofindr.fragment;
 
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -40,12 +41,13 @@ import static com.btofindr.fragment.BlockFragment.selectedView;
 
 public class UnitDetailsFragment extends Fragment{
 
-    //private ProgressDialog dialog;
+    private ProgressDialog dialog;
     private ImageView ivProjectImage;
     private TextView tvTitle, tvAddress, tvUnitType, tvPrice, tvUnitNumber;
     private Button btnViewMapPlan, btnCalculatePayables;
     private LinearLayout llUnitDetails;
 
+    public static boolean recommend = false;
     public static Unit unit;
     public static BlockItem blockItem;
     public static UnitItem unitItem;
@@ -72,11 +74,10 @@ public class UnitDetailsFragment extends Fragment{
         unit = selectedUnit;
         unitItem = selectedUnitItem;
         blockItem = selectedBlockItem;
-        //dialog = new ProgressDialog(getContext());
-        //dialog.setMessage("Loading...");
-        //dialog.setCancelable(false);
+        dialog = new ProgressDialog(getContext());
+        dialog.setMessage("Loading...");
+        dialog.setCancelable(false);
 
-        //TODO!
         new getImage().execute();
 
         tvTitle.setText(blockItem.getProjectName());
@@ -135,7 +136,11 @@ public class UnitDetailsFragment extends Fragment{
     @Override
     public void onResume() {
         super.onResume();
-        ((MainActivity) getActivity()).setActionBarTitle(getResources().getString(R.string.title_favourites));
+        if(recommend){
+            ((MainActivity) getActivity()).setActionBarTitle(getResources().getString(R.string.title_recommended));
+        }else {
+            ((MainActivity) getActivity()).setActionBarTitle(getResources().getString(R.string.title_favourites));
+        }
     }
 
     private class getImage extends AsyncTask<String, Void, Bitmap> {

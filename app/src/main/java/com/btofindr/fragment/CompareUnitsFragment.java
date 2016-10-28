@@ -30,6 +30,7 @@ import java.util.List;
 import static com.btofindr.fragment.CompareResultsFragment.compareBlockItems;
 import static com.btofindr.fragment.CompareResultsFragment.compareUnitItems;
 
+
 public class CompareUnitsFragment extends Fragment {
 
     private ProgressDialog dialog;

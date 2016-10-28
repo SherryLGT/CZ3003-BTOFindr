@@ -3,61 +3,54 @@ package com.btofindr.fragment;
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.btofindr.R;
 import com.btofindr.activity.MainActivity;
-import com.btofindr.adapter.HistoryAdapter;
+import com.btofindr.adapter.FavouriteAdapter;
 import com.btofindr.controller.Utility;
 import com.btofindr.model.Block;
 import com.btofindr.model.BlockItem;
+import com.btofindr.model.Project;
 import com.btofindr.model.Unit;
 import com.btofindr.model.UnitItem;
 import com.btofindr.model.UnitType;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.hudomju.swipe.SwipeToDismissTouchListener;
-import com.hudomju.swipe.adapter.ListViewAdapter;
+
+import static com.btofindr.fragment.FavouriteFragment.selectedUnit;
+import static com.btofindr.fragment.FavouriteFragment.selectedUnitItem;
+import static com.btofindr.fragment.FavouriteFragment.selectedBlockItem;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static android.view.View.VISIBLE;
-import static com.btofindr.fragment.SearchResultFragment.selectedBlock;
+import static com.btofindr.fragment.UnitDetailsFragment.recommend;
 
 public class RecommendedFragment extends Fragment {
 
     private ProgressDialog dialog;
 
-//    private ArrayList<BlockItem> blockItems;
-//    private ListView lvBlocks;
-//    private ArrayList<Block> blockList;
-//    private TextView tvNoHistory;
+    private ArrayList<BlockItem> blockItems;
+    private ArrayList<UnitItem> unitItems;
+    private ArrayList<Unit> unitList;
+    private ArrayList<Integer> globalFavourites;
+    private ListView lv_units;
 
+    View rootView;
     private String[] recommendedList;
-
 
     public static MenuItem mMenuItem2;
 
     private Gson gson;
     private String response;
-    private ArrayList<UnitItem> unitItems;
 
-    public static boolean noHistory = true;
-    HistoryAdapter ha;
-    View rootView;
 
     public RecommendedFragment() {
     }
@@ -69,39 +62,17 @@ public class RecommendedFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        rootView = inflater.inflate(R.layout.fragment_history, container, false);
-//        lvBlocks = (ListView) rootView.findViewById(R.id.lv_blocks);
+        rootView = inflater.inflate(R.layout.fragment_favourite, container, false);
+        lv_units = (ListView) rootView.findViewById(R.id.lv_units);
 //        tvNoHistory = (TextView) rootView.findViewById(R.id.tv_nohistory);
 
-        setHasOptionsMenu(true);
-
-        new loadData().execute();
         dialog = new ProgressDialog(getActivity());
         dialog.setMessage("Loading...");
         dialog.setCancelable(false);
+
+        new loadData().execute();
         return rootView;
     }
-
-
-    @Override
-    public void onCreateOptionsMenu(Menu menu,MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
-        if(!noHistory){
-            menu.getItem(0).setVisible(true);
-        }
-        else{
-            menu.getItem(0).setVisible(false);
-
-        }
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        mMenuItem2 =  item;
-
-        return false;
-    }
-
 
     @Override
     public void onResume() {
@@ -112,19 +83,32 @@ public class RecommendedFragment extends Fragment {
     private class loadData extends AsyncTask<Void, Integer, Object> {
         @Override
         protected void onPreExecute() {
-            //dialog.show();
+            dialog.show();
             gson = new Gson();
+            blockItems = new ArrayList<BlockItem>();
+            unitItems = new ArrayList<UnitItem>();
 
         }
 
         @Override
         protected void onPostExecute(Object o) {
-            //ha = new HistoryAdapter(getActivity(), blockItems, globalHistory,rootView);
+            FavouriteAdapter fa = new FavouriteAdapter(getActivity(), unitItems, blockItems, globalFavourites, rootView);
+            lv_units.setAdapter(fa);
+            lv_units.setOnItemClickListener(new unitItemClickListener());
+            dialog.dismiss();
 
-            //lvBlocks.setOnItemClickListener(new blockItemClickListener());
+            lv_units.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
+                    selectedUnit = unitList.get(position);
+                    selectedBlockItem = blockItems.get(position);
+                    selectedUnitItem = unitItems.get(position);
+                    recommend =true;
+                    getFragmentManager().beginTransaction().replace(R.id.fl_container, new UnitDetailsFragment()).addToBackStack("UnitDetailsFragment").commit();
 
-           dialog.dismiss();
+                }
+            });
         }
 
         @Override
@@ -132,22 +116,52 @@ public class RecommendedFragment extends Fragment {
             ArrayList<Integer> favourites = gson.fromJson(Utility.readFromFile("favourites", getActivity()), new TypeToken<List<Integer>>() {
             }.getType());
 
+            globalFavourites = favourites;
+
             if(favourites==null){
                 favourites = new ArrayList<Integer>();
             }
             //send in the favourites list into the post request
-            ArrayList<Unit> units = gson.fromJson(Utility.postRequest("Unit/GetRecommendedUnits", gson.toJson(favourites)),
+            unitList = gson.fromJson(Utility.postRequest("Unit/GetRecommendedUnits", gson.toJson(favourites)),
                     new TypeToken<List<Unit>>(){}.getType());
-            units.size();
+
+            Unit unit = new Unit();
+            for(int i=0; i<unitList.size();i++){
+                UnitItem item = new UnitItem();
+                BlockItem blockItem = new BlockItem();
+                Project project = new Project();
+                Block block = new Block();
+                UnitType unitType = new UnitType();
+                unit = unitList.get(i);
+                unitType = unit.getUnitType();
+
+                block = unitType.getBlock();
+
+                item.setPrice(unit.getPrice());
+                item.setUnitNo(unit.getUnitNo());
+                item.setUnitType(unit.getUnitType());
+                item.setUnitId(unit.getUnitId());
+
+                blockItem.setProjectName(block.getProject().getProjectName());
+                blockItem.setStreet(block.getStreet());
+                blockItem.setBlockNo(block.getBlockNo());
+                blockItem.setIcon(block.getProject().getProjectImage());
+
+                unitItems.add(item);
+                blockItems.add(blockItem);
+            }
             return null;
         }
     }
 
-    private class blockItemClickListener implements ListView.OnItemClickListener {
+    private class unitItemClickListener implements ListView.OnItemClickListener {
+
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-           // selectedBlock = blockList.get(position);
-            getFragmentManager().beginTransaction().replace(R.id.fl_container, new BlockFragment()).addToBackStack("BlockFragment").commit();
+            selectedUnit = unitList.get(position);
+            selectedBlockItem = blockItems.get(position);
+            selectedUnitItem = unitItems.get(position);
+            getFragmentManager().beginTransaction().replace(R.id.fl_container, new UnitDetailsFragment()).addToBackStack("UnitDetailsFragment").commit(); //click to floor page
         }
     }
 
