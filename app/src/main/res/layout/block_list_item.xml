@@ -48,6 +48,13 @@
             android:layout_height="wrap_content"
             android:textSize="@dimen/text_details"
             android:textStyle="italic"/>
+
+        <TextView
+            android:id="@+id/tv_travel_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/text_details"
+            android:textStyle="italic"/>
     </LinearLayout>
 
     <ImageView

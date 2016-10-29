@@ -137,6 +137,8 @@ public class SearchResultFragment extends Fragment {
                 item.setUnitTypes(block.getUnitTypes());
                 item.setMinPrice(block.getMinPrice());
                 item.setMaxPrice(block.getMaxPrice());
+                item.setTravelTime(block.getTravelTime());
+                item.setTravelDist(block.getTravelDist());
                 blockItems.add(item);
             }
 

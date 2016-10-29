@@ -16,11 +16,13 @@ public class BlockItem {
     private ArrayList<UnitType> unitTypes;
     private Double minPrice;
     private Double maxPrice;
+    private int travelTime;
+    private int travelDist;
 
     public BlockItem(){};
 
-    public BlockItem(String icon, String projectName, String blockNo, String street, ArrayList<UnitType> unitTypes, Double minPrice, Double maxPrice){
-        this.blockId=blockId;
+    public BlockItem(String icon, String projectName, String blockNo, String street, ArrayList<UnitType> unitTypes, Double minPrice, Double maxPrice, int travelTime, int travelDist) {
+        this.blockId = blockId;
         this.icon = icon;
         this.projectName = projectName;
         this.blockNo = blockNo;
@@ -28,6 +30,8 @@ public class BlockItem {
         this.unitTypes = unitTypes;
         this.minPrice = minPrice;
         this.maxPrice = maxPrice;
+        this.travelTime = travelTime;
+        this.travelDist = travelDist;
     }
 
     public String getIcon() {
@@ -92,5 +96,21 @@ public class BlockItem {
 
     public void setBlockId(int blockId) {
         this.blockId = blockId;
+    }
+
+    public int getTravelTime() {
+        return travelTime;
+    }
+
+    public void setTravelTime(int travelTime) {
+        this.travelTime = travelTime;
+    }
+
+    public int getTravelDist() {
+        return travelDist;
+    }
+
+    public void setTravelDist(int travelDist) {
+        this.travelDist = travelDist;
     }
 }

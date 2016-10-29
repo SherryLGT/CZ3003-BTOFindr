@@ -33,7 +33,7 @@ public class BlockAdapter extends BaseAdapter {
     private String url;
     private Bitmap bitmap;
 
-    public BlockAdapter(Context context, ArrayList<BlockItem> blockItems){
+    public BlockAdapter(Context context, ArrayList<BlockItem> blockItems) {
         this.context = context;
         this.blockItems = blockItems;
     }
@@ -50,6 +50,7 @@ public class BlockAdapter extends BaseAdapter {
         TextView address = (TextView) convertView.findViewById(R.id.tv_address);
         TextView unitTypes = (TextView) convertView.findViewById(R.id.tv_unit_types);
         TextView priceRange = (TextView) convertView.findViewById(R.id.tv_price_range);
+        TextView travelTime = (TextView) convertView.findViewById(R.id.tv_travel_time);
 
         url = blockItems.get(position).getIcon();
         new getImage().execute();
@@ -65,7 +66,7 @@ public class BlockAdapter extends BaseAdapter {
         }
         unitTypes.setText(unitTypeNames);
         priceRange.setText("Price: $" + Utility.formatPrice(blockItems.get(position).getMinPrice()) + " - $" + Utility.formatPrice(blockItems.get(position).getMaxPrice()));
-
+        travelTime.setText("Travelling Time: " + (blockItems.get(position).getTravelTime() / 60) + " mins (" + blockItems.get(position).getTravelDist() / 1000 + " km)");
         return convertView;
     }
 
@@ -101,8 +102,7 @@ public class BlockAdapter extends BaseAdapter {
                 InputStream in = new java.net.URL(url).openStream();
                 bitmap = BitmapFactory.decodeStream(in);
                 in.close();
-            }
-            catch (Exception e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
 
