@@ -38,10 +38,9 @@ import static com.btofindr.fragment.BlockFragment.selectedView;
 
 
 /**
- * Created by Amandaa on 31/08/2016.
+ * Fragment class for Compare Units Result page in the application
  */
-
-public class CompareResultsFragment extends Fragment {
+public class CompareUnitsResultFragment extends Fragment {
 
     private ProgressDialog dialog;
     private ImageView ivProjectImage;
@@ -63,8 +62,23 @@ public class CompareResultsFragment extends Fragment {
     public static ArrayList<Unit> unitList;
     public static ArrayList<Block> blockList;
 
-    public CompareResultsFragment() {}
+    /**
+     * Constructor for the CompareUnitsResultFragment Class
+     */
+    public CompareUnitsResultFragment() {
+    }
 
+
+    /**
+     * Method to Create the view for the page
+     * Creating a progress dialog to show that data is loading
+     * Loading the data into the view
+     *
+     * @param inflater
+     * @param container
+     * @param savedInstanceState
+     * @return an View object
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
@@ -139,29 +153,52 @@ public class CompareResultsFragment extends Fragment {
         return rootView;
     }
 
+    /**
+     * Method to resume the activity and set the action bar title to "Compare units result"
+     */
     @Override
     public void onResume() {
         super.onResume();
         ((MainActivity) getActivity()).setActionBarTitle(getResources().getString(R.string.title_compare_units_results));
     }
 
+    /**
+     * AsyncTask Class to load the data for the list view and page
+     */
     private class loadData extends AsyncTask<Void, Integer, Object> {
+        /**
+         * Method to show the progress dialog before loading of data
+         */
         @Override
         protected void onPreExecute() {
             dialog.show();
-
         }
 
+        /**
+         * Method to set the project name to the tab buttons after data have been loaded
+         * Hiding the progress dialog after loading the data
+         * Calling another method to load the correct information into the view
+         * @param o
+         */
         @Override
         protected void onPostExecute(Object o) {
-
             btnTab1.setText(compareBlockItems.get(0).getProjectName());
             btnTab2.setText(compareBlockItems.get(1).getProjectName());
 
-            loadInformation(0);
+            loadInformation(0); //loading the first set of information upon first load
             dialog.dismiss();
         }
 
+        /**
+         * Method to get the units based on the favourite list
+         * Getting the unit from the webservice by POST request and converting into an object
+         * Creating new Unit and Block objects
+         * Storing the new Unit and Block objects into ArrayList
+         * Loading the image into an ArrayList to be used in the loadingInformation method
+         *
+         * @param params
+         * @return
+         */
         @Override
         protected Object doInBackground(Void... params) {
             bitmap = new ArrayList<Bitmap>();
@@ -192,7 +229,13 @@ public class CompareResultsFragment extends Fragment {
         }
     }
 
-
+    /**
+     * Method to change the information on the view when the tab button is being clicked
+     * Checking if there is a profile set up because the information is needed for the calculation of payables
+     * Showing a dialog if the profile does not exist
+     * 
+     * @param i an Integer variable that determine the information to be displayed
+     */
     private void loadInformation(int i) {
 
         block = blockList.get(i);

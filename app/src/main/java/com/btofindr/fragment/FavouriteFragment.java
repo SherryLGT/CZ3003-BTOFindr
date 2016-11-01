@@ -68,6 +68,11 @@ public class FavouriteFragment extends Fragment {
         deleteBtn = (FloatingActionButton) rootView.findViewById(R.id.FAB);
         editMode = 0;
         setHasOptionsMenu(true);
+
+        dialog = new ProgressDialog(this.getContext());
+        dialog.setMessage("Loading...");
+        dialog.setCancelable(false);
+
         new loadData().execute();
         return rootView;
     }
@@ -124,7 +129,7 @@ public class FavouriteFragment extends Fragment {
     private class loadData extends AsyncTask<Void, Integer, Object> {
         @Override
         protected void onPreExecute() {
-            //dialog.show();
+            dialog.show();
             gson = new Gson();
             unitList = new ArrayList<Unit>();
             blockItems = new ArrayList<BlockItem>();
@@ -133,6 +138,7 @@ public class FavouriteFragment extends Fragment {
 
         @Override
         protected void onPostExecute(Object o) {
+            dialog.hide();
             fa = new FavouriteAdapter(getActivity(), unitItems, blockItems, globalFavourites, rootView);
             lvUnits.setOnItemClickListener(new unitItemClickListener());
 
