@@ -36,6 +36,9 @@ import static com.btofindr.fragment.FavouriteFragment.mMenuItem;
  * Created by Shi Qi on 10/12/2016.
  */
 
+/**
+ * Adapter Class for the List view used in the Favourites page
+ */
 public class FavouriteAdapter extends BaseAdapter   {
     private Context context;
     private ArrayList<UnitItem> unitItems;
@@ -52,6 +55,14 @@ public class FavouriteAdapter extends BaseAdapter   {
 
     private ArrayList<Integer> favourites;
 
+    /**
+     * Constructor
+     * @param context
+     * @param unitItems
+     * @param blockItems
+     * @param favourites
+     * @param rootView
+     */
     public FavouriteAdapter(Context context, ArrayList<UnitItem> unitItems,
         ArrayList<BlockItem> blockItems, ArrayList<Integer> favourites, View rootView){
         this.context = context;
@@ -63,6 +74,13 @@ public class FavouriteAdapter extends BaseAdapter   {
 
     }
 
+    /**
+     * Inflate view, linking to XML
+     * @param position
+     * @param convertView
+     * @param parent
+     * @return
+     */
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
@@ -171,11 +189,20 @@ public class FavouriteAdapter extends BaseAdapter   {
         return convertView;
     }
 
+    /**
+     * Get size of unitItems
+     * @return
+     */
     @Override
     public int getCount() {
         return unitItems.size();
     }
 
+    /**
+     * Remove item from array
+     * @param position
+     * @param choice
+     */
     public void remove(int position, int choice) {
 
         for(int i=0;i<unitItems.size();i++){
@@ -203,39 +230,78 @@ public class FavouriteAdapter extends BaseAdapter   {
         }
     }
 
+    /**
+     *
+     * Method to get the number of list items by calling the previous getCount() method
+     * @return
+     */
     @Override
     public int getViewTypeCount() {
 
         return getCount();
     }
 
+    /**
+     * Method to get the position of the item that is in the list view
+     *
+     * @param position
+     * @return an integer containing the position of the item in the list view
+     */
     @Override
     public int getItemViewType(int position) {
 
         return position;
     }
 
+    /**
+     * Method to get the Object that is in the list view
+     *
+     * @param position the integer indicates which item it is in the ArrayList
+     * @return an Object of the specific list view item
+     */
     @Override
     public Object getItem(int position) {
         return unitItems.get(position);
     }
 
+    /**
+     * Method to get the list view item's id
+     *
+     * @param position
+     * @return a long number containing the position of the item in the list view
+     */
     @Override
     public long getItemId(int position) {
         return position;
     }
 
+    /**
+     * AsyncTask Class to load the image for each unit/block
+     */
     private class getImage extends AsyncTask<String, Void, Bitmap> {
+        /**
+         * Method to initialize the bitmap variable to null before executing the loading of an image
+         */
         @Override
         protected void onPreExecute() {
             bitmap = null;
         }
 
+        /**
+         * Method to set the image to the icon of each list view item after image is being loaded
+         * @param bitmap
+         */
         @Override
         protected void onPostExecute(Bitmap bitmap) {
             icon.setImageBitmap(bitmap);
         }
 
+        /**
+         * Method to load the image from the webservice
+         *
+         * @param params
+         * @return a Bitmap variable containing the loaded image
+         */
         @Override
         protected Bitmap doInBackground(String... params) {
             try {
@@ -249,6 +315,9 @@ public class FavouriteAdapter extends BaseAdapter   {
         }
     }
 
+    /**
+     * Update favourite count in database
+     */
     private class removeFavouriteCount extends AsyncTask<Integer, Void, Void> {
         @Override
         protected Void doInBackground(Integer... params) {

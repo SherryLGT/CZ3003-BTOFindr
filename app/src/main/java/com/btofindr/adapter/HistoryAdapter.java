@@ -42,6 +42,9 @@ import static com.btofindr.fragment.HistoryFragment.selectedHistoryCheckboxPosit
  * Created by Shi Qi on 10/12/2016.
  */
 
+/**
+ * Adapter Class for the List view used in the History page
+ */
 public class HistoryAdapter extends BaseAdapter   {
     private Context context;
     private ArrayList<Integer> history;
@@ -56,7 +59,13 @@ public class HistoryAdapter extends BaseAdapter   {
     TextView tv_nohistory;
     TextView tv_norv;
 
-
+    /**
+     * Constructor class
+     * @param context the context of the fragment
+     * @param blockItems an ArrayList of BlockItem used to pass through when each unit is clicked
+     * @param history list of history items
+     * @param rootView a view of the parent page, CompareUnitsFragment
+     */
     public HistoryAdapter(Context context, ArrayList<BlockItem> blockItems, ArrayList<Integer> history, View rootView){
         this.context = context;
         this.blockItems = blockItems;
@@ -66,6 +75,13 @@ public class HistoryAdapter extends BaseAdapter   {
 
     }
 
+    /**
+     * Inflating view, link to XML.
+     * @param position
+     * @param convertView
+     * @param parent
+     * @return
+     */
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
@@ -177,11 +193,20 @@ public class HistoryAdapter extends BaseAdapter   {
         return convertView;
     }
 
+    /**
+     * Get size of blockItems
+     * @return
+     */
     @Override
     public int getCount() {
         return blockItems.size();
     }
 
+    /**
+     * remove from list
+     * @param position
+     * @param choice
+     */
     public void remove(int position, int choice) {
 
         for(int i=0;i<blockItems.size();i++){
@@ -219,38 +244,75 @@ public class HistoryAdapter extends BaseAdapter   {
 
     }
 
+    /**
+     * Method to get the number of list items by calling the previous getCount() method
+     *
+     * @return an integer containing the number of items in the list view
+     */
     @Override
     public int getViewTypeCount() {
         return getCount();
     }
 
+    /**
+     * Method to get the position of the item that is in the list view
+     *
+     * @param position
+     * @return an integer containing the position of the item in the list view
+     */
     @Override
     public int getItemViewType(int position) {
 
         return position;
     }
 
+    /**
+     * Get block item from position
+     * @param position
+     * @return
+     */
     @Override
     public Object getItem(int position) {
         return blockItems.get(position);
     }
 
+    /**
+     * Get itemid from position
+     * @param position
+     * @return
+     */
     @Override
     public long getItemId(int position) {
         return position;
     }
 
+    /**
+     * AsyncTask Class to load the image for each unit/block
+     */
     private class getImage extends AsyncTask<String, Void, Bitmap> {
+        /**
+         * Method to initialize the bitmap variable to null before executing the loading of an image
+         */
         @Override
         protected void onPreExecute() {
             bitmap = null;
         }
 
+        /**
+         * Method to set the image to the icon of each list view item after image is being loaded
+         * @param bitmap
+         */
         @Override
         protected void onPostExecute(Bitmap bitmap) {
             icon.setImageBitmap(bitmap);
         }
 
+        /**
+         * Method to load the image from the webservice
+         *
+         * @param params
+         * @return a Bitmap variable containing the loaded image
+         */
         @Override
         protected Bitmap doInBackground(String... params) {
             try {

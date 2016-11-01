@@ -39,6 +39,9 @@ import static com.btofindr.fragment.BlockFragment.selectedView;
  * Created by Shi Qi on 10/18/2016.
  */
 
+/**
+ * Fragment class for Unit details page in the application
+ */
 public class UnitDetailsFragment extends Fragment{
 
     private ProgressDialog dialog;
@@ -52,8 +55,18 @@ public class UnitDetailsFragment extends Fragment{
     public static BlockItem blockItem;
     public static UnitItem unitItem;
 
+    /**
+     * Constructor class
+     */
     public UnitDetailsFragment() {}
 
+    /**
+     * Inflate view, link with XML.
+     * @param inflater
+     * @param container
+     * @param savedInstanceState
+     * @return
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
@@ -86,7 +99,7 @@ public class UnitDetailsFragment extends Fragment{
         tvUnitType.setText("("+unitItem.getUnitType().getUnitTypeName()+")"); //room type
         tvAddress.setText(blockItem.getBlockNo() + " " + blockItem.getStreet());
 
-
+        //view map plan
         btnViewMapPlan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -111,6 +124,7 @@ public class UnitDetailsFragment extends Fragment{
             }
         });
 
+        //calculate payables
         btnCalculatePayables.setOnClickListener(new View.OnClickListener(){
 
 
@@ -131,8 +145,9 @@ public class UnitDetailsFragment extends Fragment{
         return rootView;
     }
 
-
-
+    /**
+     * Method to resume the activity and set the action bar title to "RECOMMENDED" or "FAVOURITES"
+     */
     @Override
     public void onResume() {
         super.onResume();
@@ -143,19 +158,32 @@ public class UnitDetailsFragment extends Fragment{
         }
     }
 
+    /**
+     * AsyncTask Class to load the image
+     */
     private class getImage extends AsyncTask<String, Void, Bitmap> {
         Bitmap bitmap;
-
+        /**
+         * Method to initialize the bitmap variable to null before executing the loading of an image
+         */
         @Override
         protected void onPreExecute() {
             bitmap = null;
         }
-
+        /**
+         * Method to set the image to the icon of each list view item after image is being loaded
+         * @param bitmap
+         */
         @Override
         protected void onPostExecute(Bitmap bitmap) {
             ivProjectImage.setImageBitmap(bitmap);
         }
-
+        /**
+         * Method to load the image from the webservice
+         *
+         * @param params
+         * @return a Bitmap variable containing the loaded image
+         */
         @Override
         protected Bitmap doInBackground(String... params) {
             try {
@@ -171,6 +199,10 @@ public class UnitDetailsFragment extends Fragment{
         }
     }
 
+    /**
+     * For button layout settings
+     * @return
+     */
     private Button generateButton() {
         Button btn = new Button(getContext());
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT, 1.0f);

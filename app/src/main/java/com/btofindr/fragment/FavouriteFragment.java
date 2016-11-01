@@ -35,6 +35,14 @@ import com.hudomju.swipe.adapter.ListViewAdapter;
 import static android.view.View.VISIBLE;
 import static com.btofindr.fragment.UnitDetailsFragment.recommend;
 
+/**
+ * Created by Shi Qi on 10/12/2016.
+ */
+
+
+/**
+ * Fragment class for Favourite Units page in the application
+ */
 public class FavouriteFragment extends Fragment {
     private ArrayList<Integer> globalFavourites;
     private ProgressDialog dialog;
@@ -56,9 +64,20 @@ public class FavouriteFragment extends Fragment {
     public static boolean noFav = true;
     FavouriteAdapter fa;
     View rootView;
+
+    /**
+     * Constructor for the FavouriteFragment Class
+     */
     public FavouriteFragment() {
     }
 
+    /**
+     * Inflate view, link with XML.
+     * @param inflater
+     * @param container
+     * @param savedInstanceState
+     * @return
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
@@ -77,7 +96,11 @@ public class FavouriteFragment extends Fragment {
         return rootView;
     }
 
-
+    /**
+     * For setting menu items
+     * @param menu
+     * @param inflater
+     */
     @Override
     public void onCreateOptionsMenu(Menu menu,MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
@@ -90,6 +113,11 @@ public class FavouriteFragment extends Fragment {
         }
     }
 
+    /**
+     * On selecting edit icon
+     * @param item
+     * @return
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         mMenuItem =  item;
@@ -119,14 +147,22 @@ public class FavouriteFragment extends Fragment {
         return false;
     }
 
-
+    /**
+     * Method to resume the activity and set the action bar title to "FAVOURITES"
+     */
     @Override
     public void onResume() {
         super.onResume();
         ((MainActivity) getActivity()).setActionBarTitle(getResources().getString(R.string.title_favourites));
     }
 
+    /**
+     * AsyncTask Class to load the data for the list view and page
+     */
     private class loadData extends AsyncTask<Void, Integer, Object> {
+        /**
+         * Method to initialize variables used to store the data retrieved from the web service
+         */
         @Override
         protected void onPreExecute() {
             dialog.show();
@@ -136,12 +172,19 @@ public class FavouriteFragment extends Fragment {
             unitItems = new ArrayList<UnitItem>();
         }
 
+        /**
+         * Method to set the adapter to the list view and load the data into the list
+         * @param o
+         */
         @Override
         protected void onPostExecute(Object o) {
             dialog.hide();
             fa = new FavouriteAdapter(getActivity(), unitItems, blockItems, globalFavourites, rootView);
             lvUnits.setOnItemClickListener(new unitItemClickListener());
 
+            /**
+             * Swipe listener (For deleting single items)
+             */
             final SwipeToDismissTouchListener<ListViewAdapter> touchListener =
                     new SwipeToDismissTouchListener<>(
                             new ListViewAdapter(lvUnits),
@@ -202,6 +245,11 @@ public class FavouriteFragment extends Fragment {
             }
         }
 
+        /**
+         * Get item from favourites cache
+         * @param params
+         * @return
+         */
         @Override
         protected Object doInBackground(Void... params) {
 
@@ -255,9 +303,18 @@ public class FavouriteFragment extends Fragment {
     }
 
 
-
+    /**
+     * Listener for unit item
+     */
     private class unitItemClickListener implements ListView.OnItemClickListener {
 
+        /**
+         * Action to be performed when unit item is clicked
+         * @param parent
+         * @param view
+         * @param position
+         * @param id
+         */
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             selectedUnit = unitList.get(position);
@@ -267,6 +324,9 @@ public class FavouriteFragment extends Fragment {
         }
     }
 
+    /**
+     * Update favourite count in database
+     */
     private class removeFavouriteCount extends AsyncTask<Integer, Void, Void> {
         @Override
         protected Void doInBackground(Integer... params) {

@@ -37,6 +37,14 @@ import java.util.List;
 import static android.view.View.VISIBLE;
 import static com.btofindr.fragment.SearchResultFragment.selectedBlock;
 
+/**
+ * Created by Shi Qi on 10/12/2016.
+ */
+
+
+/**
+ * Fragment class for History page in the application
+ */
 public class HistoryFragment extends Fragment {
     private ArrayList<Integer> globalHistory;
     private ProgressDialog dialog;
@@ -56,9 +64,19 @@ public class HistoryFragment extends Fragment {
     HistoryAdapter ha;
     View rootView;
 
+    /**
+     * Constructor for the HistoryFragment Class
+     */
     public HistoryFragment() {
     }
 
+    /**
+     * Inflate view, link with XML.
+     * @param inflater
+     * @param container
+     * @param savedInstanceState
+     * @return
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_history, container, false);
@@ -74,7 +92,11 @@ public class HistoryFragment extends Fragment {
         return rootView;
     }
 
-
+    /**
+     * For setting menu items
+     * @param menu
+     * @param inflater
+     */
     @Override
     public void onCreateOptionsMenu(Menu menu,MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
@@ -87,6 +109,11 @@ public class HistoryFragment extends Fragment {
         }
     }
 
+    /**
+     * On selecting edit icon
+     * @param item
+     * @return
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         mMenuItem2 =  item;
@@ -111,14 +138,22 @@ public class HistoryFragment extends Fragment {
         return false;
     }
 
-
+    /**
+     * Method to resume the activity and set the action bar title to "HISTORY"
+     */
     @Override
     public void onResume() {
         super.onResume();
         ((MainActivity) getActivity()).setActionBarTitle(getResources().getString(R.string.title_history));
     }
 
+    /**
+     * AsyncTask Class to load the data for the list view and page
+     */
     private class loadData extends AsyncTask<Void, Integer, Object> {
+        /**
+         * Method to initialize variables used to store the data retrieved from the web service
+         */
         @Override
         protected void onPreExecute() {
             //dialog.show();
@@ -128,12 +163,19 @@ public class HistoryFragment extends Fragment {
             unitItems = new ArrayList<UnitItem>();
         }
 
+        /**
+         * Method to set the adapter to the list view and load the data into the list
+         * @param o
+         */
         @Override
         protected void onPostExecute(Object o) {
             ha = new HistoryAdapter(getActivity(), blockItems, globalHistory,rootView);
 
             lvBlocks.setOnItemClickListener(new blockItemClickListener());
 
+            /**
+             * Swipe listener (For deleting single items)
+             */
             final SwipeToDismissTouchListener<ListViewAdapter> touchListener =
                     new SwipeToDismissTouchListener<>(
                             new ListViewAdapter(lvBlocks),
@@ -192,6 +234,11 @@ public class HistoryFragment extends Fragment {
             //dialog.dismiss();
         }
 
+        /**
+         * Get item from history cache
+         * @param params
+         * @return
+         */
         @Override
         protected Object doInBackground(Void... params) {
             ArrayList<Integer> history = gson.fromJson(Utility.readFromFile("history", getActivity()), new TypeToken<List<Integer>>() {
@@ -229,6 +276,9 @@ public class HistoryFragment extends Fragment {
         }
     }
 
+    /**
+     * Listener for block item
+     */
     private class blockItemClickListener implements ListView.OnItemClickListener {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
