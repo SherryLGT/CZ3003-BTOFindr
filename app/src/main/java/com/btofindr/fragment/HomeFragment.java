@@ -34,7 +34,11 @@ import static android.view.View.VISIBLE;
 import static com.btofindr.fragment.SearchResultFragment.selectedBlock;
 
 /**
- * Created by Sherry on 31/08/2016.
+ * This fragment is for home page of the program.
+ *
+ * @author Sherry Lau Geok Teng
+ * @version 1.0
+ * @since 31/08/2016
  */
 
 public class HomeFragment extends Fragment {
@@ -52,6 +56,9 @@ public class HomeFragment extends Fragment {
     public static boolean noHistory;
     private View rootView;
 
+    /**
+     * Default constructor for HomeFragment
+     */
     public HomeFragment(){}
 
     @Override
@@ -59,6 +66,14 @@ public class HomeFragment extends Fragment {
         super.onCreate(savedInstanceState);
     }
 
+    /**
+     * Create a View to display contents on the layout.
+     *
+     * @param inflater The LayoutInflater object that is used to inflate any view
+     * @param container The parent view that fragment UI is attached to
+     * @param savedInstanceState Previous state of the fragment
+     * @return
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
@@ -73,6 +88,7 @@ public class HomeFragment extends Fragment {
         ivMain.setImageResource(R.drawable.main);
         tvMain.setText("Tampines North Height");
         setHasOptionsMenu(true);
+        // Handles on click event on search button to navigate to search page
         btnSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

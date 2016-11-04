@@ -1,7 +1,11 @@
 package com.btofindr.model;
 
 /**
- * Created by Sherry on 31/08/2016.
+ * This describes a Floor in a Block.
+ *
+ * @author Sherry Lau Geok Teng
+ * @version 1.0
+ * @since 31/08/2016
  */
 
 public class Floor {

@@ -23,7 +23,12 @@ import com.google.gson.Gson;
 import java.util.ArrayList;
 
 /**
- * Created by Sherry on 31/08/2016.
+ * This fragment is for user profile.
+ * User profile information is stored in device local storage.
+ *
+ * @author Calvin Che Zi Yi
+ * @version 1.0
+ * @since 01/10/2016
  */
 
 public class ProfileFragment extends Fragment {
@@ -37,9 +42,20 @@ public class ProfileFragment extends Fragment {
     private ArrayList<String> selUnitTypes;
     private Gson gson = new Gson();
 
+    /**
+     * Default constructor for ProfileFragment
+     */
     public ProfileFragment() {
     }
 
+    /**
+     * Create a View to display contents on the layout.
+     *
+     * @param inflater The LayoutInflater object that is used to inflate any view
+     * @param container The parent view that fragment UI is attached to
+     * @param savedInstanceState Previous state of the fragment
+     * @return
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
@@ -59,6 +75,7 @@ public class ProfileFragment extends Fragment {
         selUnitTypes = new ArrayList<String>();
         new loadData().execute();
 
+        // Get user profile from device storage
         profile = gson.fromJson(Utility.readFromFile("profile", this.getContext()), Profile.class);
         if (profile == null) {
             profile = new Profile();
@@ -74,27 +91,40 @@ public class ProfileFragment extends Fragment {
         etCPFCon.setText(String.valueOf(profile.getMonthlyCpf()));
         etLoanTenure.setText(String.valueOf(profile.getLoanTenure()));
 
+        // Handles on click event on save button to save profile in device storage
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 new saveData().execute();
 
-                profile.setPostalCode(etPostalCode.getText().toString());
-                profile.setIncome(Double.parseDouble(etAvgIncome.getText().toString()));
-                profile.setCurrentCpf(Double.parseDouble(etCPFBal.getText().toString()));
-                profile.setMonthlyCpf(Double.parseDouble(etCPFCon.getText().toString()));
-                profile.setLoanTenure(Integer.parseInt(etLoanTenure.getText().toString()));
+                if (etPostalCode.getText().length() > 0 && etPostalCode.getText().length() < 6) {
+                    Toast.makeText(ProfileFragment.this.getContext(), "Please input a valid postal code.", Toast.LENGTH_SHORT).show();
+                }
+                else if (etAvgIncome.getText().length() == 0 || etCPFBal.getText().length() == 0 ||
+                        etCPFCon.getText().length() == 0 || etLoanTenure.length() == 0) {
+                    Toast.makeText(ProfileFragment.this.getContext(), "Please fill in all inputs.", Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    profile.setPostalCode(etPostalCode.getText().toString());
+                    profile.setIncome(Double.parseDouble(etAvgIncome.getText().toString()));
+                    profile.setCurrentCpf(Double.parseDouble(etCPFBal.getText().toString()));
+                    profile.setMonthlyCpf(Double.parseDouble(etCPFCon.getText().toString()));
+                    profile.setLoanTenure(Integer.parseInt(etLoanTenure.getText().toString()));
 
-                if (Utility.writeToFile("profile", gson.toJson(profile), getContext())) {
-                    Toast.makeText(ProfileFragment.this.getContext(), "Profile Saved", Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(ProfileFragment.this.getContext(), "Error Saving Profile. Please try again.", Toast.LENGTH_SHORT).show();
+                    if (Utility.writeToFile("profile", gson.toJson(profile), getContext())) {
+                        Toast.makeText(ProfileFragment.this.getContext(), "Profile Saved", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(ProfileFragment.this.getContext(), "Error Saving Profile. Please try again.", Toast.LENGTH_SHORT).show();
+                    }
                 }
             }
         });
         return rootView;
     }
 
+    /**
+     * An AsyncTask to load unit types available for subscriptions.
+     */
     private class loadData extends AsyncTask<Void, Integer, Object> {
         @Override
         protected void onPreExecute() {
@@ -112,6 +142,7 @@ public class ProfileFragment extends Fragment {
                 checkBox.setText(unitType);
 
                 if (selUnitTypes.contains(unitType))
+                    // If particular unit type is already selected for subscription
                     checkBox.setChecked(true);
 
                 checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -126,7 +157,6 @@ public class ProfileFragment extends Fragment {
                 });
                 llFlatTypes.addView(checkBox);
             }
-
         }
 
         @Override
@@ -143,6 +173,9 @@ public class ProfileFragment extends Fragment {
         }
     }
 
+    /**
+     * An AsyncTask to save unit types subscriptions.
+     */
     private class saveData extends AsyncTask<Void, Integer, Object> {
         @Override
         protected void onPreExecute() {

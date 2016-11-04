@@ -29,7 +29,12 @@ import java.util.ArrayList;
 import static com.btofindr.activity.MainActivity.scale;
 
 /**
- * Created by Sherry on 31/08/2016.
+ * This fragment is for searching of BTO (Build To Order)
+ * according to user selected search paramters.
+ *
+ * @author Sherry Lau Geok Teng
+ * @version 1.0
+ * @since 31/08/2016
  */
 
 public class SearchFragment extends Fragment {
@@ -52,14 +57,24 @@ public class SearchFragment extends Fragment {
     private int minPrice, maxPrice;
     public static SearchParameter parameter;
 
-    public SearchFragment() {
-    }
+    /**
+     * Default constructor for SearchFragment
+     */
+    public SearchFragment() {}
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
 
+    /**
+     * Create a View to display contents on the layout.
+     *
+     * @param inflater The LayoutInflater object that is used to inflate any view
+     * @param container The parent view that fragment UI is attached to
+     * @param savedInstanceState Previous state of the fragment
+     * @return
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
@@ -79,6 +94,7 @@ public class SearchFragment extends Fragment {
         dialog.setCancelable(false);
         new loadData().execute();
 
+        // Handles on change event on seek bar
         sbPriceRange.setOnRangeSeekbarChangeListener(new OnRangeSeekbarChangeListener() {
             @Override
             public void valueChanged(Number minValue, Number maxValue) {
@@ -86,6 +102,7 @@ public class SearchFragment extends Fragment {
             }
         });
 
+        // Handles on click event on search button to navigate to search page with search parameters
         btnSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -93,6 +110,7 @@ public class SearchFragment extends Fragment {
                 minPrice = sbPriceRange.getSelectedMinValue().intValue();
                 maxPrice = sbPriceRange.getSelectedMaxValue().intValue();
 
+                // Retrieve user profile from device storage
                 Profile profile = gson.fromJson(Utility.readFromFile("profile", getContext()), Profile.class);
                 if (profile == null) {
                     profile = new Profile();
@@ -113,6 +131,10 @@ public class SearchFragment extends Fragment {
         ((MainActivity) getActivity()).setActionBarTitle(getResources().getString(R.string.title_search));
     }
 
+    /**
+     * An AsyncTask to load available BTO information.
+     * This includes town and unit types.
+     */
     private class loadData extends AsyncTask<Void, Integer, Object> {
         @Override
         protected void onPreExecute() {
@@ -130,6 +152,7 @@ public class SearchFragment extends Fragment {
         protected void onPostExecute(Object o) {
             dialog.dismiss();
 
+            // Generate available town search parameters
             for (Project project : projectList) {
                 final Button btn = generateButton();
                 btn.setText(project.getTownName());
@@ -154,6 +177,7 @@ public class SearchFragment extends Fragment {
                 }
             }
 
+            // Generate available unit types search parameters
             odd = true;
             for (UnitType unitType : unitTypeList) {
                 final Button btn = generateButton();
@@ -182,6 +206,7 @@ public class SearchFragment extends Fragment {
 
         @Override
         protected Object doInBackground(Void... params) {
+            // Retrieve town names from database
             data = gson.fromJson(Utility.getRequest("Project/GetTownNames"), String[].class);
             for (String townName : data) {
                 Project project = new Project();
@@ -189,6 +214,7 @@ public class SearchFragment extends Fragment {
                 projectList.add(project);
             }
 
+            // Retrieve unit types from database
             data = gson.fromJson(Utility.getRequest("UnitType/GetUnitTypes"), String[].class);
             for (String type : data) {
                 UnitType unitType = new UnitType();
@@ -200,6 +226,10 @@ public class SearchFragment extends Fragment {
         }
     }
 
+    /**
+     * Method to generate search parameter buttons with styling.
+     * @return
+     */
     private Button generateButton() {
         Button btn = new Button(getContext());
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, Utility.getPixels(35, scale));

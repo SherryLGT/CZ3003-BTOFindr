@@ -1,7 +1,11 @@
 package com.btofindr.model;
 
 /**
- * Created by Sherry on 06/10/2016.
+ * This describes a HDB BTO Unit in a Unit Type.
+ *
+ * @author Sherry Lau Geok Teng
+ * @version 1.0
+ * @since 06/10/2016
  */
 
 public class UnitItem {

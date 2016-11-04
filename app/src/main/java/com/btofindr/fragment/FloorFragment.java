@@ -27,29 +27,45 @@ import static com.btofindr.fragment.BlockFragment.selectedFloor;
 import static com.btofindr.fragment.BlockFragment.selectedUnitType;
 
 /**
- * Created by Sherry on 06/10/2016.
+ * This fragment is for displaying of units in a floor of a block.
+ *
+ * @author Sherry Lau Geok Teng
+ * @version 1.0
+ * @since 06/10/2016
  */
 
 public class FloorFragment extends Fragment {
 
-    private TextView tvHeadaer;
+    private TextView tvHeader;
     private ListView lvUnits;
 
     private ArrayList<Floor> floorItems;
     private ArrayList<UnitItem> unitItems;
 
+    /**
+     * Default constructor for FloorFragment
+     */
     public FloorFragment() {}
 
+    /**
+     * Create a View to display contents on the layout.
+     *
+     * @param inflater The LayoutInflater object that is used to inflate any view
+     * @param container The parent view that fragment UI is attached to
+     * @param savedInstanceState Previous state of the fragment
+     * @return
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View rootView = inflater.inflate(R.layout.fragment_floor, container, false);
 
-        tvHeadaer = (TextView) rootView.findViewById(R.id.tv_header);
+        tvHeader = (TextView) rootView.findViewById(R.id.tv_header);
         lvUnits = (ListView) rootView.findViewById(R.id.lv_units);
 
         floorItems = new ArrayList<Floor>();
         unitItems = new ArrayList<UnitItem>();
+        // Get relevant information for display of units in a floor of a block
         for(UnitType unitType : block.getUnitTypes()) {
             if(unitType.getUnitTypeName().equals(selectedUnitType)) {
                 for(Unit unit : unitType.getUnits()) {
@@ -57,11 +73,13 @@ public class FloorFragment extends Fragment {
                     for(Floor floor : floorItems)
                     {
                         if(floor.getFloor().equals(unit.getUnitNo().substring(0, 3))){
+                            // If floor is available, use the same floor
                             tempFloor = floor;
                         }
                     }
 
                     if(tempFloor == null) {
+                        // If floor is not available, add a new floor
                         tempFloor = new Floor(unit.getUnitNo().substring(0, 3));
                         floorItems.add(tempFloor);
                     }
@@ -69,6 +87,7 @@ public class FloorFragment extends Fragment {
             }
         }
 
+        // Set up units for display
         for(UnitType unitType : block.getUnitTypes()) {
             if (unitType.getUnitTypeName().equals(selectedUnitType)) {
                 unitType.setBlock(block);
@@ -79,7 +98,6 @@ public class FloorFragment extends Fragment {
                 }
             }
         }
-
         lvUnits.setAdapter(new UnitAdapter(getContext(), unitItems));
 
         View divider = new View(getContext());
@@ -88,7 +106,7 @@ public class FloorFragment extends Fragment {
         divider.setLayoutParams(params);
         divider.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.gray));
 
-        tvHeadaer.setText((block.getProject().getProjectName() + " - " + selectedUnitType + " LEVEL " + floorItems.get(selectedFloor).getFloor()).toUpperCase());
+        tvHeader.setText((block.getProject().getProjectName() + " - " + selectedUnitType + " LEVEL " + floorItems.get(selectedFloor).getFloor()).toUpperCase());
 
         return rootView;
     }

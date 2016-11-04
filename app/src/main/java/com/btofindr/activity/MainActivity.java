@@ -1,7 +1,6 @@
 package com.btofindr.activity;
 
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.TypedArray;
 import android.os.Bundle;
@@ -9,15 +8,12 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.FrameLayout;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.btofindr.R;
 import com.btofindr.adapter.NavDrawerAdapter;
@@ -28,15 +24,17 @@ import com.btofindr.fragment.HomeFragment;
 import com.btofindr.fragment.ProfileFragment;
 import com.btofindr.fragment.RecommendedFragment;
 import com.btofindr.model.NavDrawerItem;
-import com.google.gson.Gson;
-import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.util.ArrayList;
 
-import static java.security.AccessController.getContext;
-
 /**
- * Created by Sherry on 31/08/2016.
+ * This activity is used to display the layout of the whole program.
+ * It contains the navigation drawer and layout for content.
+ * Any changes to the display will be displayed in the content layout.
+ *
+ * @author Sherry Lau Geok Teng
+ * @version 1.0
+ * @since 31/08/2016
  */
 
 public class MainActivity extends AppCompatActivity {
@@ -48,12 +46,8 @@ public class MainActivity extends AppCompatActivity {
     private DrawerLayout navDrawerLayout;
     private ListView lvNavDrawer;
     private ActionBarDrawerToggle navDrawerToggle;
-    private Toolbar toolbar;
     private FrameLayout flContainer;
-    private Gson gson;
     public static float scale;
-
-    //TODO: Edit, History, Bulk Delete(is actually edit) SWIPE lEFT TO dELETE YAA AND no favourites <- idk how display
 
     @Override
     @SuppressWarnings("ResourceType")
@@ -65,8 +59,10 @@ public class MainActivity extends AppCompatActivity {
         lvNavDrawer = (ListView) findViewById(R.id.lv_nav_drawer);
         flContainer = (FrameLayout) findViewById(R.id.fl_container);
 
+        // Set HomeFragment to the content layout
         getSupportFragmentManager().beginTransaction().replace(R.id.fl_container, new HomeFragment()).commit();
 
+        // Set up navigation
         navDrawerTitles = getResources().getStringArray(R.array.nav_drawer_titles);
         navDrawerIcons = getResources().obtainTypedArray(R.array.nav_drawer_icons);
 
@@ -91,10 +87,10 @@ public class MainActivity extends AppCompatActivity {
         getSupportActionBar().setHomeButtonEnabled(true);
         lvNavDrawer.setItemChecked(0, true);
 
+        // Get display size (dp)
         scale = this.getResources().getDisplayMetrics().density;
     }
 
-    //START
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu, menu);
@@ -102,8 +98,10 @@ public class MainActivity extends AppCompatActivity {
         item.setVisible(false);
         return true;
     }
-    //END - SQ
 
+    /**
+     * Called when a navigation drawer item is clicked
+     */
     private class navDrawerItemClickListener implements ListView.OnItemClickListener {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -163,16 +161,13 @@ public class MainActivity extends AppCompatActivity {
         navDrawerToggle.onConfigurationChanged(newConfig);
     }
 
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
-        //START SQ
         int id = item.getItemId();
 
         if (id == R.id.action_edit) {
         }
-        //END SQ
+
         else if (navDrawerLayout.isDrawerOpen(lvNavDrawer)) {
             navDrawerLayout.closeDrawer(lvNavDrawer);
         } else {
@@ -204,6 +199,12 @@ public class MainActivity extends AppCompatActivity {
         lvNavDrawer.setItemChecked(0, true);
     }
 
+    /**
+     * Called whenever there is a change in content.
+     * To set title to match content of layout.
+     *
+     * @param title The title to be set into the action bar
+     */
     public void setActionBarTitle(String title) {
         getSupportActionBar().setTitle(title);
     }

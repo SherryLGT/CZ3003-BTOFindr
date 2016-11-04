@@ -39,7 +39,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/grid_margin"
-                    android:inputType="number" />
+                    android:inputType="number"
+                    android:maxLength="6"/>
 
                 <TextView
                     android:layout_width="match_parent"

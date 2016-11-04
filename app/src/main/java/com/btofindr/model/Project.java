@@ -3,7 +3,12 @@ package com.btofindr.model;
 import java.util.ArrayList;
 
 /**
- * Created by Sherry on 31/08/2016.
+ * This describes a HDB BTO Project that contains one or more Blocks.
+ * A Project is a group of Blocks built together with the same concept.
+ *
+ * @author Sherry Lau Geok Teng
+ * @version 1.0
+ * @since 31/08/2016
  */
 
 public class Project {

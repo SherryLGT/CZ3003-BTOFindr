@@ -30,7 +30,12 @@ import java.util.List;
 import static com.btofindr.activity.MainActivity.scale;
 
 /**
- * Created by Sherry on 31/08/2016.
+ * This fragment is for result of searching of BTO (Build To Order)
+ * according to user selected search parameters.
+ *
+ * @author Sherry Lau Geok Teng
+ * @version 1.0
+ * @since 31/08/2016
  */
 
 public class SearchResultFragment extends Fragment {
@@ -47,9 +52,19 @@ public class SearchResultFragment extends Fragment {
     private ArrayList<Block> blockList;
     public static Block selectedBlock;
 
-    public SearchResultFragment() {
-    }
+    /**
+     * Default constructor for SearchResultFragment
+     */
+    public SearchResultFragment() {}
 
+    /**
+     * Create a View to display contents on the layout.
+     *
+     * @param inflater The LayoutInflater object that is used to inflate any view
+     * @param container The parent view that fragment UI is attached to
+     * @param savedInstanceState Previous state of the fragment
+     * @return
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
@@ -64,6 +79,7 @@ public class SearchResultFragment extends Fragment {
         dialog.setMessage("Loading...");
         dialog.setCancelable(false);
 
+        // Handles on change event on drop down list for sorting of block
         spinSort.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -95,6 +111,9 @@ public class SearchResultFragment extends Fragment {
         ((MainActivity) getActivity()).setActionBarTitle(getResources().getString(R.string.title_search_results));
     }
 
+    /**
+     * An AsyncTask to load BTO information according to user search parameters.
+     */
     private class loadData extends AsyncTask<Void, Integer, Object> {
         @Override
         protected void onPreExecute() {
@@ -108,6 +127,7 @@ public class SearchResultFragment extends Fragment {
         @Override
         protected void onPostExecute(Object o) {
             if(blockItems.isEmpty()) {
+                // If no BTO are found according to user search parameters
                 llWrapper.removeAllViews();
                 llWrapper.setPadding(0, Utility.getPixels(50, scale), 0, 0);
                 TextView tv = new TextView(getContext());
@@ -117,6 +137,7 @@ public class SearchResultFragment extends Fragment {
                 llWrapper.addView(tv);
             }
             else {
+                // If BTO are found, display accordingly
                 lvBlocks.setAdapter(new BlockAdapter(getContext(), blockItems));
                 lvBlocks.setOnItemClickListener(new blockItemClickListener());
             }
@@ -125,6 +146,7 @@ public class SearchResultFragment extends Fragment {
 
         @Override
         protected Object doInBackground(Void... params) {
+            // Retrieve blocks from database according to search parameters
             response = Utility.postRequest("Block/SearchBlocks", gson.toJson(parameter));
             blockList = gson.fromJson(response, new TypeToken<List<Block>>() {
             }.getType());
@@ -146,6 +168,9 @@ public class SearchResultFragment extends Fragment {
         }
     }
 
+    /**
+     * Handles on click change event on a block item on the list of blocks
+     */
     private class blockItemClickListener implements ListView.OnItemClickListener {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {

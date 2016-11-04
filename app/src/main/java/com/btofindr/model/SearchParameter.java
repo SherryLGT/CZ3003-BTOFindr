@@ -3,7 +3,12 @@ package com.btofindr.model;
 import java.util.ArrayList;
 
 /**
- * Created by Sherry on 31/08/2016.
+ * This describes Search Parameters that a user
+ * will pass to BTOFindr when searching for Blocks.
+ *
+ * @author Sherry Lau Geok Teng
+ * @version 1.0
+ * @since 31/08/2016
  */
 
 public class SearchParameter {

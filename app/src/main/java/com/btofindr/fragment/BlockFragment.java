@@ -41,7 +41,11 @@ import static com.btofindr.activity.MainActivity.scale;
 import static com.btofindr.fragment.SearchResultFragment.selectedBlock;
 
 /**
- * Created by Sherry on 31/08/2016.
+ * This fragment is for displaying of block information.
+ *
+ * @author Sherry Lau Geok Teng
+ * @version 1.0
+ * @since 31/08/2016
  */
 
 public class BlockFragment extends Fragment {
@@ -61,8 +65,19 @@ public class BlockFragment extends Fragment {
     public static String selectedUnitType;
     public static int selectedFloor;
 
+    /**
+     * Default constructor for BlockFragment
+     */
     public BlockFragment() {}
 
+    /**
+     * Create a View to display contents on the layout.
+     *
+     * @param inflater The LayoutInflater object that is used to inflate any view
+     * @param container The parent view that fragment UI is attached to
+     * @param savedInstanceState Previous state of the fragment
+     * @return
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_block, container, false);
@@ -87,6 +102,7 @@ public class BlockFragment extends Fragment {
         tvTitle.setText(block.getProject().getProjectName());
         tvAddress.setText(block.getBlockNo() + " " + block.getStreet());
         String unitTypeNames = "";
+        // Handles display of multiple unit types
         for (int i = 0; i < block.getUnitTypes().size(); i++) {
             unitTypeNames += block.getUnitTypes().get(i).getUnitTypeName();
 
@@ -97,6 +113,7 @@ public class BlockFragment extends Fragment {
 
         tvUnitTypes.setText(unitTypeNames);
         tvPriceRange.setText("Price: $" + Utility.formatPrice(block.getMinPrice()) + " - $" + Utility.formatPrice(block.getMaxPrice()));
+        // Handles on click event on view map and plan button
         btnViewMapPlan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -120,6 +137,7 @@ public class BlockFragment extends Fragment {
             }
         });
 
+        // Retrieve user viewed history from device storage
         gson = new Gson();
         history = gson.fromJson(Utility.readFromFile("history", getContext()), new TypeToken<List<Integer>>() {
         }.getType());
@@ -144,6 +162,9 @@ public class BlockFragment extends Fragment {
         ((MainActivity) getActivity()).setActionBarTitle(getResources().getString(R.string.title_search_results));
     }
 
+    /**
+     * An AsyncTask to load image from uri for a Block
+     */
     private class getImage extends AsyncTask<String, Void, Bitmap> {
         Bitmap bitmap;
 
@@ -172,6 +193,9 @@ public class BlockFragment extends Fragment {
         }
     }
 
+    /**
+     * An AsyncTask to load block information
+     */
     private class loadData extends AsyncTask<Void, Integer, Object> {
         @Override
         protected void onPreExecute() {
@@ -190,17 +214,20 @@ public class BlockFragment extends Fragment {
                 tvQuoteMalay.setText("Malay: "  + unitType.getQuotaMalay());
                 tvQuotaOthers.setText("Indian/Others: "  + unitType.getQuotaOthers());
 
+                // Format units according to floors
                 final ArrayList<Floor> floorItems = new ArrayList<Floor>();
                 for(Unit unit : unitType.getUnits()) {
                     Floor tempFloor = null;
                     for(Floor floor : floorItems)
                     {
                         if(floor.getFloor().equals(unit.getUnitNo().substring(0, 3))){
+                            // If floor is available, use the same floor
                             tempFloor = floor;
                         }
                     }
 
                     if(tempFloor == null) {
+                        // If floor is not available, add a new floor
                         tempFloor = new Floor(unit.getUnitNo().substring(0, 3), 1000000.0, 0.0);
                         floorItems.add(tempFloor);
                     }
@@ -212,6 +239,7 @@ public class BlockFragment extends Fragment {
                     }
                 }
 
+                // Handles on click event for tab to change list of blocks display according to unit types
                 tab.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -251,6 +279,10 @@ public class BlockFragment extends Fragment {
         }
     }
 
+    /**
+     * Method to generate tab buttons with styling.
+     * @return
+     */
     private Button generateButton() {
         Button btn = new Button(getContext());
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT, 1.0f);
@@ -262,6 +294,9 @@ public class BlockFragment extends Fragment {
         return btn;
     }
 
+    /**
+     * Handles on click change event on a floor item on the list of floors
+     */
     private class floorItemClickListener implements ListView.OnItemClickListener {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {

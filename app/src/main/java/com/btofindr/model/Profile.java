@@ -1,7 +1,11 @@
 package com.btofindr.model;
 
 /**
- * Created by Calvin on 1/10/2016.
+ * This describes a user's Profile.
+ *
+ * @author Sherry Lau Geok Teng
+ * @version 1.0
+ * @since 31/08/2016
  */
 
 public class Profile {

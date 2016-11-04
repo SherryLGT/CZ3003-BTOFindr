@@ -26,7 +26,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by Sherry on 06/10/2016.
+ * This is the adapter for Unit.
+ * The bridge between UI components and
+ * the data set that fill data into the UI components.
+ *
+ * @author Sherry Lau Geok Teng
+ * @version 1.0
+ * @since 06/10/2016
  */
 
 public class UnitAdapter extends BaseAdapter {
@@ -39,11 +45,25 @@ public class UnitAdapter extends BaseAdapter {
     private Gson gson;
     public static int selectedUnitId;
 
+    /**
+     * Constructor for a UnitAdapter.
+     *
+     * @param context The current state of the application
+     * @param unitItems The data to be placed in the UI components
+     */
     public UnitAdapter(Context context, ArrayList<UnitItem> unitItems){
         this.context = context;
         this.unitItems = unitItems;
     }
 
+    /**
+     * Get a View that displays the data at the specific position in the data set.
+     *
+     * @param position The position of view in the list
+     * @param convertView The old view
+     * @param parent The parent that this view will be attached to
+     * @return
+     */
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
         if (convertView == null) {
@@ -61,12 +81,14 @@ public class UnitAdapter extends BaseAdapter {
         favourite.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_favourite));
         favourite.setTag(R.drawable.ic_favourite);
 
+        // Set favourite icon accordingly
         gson = new Gson();
         ArrayList<Integer> favourites = gson.fromJson(Utility.readFromFile("favourites", context), new TypeToken<List<Integer>>() {
         }.getType());
         if(favourites != null) {
             for(Integer id : favourites) {
                 if(id == unitItems.get(position).getUnitId()) {
+                    // If the user has favourite this unit, change icon accordingly
                     favourite.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_favourited));
                     favourite.setTag(R.drawable.ic_favourited);
                 }
@@ -74,6 +96,7 @@ public class UnitAdapter extends BaseAdapter {
         }
 
         convertView.setTag(unitItems.get(position).getUnitId());
+        // Handles on click event on calculate button to navigate to next page
         calculate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -85,10 +108,12 @@ public class UnitAdapter extends BaseAdapter {
             }
         });
 
+        // Handles on click event on favourite button to favourite/unfavourite unit
         favourite.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 gson = new Gson();
+                // Get favourite units from device storage
                 ArrayList<Integer> favourites = gson.fromJson(Utility.readFromFile("favourites", context), new TypeToken<List<Integer>>() {
                 }.getType());
                 int selected = (Integer)(((LinearLayout) v.getParent()).getTag());
@@ -99,6 +124,7 @@ public class UnitAdapter extends BaseAdapter {
                     }
 
                     favourites.add(selected);
+                    // Add new favourite unit to device storage
                     if(Utility.writeToFile("favourites", gson.toJson(favourites), context))
                     {
                         new addFavouriteCount().execute(selected);
@@ -118,6 +144,7 @@ public class UnitAdapter extends BaseAdapter {
                         }
                     }
 
+                    // Remove favourite unit from device storage
                     if(Utility.writeToFile("favourites", gson.toJson(favourites), context))
                     {
                         new removeFavouriteCount().execute(selected);
@@ -136,16 +163,29 @@ public class UnitAdapter extends BaseAdapter {
         return convertView;
     }
 
+    /**
+     * Get size of the unitItems ArrayList.
+     * @return
+     */
     @Override
     public int getCount() {
         return unitItems.size();
     }
 
+    /**
+     * Get a particular floor item.
+     * @return
+     */
     @Override
     public Object getItem(int position) {
         return unitItems.get(position);
     }
 
+    /**
+     * Get position of floor item in the list.
+     * @param position The position of the item
+     * @return
+     */
     @Override
     public long getItemId(int position) {
         return position;

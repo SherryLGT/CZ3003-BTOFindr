@@ -4,7 +4,11 @@ import java.sql.Date;
 import java.util.ArrayList;
 
 /**
- * Created by Sherry on 31/08/2016.
+ * This describes a HDB BTO Block in a Project that contains one or more Unit Types.
+ *
+ * @author Sherry Lau Geok Teng
+ * @version 1.0
+ * @since 31/08/2016
  */
 
 public class Block {

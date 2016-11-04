@@ -8,7 +8,11 @@ import android.os.Handler;
 import com.btofindr.R;
 
 /**
- * Created by Sherry on 31/08/2016.
+ * This activity is for the splash screen.
+ *
+ * @author Sherry Lau Geok Teng
+ * @version 1.0
+ * @since 31/08/2016
  */
 
 public class SplashActivity extends Activity {
@@ -27,6 +31,6 @@ public class SplashActivity extends Activity {
         startActivity(intent);
         finish();
 //            }
-//        }, 1000);
+//        }, 5000);
     }
 }

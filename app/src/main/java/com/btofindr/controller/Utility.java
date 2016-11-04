@@ -21,19 +21,23 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by Sherry on 31/08/2016.
+ * This class contain methods that are commonly used in the program.
+ *
+ * @author Sherry Lau Geok Teng
+ * @version 1.0
+ * @since 31/08/2016
  */
 
 public class Utility {
-    // web service url
+    // Web service url
     final static String API_URL = "http://btofindr.cczy.io/api/";
 
-    // dp to pixel
+    // Convert dp to pixel
     public static int getPixels(int dp, float scale) {
         return ((int) (dp * scale + 0.5f));
     }
 
-    // prepare ethic variable for parsing
+    // Format ethnic variable for parsing
     public static char setEthic(String ethic) {
         char character = '-';
 
@@ -54,12 +58,12 @@ public class Utility {
         return character;
     }
 
-    // convert double into string with "thousands" (,) delimiter
+    // Convert double into string with "thousands" (,) delimiter
     public static String formatPrice(Double value) {
         return String.format("%,d", value.intValue());
     }
 
-    // get request from api (getURL), returns json result
+    // Get request from api (getURL), returns json result
     public static String getRequest(String getURL) {
         try {
             URL url = new URL(API_URL + getURL.replace(" ","%20"));
@@ -83,7 +87,7 @@ public class Utility {
         }
     }
 
-    // post request with json parameter (para)to api (postURL), returns json result
+    // Post request with json parameter (para)to api (postURL), returns json result
     public static String postRequest(String postURL, String para) {
         try {
             URL url = new URL(API_URL + postURL);

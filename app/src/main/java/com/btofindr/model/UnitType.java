@@ -3,7 +3,13 @@ package com.btofindr.model;
 import java.util.ArrayList;
 
 /**
- * Created by Sherry on 31/08/2016.
+ * This describes a Unit Type in a Block that contains one or more Unit.
+ * A Unit Type is a group of Units with the same number of rooms, e.g. 3-Room, 4-Room.
+ * Also contains the quota of ethnic buyers that HDB has allocated for each Unit Type.
+ *
+ * @author Sherry Lau Geok Teng
+ * @version 1.0
+ * @since 31/08/2016
  */
 
 public class UnitType {

@@ -22,7 +22,13 @@ import static com.btofindr.fragment.BlockFragment.block;
 import static com.btofindr.fragment.BlockFragment.selectedView;
 
 /**
- * Created by Sherry on 17/10/2016.
+ * This fragment is for viewing of map or plan.
+ * Map and Plan are photo of Site Plan, Town Map, Block Plan,
+ * Unit Distribution, Typical Floor Plans, Layout Ideas, or General Specifications.
+ *
+ * @author Sherry Lau Geok Teng
+ * @version 1.0
+ * @since 17/10/2016
  */
 
 public class MapPlanFragment extends Fragment {
@@ -36,9 +42,19 @@ public class MapPlanFragment extends Fragment {
     private Bitmap bitmap;
     private int height;
 
-
+    /**
+     * Default constructor for MapPlanFragment
+     */
     public MapPlanFragment() {}
 
+    /**
+     * Create a View to display contents on the layout.
+     *
+     * @param inflater The LayoutInflater object that is used to inflate any view
+     * @param container The parent view that fragment UI is attached to
+     * @param savedInstanceState Previous state of the fragment
+     * @return
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
@@ -100,6 +116,9 @@ public class MapPlanFragment extends Fragment {
         return rootView;
     }
 
+    /**
+     * An AsyncTask to load image from uri for a Map or Plan.
+     */
     private class getImage extends AsyncTask<String, Void, Bitmap> {
         @Override
         protected void onPreExecute() {

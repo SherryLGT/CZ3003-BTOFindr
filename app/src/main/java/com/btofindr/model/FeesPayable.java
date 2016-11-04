@@ -1,7 +1,12 @@
 package com.btofindr.model;
 
 /**
- * Created by JHNG on 15/10/2016.
+ * This describes FeesPayable for the fees
+ * a user need to pay for a particular unit.
+ *
+ * @author Ng Jun Hao
+ * @version 1.0
+ * @since 15/10/2016
  */
 
 public class FeesPayable {
