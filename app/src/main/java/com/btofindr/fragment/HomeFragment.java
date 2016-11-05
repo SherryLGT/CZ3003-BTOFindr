@@ -199,11 +199,13 @@ public class HomeFragment extends Fragment {
                 blockItems.add(blockItem);
             }
             if(blockList.isEmpty()&&!noHistory){
-                getFragmentManager().beginTransaction().replace(R.id.fl_container, new HomeFragment()).addToBackStack("FavouriteFragment").commit();
+                getFragmentManager().beginTransaction().replace(R.id.fl_container, new HomeFragment()).commit();
+               // getFragmentManager().beginTransaction().replace(R.id.fl_container, new HomeFragment()).addToBackStack("FavouriteFragment").commit();
                 noHistory = true;
             }else if(!blockList.isEmpty()&&noHistory){
                 noHistory = false;
-                getFragmentManager().beginTransaction().replace(R.id.fl_container, new HomeFragment()).addToBackStack("FavouriteFragment").commit();
+                getFragmentManager().beginTransaction().replace(R.id.fl_container, new HomeFragment()).commit();
+               // getFragmentManager().beginTransaction().replace(R.id.fl_container, new HomeFragment()).addToBackStack("FavouriteFragment").commit();
             }
 
             return blockList;
