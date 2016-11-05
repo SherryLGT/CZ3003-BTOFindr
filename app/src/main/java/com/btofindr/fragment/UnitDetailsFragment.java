@@ -132,13 +132,8 @@ public class UnitDetailsFragment extends Fragment {
 
             @Override
             public void onClick(View v) {
-
-                Bundle args = new Bundle();
-                args.putInt("selectedUnitID", unit.getUnitId());
-                PayablesFragment pf = new PayablesFragment();
-                pf.setArguments(args);
+                Fragment pf = PayablesFragment.newInstance(unit.getUnitId());
                 getFragmentManager().beginTransaction().replace(R.id.fl_container, pf).addToBackStack("PayablesFragment").commit();
-                //wait ah
             }
 
 

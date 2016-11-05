@@ -121,19 +121,19 @@ public class MainActivity extends AppCompatActivity {
                     break;
                 case 1: // Compare Units
                     getSupportActionBar().setTitle(R.string.title_compare_units);
-                    getSupportFragmentManager().beginTransaction().replace(R.id.fl_container, new CompareUnitsFragment()).commit();
+                    getSupportFragmentManager().beginTransaction().replace(R.id.fl_container, new CompareUnitsFragment()).addToBackStack("CompareUnitsFragment").commit();
                     break;
                 case 2: // Favourites
                     getSupportActionBar().setTitle(R.string.title_favourites);
-                    getSupportFragmentManager().beginTransaction().replace(R.id.fl_container, new FavouriteFragment()).commit();
+                    getSupportFragmentManager().beginTransaction().replace(R.id.fl_container, new FavouriteFragment()).addToBackStack("FavouriteFragment").commit();
                     break;
                 case 3: // History
                     getSupportActionBar().setTitle(R.string.title_history);
-                    getSupportFragmentManager().beginTransaction().replace(R.id.fl_container, new HistoryFragment()).commit();
+                    getSupportFragmentManager().beginTransaction().replace(R.id.fl_container, new HistoryFragment()).addToBackStack("HistoryFragment").commit();
                     break;
                 case 4: // Recommended
                     getSupportActionBar().setTitle(R.string.title_recommended);
-                    getSupportFragmentManager().beginTransaction().replace(R.id.fl_container, new RecommendedFragment()).commit();
+                    getSupportFragmentManager().beginTransaction().replace(R.id.fl_container, new RecommendedFragment()).addToBackStack("RecommendedFragment").commit();
                     break;
                 case 5: // Profile
                     getSupportFragmentManager().beginTransaction().replace(R.id.fl_container, new ProfileFragment()).addToBackStack("ProfileFragment").commit();
@@ -166,9 +166,7 @@ public class MainActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         if (id == R.id.action_edit) {
-        }
-
-        else if (navDrawerLayout.isDrawerOpen(lvNavDrawer)) {
+        } else if (navDrawerLayout.isDrawerOpen(lvNavDrawer)) {
             navDrawerLayout.closeDrawer(lvNavDrawer);
         } else {
             navDrawerLayout.openDrawer(lvNavDrawer);
