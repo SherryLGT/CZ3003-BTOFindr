@@ -82,6 +82,8 @@ public class HomeFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
+        ((MainActivity) getActivity()).setActionBarTitle(getResources().getString(R.string.app_name));
+
         rootView = inflater.inflate(R.layout.fragment_home, container, false);
 
         ivMain = (ImageView) rootView.findViewById(R.id.iv_main);
