@@ -1,9 +1,14 @@
 package com.btofindr.fragment;
+import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
 import android.view.Menu;
@@ -64,6 +69,8 @@ public class FavouriteFragment extends Fragment {
     public static boolean noFav = true;
     FavouriteAdapter fa;
     View rootView;
+    FragmentManager manager;
+    FragmentTransaction ft;
 
     /**
      * Constructor for the FavouriteFragment Class
@@ -87,6 +94,11 @@ public class FavouriteFragment extends Fragment {
         deleteBtn = (FloatingActionButton) rootView.findViewById(R.id.FAB);
         editMode = 0;
         setHasOptionsMenu(true);
+
+         manager = getActivity().getSupportFragmentManager();
+
+
+
 
         dialog = new ProgressDialog(this.getContext());
         dialog.setMessage("Loading...");
@@ -178,7 +190,7 @@ public class FavouriteFragment extends Fragment {
          */
         @Override
         protected void onPostExecute(Object o) {
-            dialog.hide();
+            dialog.dismiss();
             fa = new FavouriteAdapter(getActivity(), unitItems, blockItems, globalFavourites, rootView);
             lvUnits.setOnItemClickListener(new unitItemClickListener());
 
@@ -232,7 +244,15 @@ public class FavouriteFragment extends Fragment {
                         selectedBlockItem = blockItems.get(position);
                         selectedUnitItem = unitItems.get(position);
                         recommend = false;
-                        getFragmentManager().beginTransaction().replace(R.id.fl_container, new UnitDetailsFragment()).addToBackStack("UnitDetailsFragment").commit();
+                        //getFragmentManager().beginTransaction().replace(R.id.fl_container, new UnitDetailsFragment()).addToBackStack("UnitDetailsFragment").commit();
+
+                        UnitDetailsFragment unitDetailsFragment = new UnitDetailsFragment();
+
+                        ft = manager.beginTransaction();
+                        //FragmentTransaction ft  = getFragmentManager().beginTransaction();
+                        ft.replace(R.id.fl_container, unitDetailsFragment);
+                        //ft.addToBackStack("FavouriteFragment");
+                        ft.commit();
                     }
                 }
             });
@@ -290,12 +310,27 @@ public class FavouriteFragment extends Fragment {
                 unitItems.add(item);
                 blockItems.add(blockItem);
             }
+
             if(unitList.isEmpty()&&!noFav){
-                getFragmentManager().beginTransaction().replace(R.id.fl_container, new FavouriteFragment()).addToBackStack("FavouriteFragment").commit();
+
+                //getFragmentManager().beginTransaction().replace(R.id.fl_container, new FavouriteFragment()).addToBackStack("FavouriteFragment").commit();
+                FavouriteFragment favouriteFragment = new FavouriteFragment();
+
+                ft = manager.beginTransaction();
+                //FragmentTransaction ft  = getFragmentManager().beginTransaction();
+                ft.replace(R.id.fl_container, favouriteFragment);
+                //ft.addToBackStack("FavouriteFragment");
+                ft.commit();
                 noFav = true;
             }else if(!unitList.isEmpty()&&noFav){
+
+                FavouriteFragment favouriteFragment = new FavouriteFragment();
+                ft = manager.beginTransaction();
+                //FragmentTransaction ft  = getFragmentManager().beginTransaction();
+                ft.replace(R.id.fl_container, favouriteFragment);
+                //ft.addToBackStack("FavouriteFragment");
+                ft.commit();
                 noFav = false;
-                getFragmentManager().beginTransaction().replace(R.id.fl_container, new FavouriteFragment()).addToBackStack("FavouriteFragment").commit();
             }
 
             return unitList;

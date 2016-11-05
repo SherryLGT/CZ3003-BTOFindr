@@ -1,8 +1,11 @@
 package com.btofindr.fragment;
 
+import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -55,6 +58,9 @@ public class HomeFragment extends Fragment {
     private ArrayList<Integer> recentlyViewed;
     public static boolean noHistory;
     private View rootView;
+    FragmentManager manager;
+    FragmentTransaction ft;
+    private ProgressDialog dialog;
 
     /**
      * Default constructor for HomeFragment
@@ -96,7 +102,10 @@ public class HomeFragment extends Fragment {
                 ((MainActivity) getActivity()).setActionBarTitle(getResources().getString(R.string.title_search));
             }
         });
-
+        manager = getActivity().getSupportFragmentManager();
+        dialog = new ProgressDialog(this.getContext());
+        dialog.setMessage("Loading...");
+        dialog.setCancelable(false);
         new loadData().execute();
         return rootView;
     }
@@ -105,7 +114,7 @@ public class HomeFragment extends Fragment {
     private class loadData extends AsyncTask<Void, Integer, Object> {
         @Override
         protected void onPreExecute() {
-            //dialog.show();
+            dialog.show();
             gson = new Gson();
             blockList = new ArrayList<Block>();
         }
@@ -168,7 +177,7 @@ public class HomeFragment extends Fragment {
 
                 tv_noRecentlyViewed.setVisibility(VISIBLE);
             }
-            //dialog.dismiss();
+            dialog.dismiss();
         }
 
         @Override
@@ -199,11 +208,26 @@ public class HomeFragment extends Fragment {
                 blockItems.add(blockItem);
             }
             if(blockList.isEmpty()&&!noHistory){
-                getFragmentManager().beginTransaction().replace(R.id.fl_container, new HomeFragment()).addToBackStack("FavouriteFragment").commit();
+                //getFragmentManager().beginTransaction().replace(R.id.fl_container, new HomeFragment()).addToBackStack("FavouriteFragment").commit();
+                HomeFragment homeFragment = new HomeFragment();
+
+                ft = manager.beginTransaction();
+                //FragmentTransaction ft  = getFragmentManager().beginTransaction();
+                ft.replace(R.id.fl_container, homeFragment);
+                //ft.addToBackStack("HomeFragment");
+                ft.commit();
                 noHistory = true;
             }else if(!blockList.isEmpty()&&noHistory){
+                HomeFragment homeFragment = new HomeFragment();
+
+                ft = manager.beginTransaction();
+                //FragmentTransaction ft  = getFragmentManager().beginTransaction();
+                ft.replace(R.id.fl_container, homeFragment);
+                //ft.addToBackStack("HomeFragment");
+                ft.commit();
                 noHistory = false;
-                getFragmentManager().beginTransaction().replace(R.id.fl_container, new HomeFragment()).addToBackStack("FavouriteFragment").commit();
+
+                //getFragmentManager().beginTransaction().replace(R.id.fl_container, new HomeFragment()).addToBackStack("FavouriteFragment").commit();
             }
 
             return blockList;

@@ -5,6 +5,8 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -63,6 +65,8 @@ public class HistoryFragment extends Fragment {
     public static boolean noHistory = true;
     HistoryAdapter ha;
     View rootView;
+    FragmentManager manager;
+    FragmentTransaction ft;
 
     /**
      * Constructor for the HistoryFragment Class
@@ -85,10 +89,12 @@ public class HistoryFragment extends Fragment {
         deleteBtn = (FloatingActionButton) rootView.findViewById(R.id.FAB);
         editModeHistory = 0;
         setHasOptionsMenu(true);
+        manager = getActivity().getSupportFragmentManager();
+        dialog = new ProgressDialog(getActivity());
+        dialog.setMessage("Loading...");
+        dialog.setCancelable(false);
         new loadData().execute();
-        //dialog = new ProgressDialog(getActivity());
-        //dialog.setMessage("Loading...");
-        //dialog.setCancelable(false);
+
         return rootView;
     }
 
@@ -156,7 +162,7 @@ public class HistoryFragment extends Fragment {
          */
         @Override
         protected void onPreExecute() {
-            //dialog.show();
+            dialog.show();
             gson = new Gson();
             blockList = new ArrayList<Block>();
             blockItems = new ArrayList<BlockItem>();
@@ -231,7 +237,7 @@ public class HistoryFragment extends Fragment {
             else{
                 tvNoHistory.setVisibility(VISIBLE);
             }
-            //dialog.dismiss();
+            dialog.dismiss();
         }
 
         /**
@@ -266,11 +272,25 @@ public class HistoryFragment extends Fragment {
                 blockItems.add(blockItem);
             }
             if(blockList.isEmpty()&&!noHistory){
-                getFragmentManager().beginTransaction().replace(R.id.fl_container, new HistoryFragment()).addToBackStack("FavouriteFragment").commit();
+                //getFragmentManager().beginTransaction().replace(R.id.fl_container, new HistoryFragment()).addToBackStack("FavouriteFragment").commit();
+                HistoryFragment historyFragment = new HistoryFragment();
+
+                ft = manager.beginTransaction();
+                //FragmentTransaction ft  = getFragmentManager().beginTransaction();
+                ft.replace(R.id.fl_container, historyFragment);
+                //ft.addToBackStack("HistoryFragment");
+                ft.commit();
+
                 noHistory = true;
             }else if(!blockList.isEmpty()&&noHistory){
                 noHistory = false;
-                getFragmentManager().beginTransaction().replace(R.id.fl_container, new HistoryFragment()).addToBackStack("FavouriteFragment").commit();
+                //getFragmentManager().beginTransaction().replace(R.id.fl_container, new HistoryFragment()).addToBackStack("FavouriteFragment").commit();
+                HistoryFragment historyFragment = new HistoryFragment();
+                ft = manager.beginTransaction();
+                //FragmentTransaction ft  = getFragmentManager().beginTransaction();
+                ft.replace(R.id.fl_container, historyFragment);
+                //ft.addToBackStack("HistoryFragment");
+                ft.commit();
             }
             return blockList;
         }
@@ -283,7 +303,13 @@ public class HistoryFragment extends Fragment {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             selectedBlock = blockList.get(position);
-            getFragmentManager().beginTransaction().replace(R.id.fl_container, new BlockFragment()).addToBackStack("BlockFragment").commit();
+            //getFragmentManager().beginTransaction().replace(R.id.fl_container, new BlockFragment()).addToBackStack("BlockFragment").commit();
+            BlockFragment blockFragment = new BlockFragment();
+            ft = manager.beginTransaction();
+            //FragmentTransaction ft  = getFragmentManager().beginTransaction();
+            ft.replace(R.id.fl_container, blockFragment);
+            //ft.addToBackStack("HistoryFragment");
+            ft.commit();
         }
     }
 

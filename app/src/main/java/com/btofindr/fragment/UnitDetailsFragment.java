@@ -9,6 +9,8 @@ import android.os.AsyncTask;
 import android.support.v4.app.Fragment;
 //import android.app.Fragment;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -54,7 +56,8 @@ public class UnitDetailsFragment extends Fragment{
     public static Unit unit;
     public static BlockItem blockItem;
     public static UnitItem unitItem;
-
+    FragmentManager manager;
+    FragmentTransaction ft;
     /**
      * Constructor class
      */
@@ -71,7 +74,7 @@ public class UnitDetailsFragment extends Fragment{
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View rootView = inflater.inflate(R.layout.fragment_unit_details, container, false);
-
+        manager = getActivity().getSupportFragmentManager();
         selectedView = -1;
 
         ivProjectImage = (ImageView) rootView.findViewById(R.id.iv_project);
@@ -116,7 +119,14 @@ public class UnitDetailsFragment extends Fragment{
                         }
                         else {
                             block = unit.getUnitType().getBlock();
-                            getFragmentManager().beginTransaction().replace(R.id.fl_container, new MapPlanFragment()).addToBackStack("MapPlanFragment").commit();
+                            //getFragmentManager().beginTransaction().replace(R.id.fl_container, new MapPlanFragment()).addToBackStack("MapPlanFragment").commit();
+                            MapPlanFragment mapPlanFragment = new MapPlanFragment ();
+                            ft = manager.beginTransaction();
+                            //FragmentTransaction ft  = getFragmentManager().beginTransaction();
+                            ft.replace(R.id.fl_container, mapPlanFragment);
+                            //ft.addToBackStack("FavouriteFragment");
+                            ft.commit();
+
                         }
                     }
                 }).setNegativeButton("Cancel", null);
@@ -135,8 +145,15 @@ public class UnitDetailsFragment extends Fragment{
               args.putInt("selectedUnitID",unit.getUnitId());
               PayablesFragment pf = new PayablesFragment ();
               pf.setArguments(args);
-              getFragmentManager().beginTransaction().replace(R.id.fl_container, pf).addToBackStack("PayablesFragment").commit();
-                //wait ah
+              //getFragmentManager().beginTransaction().replace(R.id.fl_container, pf).addToBackStack("PayablesFragment").commit();
+
+
+
+              ft = manager.beginTransaction();
+              //FragmentTransaction ft  = getFragmentManager().beginTransaction();
+              ft.replace(R.id.fl_container, pf);
+              //ft.addToBackStack("FavouriteFragment");
+              ft.commit();
           }
 
 
