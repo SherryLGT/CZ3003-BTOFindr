@@ -33,6 +33,7 @@ import java.util.List;
 import com.hudomju.swipe.SwipeToDismissTouchListener;
 import com.hudomju.swipe.adapter.ListViewAdapter;
 import static android.view.View.VISIBLE;
+import static com.btofindr.fragment.UnitDetailsFragment.favourite;
 import static com.btofindr.fragment.UnitDetailsFragment.recommend;
 
 /**
@@ -179,7 +180,8 @@ public class FavouriteFragment extends Fragment {
         @Override
         protected void onPostExecute(Object o) {
             dialog.hide();
-            fa = new FavouriteAdapter(getActivity(), unitItems, blockItems, globalFavourites, rootView);
+
+           fa = new FavouriteAdapter(getActivity(), unitItems, blockItems, globalFavourites, rootView);
             lvUnits.setOnItemClickListener(new unitItemClickListener());
 
             /**
@@ -232,6 +234,7 @@ public class FavouriteFragment extends Fragment {
                         selectedBlockItem = blockItems.get(position);
                         selectedUnitItem = unitItems.get(position);
                         recommend = false;
+                        favourite = true;
                         getFragmentManager().beginTransaction().replace(R.id.fl_container, new UnitDetailsFragment()).addToBackStack("UnitDetailsFragment").commit();
                     }
                 }
@@ -290,12 +293,13 @@ public class FavouriteFragment extends Fragment {
                 unitItems.add(item);
                 blockItems.add(blockItem);
             }
+
             if(unitList.isEmpty()&&!noFav){
-                getFragmentManager().beginTransaction().replace(R.id.fl_container, new FavouriteFragment()).addToBackStack("FavouriteFragment").commit();
+                //getFragmentManager().beginTransaction().replace(R.id.fl_container, new FavouriteFragment()).addToBackStack("FavouriteFragment").commit();
                 noFav = true;
             }else if(!unitList.isEmpty()&&noFav){
                 noFav = false;
-                getFragmentManager().beginTransaction().replace(R.id.fl_container, new FavouriteFragment()).addToBackStack("FavouriteFragment").commit();
+               // getFragmentManager().beginTransaction().replace(R.id.fl_container, new FavouriteFragment()).addToBackStack("FavouriteFragment").commit();
             }
 
             return unitList;

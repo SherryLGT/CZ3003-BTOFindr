@@ -32,6 +32,7 @@ import static com.btofindr.fragment.FavouriteFragment.selectedBlockItem;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.btofindr.fragment.UnitDetailsFragment.favourite;
 import static com.btofindr.fragment.UnitDetailsFragment.recommend;
 
 /**
@@ -121,10 +122,10 @@ public class RecommendedFragment extends Fragment {
         protected void onPostExecute(Object o) {
 
             dialog.dismiss();
-            if(favouriteList.size() == 0) {
+            if (favouriteList.size() == 0) {
                 tv_nofave.setText("NO RECOMMENDED");
                 tv_nofave.setVisibility(VISIBLE);
-            }else {
+            } else {
                 RecommendedAdapter adapter = new RecommendedAdapter(getActivity(), unitItems, blockItems, rootView);
                 lv_units.setAdapter(adapter);
                 lv_units.setOnItemClickListener(new unitItemClickListener());
@@ -136,6 +137,7 @@ public class RecommendedFragment extends Fragment {
                         selectedBlockItem = blockItems.get(position);
                         selectedUnitItem = unitItems.get(position);
                         recommend = true;
+                        favourite = false;
                         getFragmentManager().beginTransaction().replace(R.id.fl_container, new UnitDetailsFragment()).addToBackStack("UnitDetailsFragment").commit();
 
                     }
@@ -162,7 +164,7 @@ public class RecommendedFragment extends Fragment {
              * If there is items in the favouriteList, then we will proceed to add in the data into the list view
              * Else we will then create a new empty ArrayList<>
              */
-            if(favouriteList!=null) {
+            if (favouriteList != null) {
                 /**
                  * Retrieving the list of Unit from the web service using POST request
                  */
@@ -176,7 +178,8 @@ public class RecommendedFragment extends Fragment {
                     BlockItem blockItem = new BlockItem();
 
                     unit = unitList.get(i);
-                    UnitType unitType = unit.getUnitType();;
+                    UnitType unitType = unit.getUnitType();
+                    ;
                     Block block = unitType.getBlock();
 
                     item.setPrice(unit.getPrice());
@@ -192,7 +195,7 @@ public class RecommendedFragment extends Fragment {
                     unitItems.add(item);
                     blockItems.add(blockItem);
                 }
-            }else {
+            } else {
                 favouriteList = new ArrayList<Integer>();
             }
             return null;

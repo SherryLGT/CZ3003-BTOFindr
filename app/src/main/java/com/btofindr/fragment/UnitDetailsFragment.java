@@ -42,7 +42,7 @@ import static com.btofindr.fragment.BlockFragment.selectedView;
 /**
  * Fragment class for Unit details page in the application
  */
-public class UnitDetailsFragment extends Fragment{
+public class UnitDetailsFragment extends Fragment {
 
     private ProgressDialog dialog;
     private ImageView ivProjectImage;
@@ -51,6 +51,7 @@ public class UnitDetailsFragment extends Fragment{
     private LinearLayout llUnitDetails;
 
     public static boolean recommend = false;
+    public static boolean favourite = false;
     public static Unit unit;
     public static BlockItem blockItem;
     public static UnitItem unitItem;
@@ -58,10 +59,12 @@ public class UnitDetailsFragment extends Fragment{
     /**
      * Constructor class
      */
-    public UnitDetailsFragment() {}
+    public UnitDetailsFragment() {
+    }
 
     /**
      * Inflate view, link with XML.
+     *
      * @param inflater
      * @param container
      * @param savedInstanceState
@@ -94,9 +97,9 @@ public class UnitDetailsFragment extends Fragment{
         new getImage().execute();
 
         tvTitle.setText(blockItem.getProjectName());
-        tvUnitNumber.setText(unitItem.getUnitNo()+" ");
+        tvUnitNumber.setText(unitItem.getUnitNo() + " ");
         tvPrice.setText("Price: $" + Utility.formatPrice(unitItem.getPrice()));
-        tvUnitType.setText("("+unitItem.getUnitType().getUnitTypeName()+")"); //room type
+        tvUnitType.setText("(" + unitItem.getUnitType().getUnitTypeName() + ")"); //room type
         tvAddress.setText(blockItem.getBlockNo() + " " + blockItem.getStreet());
 
         //view map plan
@@ -113,8 +116,7 @@ public class UnitDetailsFragment extends Fragment{
                     public void onClick(DialogInterface dialog, int which) {
                         if (selectedView == -1) {
                             Toast.makeText(getContext(), "Please select a choice", Toast.LENGTH_SHORT).show();
-                        }
-                        else {
+                        } else {
                             block = unit.getUnitType().getBlock();
                             getFragmentManager().beginTransaction().replace(R.id.fl_container, new MapPlanFragment()).addToBackStack("MapPlanFragment").commit();
                         }
@@ -125,19 +127,19 @@ public class UnitDetailsFragment extends Fragment{
         });
 
         //calculate payables
-        btnCalculatePayables.setOnClickListener(new View.OnClickListener(){
+        btnCalculatePayables.setOnClickListener(new View.OnClickListener() {
 
 
-          @Override
-            public void onClick(View v){
+            @Override
+            public void onClick(View v) {
 
-              Bundle args = new Bundle();
-              args.putInt("selectedUnitID",unit.getUnitId());
-              PayablesFragment pf = new PayablesFragment ();
-              pf.setArguments(args);
-              getFragmentManager().beginTransaction().replace(R.id.fl_container, pf).addToBackStack("PayablesFragment").commit();
+                Bundle args = new Bundle();
+                args.putInt("selectedUnitID", unit.getUnitId());
+                PayablesFragment pf = new PayablesFragment();
+                pf.setArguments(args);
+                getFragmentManager().beginTransaction().replace(R.id.fl_container, pf).addToBackStack("PayablesFragment").commit();
                 //wait ah
-          }
+            }
 
 
         });
@@ -151,9 +153,9 @@ public class UnitDetailsFragment extends Fragment{
     @Override
     public void onResume() {
         super.onResume();
-        if(recommend){
+        if (recommend && !favourite) {
             ((MainActivity) getActivity()).setActionBarTitle(getResources().getString(R.string.title_recommended));
-        }else {
+        } else if (!recommend && favourite) {
             ((MainActivity) getActivity()).setActionBarTitle(getResources().getString(R.string.title_favourites));
         }
     }
@@ -163,6 +165,7 @@ public class UnitDetailsFragment extends Fragment{
      */
     private class getImage extends AsyncTask<String, Void, Bitmap> {
         Bitmap bitmap;
+
         /**
          * Method to initialize the bitmap variable to null before executing the loading of an image
          */
@@ -170,14 +173,17 @@ public class UnitDetailsFragment extends Fragment{
         protected void onPreExecute() {
             bitmap = null;
         }
+
         /**
          * Method to set the image to the icon of each list view item after image is being loaded
+         *
          * @param bitmap
          */
         @Override
         protected void onPostExecute(Bitmap bitmap) {
             ivProjectImage.setImageBitmap(bitmap);
         }
+
         /**
          * Method to load the image from the webservice
          *
@@ -190,8 +196,7 @@ public class UnitDetailsFragment extends Fragment{
                 InputStream in = new java.net.URL(blockItem.getIcon()).openStream();
                 bitmap = BitmapFactory.decodeStream(in);
                 in.close();
-            }
-            catch (Exception e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
 
@@ -201,6 +206,7 @@ public class UnitDetailsFragment extends Fragment{
 
     /**
      * For button layout settings
+     *
      * @return
      */
     private Button generateButton() {
@@ -213,7 +219,6 @@ public class UnitDetailsFragment extends Fragment{
 
         return btn;
     }
-
 
 
 }

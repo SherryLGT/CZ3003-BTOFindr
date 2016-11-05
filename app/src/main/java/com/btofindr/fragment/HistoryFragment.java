@@ -72,6 +72,7 @@ public class HistoryFragment extends Fragment {
 
     /**
      * Inflate view, link with XML.
+     *
      * @param inflater
      * @param container
      * @param savedInstanceState
@@ -85,25 +86,25 @@ public class HistoryFragment extends Fragment {
         deleteBtn = (FloatingActionButton) rootView.findViewById(R.id.FAB);
         editModeHistory = 0;
         setHasOptionsMenu(true);
+        dialog = new ProgressDialog(getActivity());
+        dialog.setMessage("Loading...");
+        dialog.setCancelable(false);
         new loadData().execute();
-        //dialog = new ProgressDialog(getActivity());
-        //dialog.setMessage("Loading...");
-        //dialog.setCancelable(false);
         return rootView;
     }
 
     /**
      * For setting menu items
+     *
      * @param menu
      * @param inflater
      */
     @Override
-    public void onCreateOptionsMenu(Menu menu,MenuInflater inflater) {
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
-        if(!noHistory){
+        if (!noHistory) {
             menu.getItem(0).setVisible(true);
-        }
-        else{
+        } else {
             menu.getItem(0).setVisible(false);
 
         }
@@ -111,21 +112,21 @@ public class HistoryFragment extends Fragment {
 
     /**
      * On selecting edit icon
+     *
      * @param item
      * @return
      */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        mMenuItem2 =  item;
+        mMenuItem2 = item;
         switch (item.getItemId()) {
             case R.id.action_edit:
-                if(lvBlocks.getChoiceMode()==ListView.CHOICE_MODE_NONE){
+                if (lvBlocks.getChoiceMode() == ListView.CHOICE_MODE_NONE) {
                     lvBlocks.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
                     selectedHistoryCheckbox = new ArrayList<Integer>();
                     selectedHistoryCheckboxPosition = new ArrayList<Integer>();
                     deleteBtn.setVisibility(VISIBLE);
-                }
-                else{
+                } else {
                     lvBlocks.setChoiceMode(ListView.CHOICE_MODE_NONE);
                     deleteBtn.setVisibility(View.INVISIBLE);
                 }
@@ -156,7 +157,7 @@ public class HistoryFragment extends Fragment {
          */
         @Override
         protected void onPreExecute() {
-            //dialog.show();
+            dialog.show();
             gson = new Gson();
             blockList = new ArrayList<Block>();
             blockItems = new ArrayList<BlockItem>();
@@ -165,11 +166,12 @@ public class HistoryFragment extends Fragment {
 
         /**
          * Method to set the adapter to the list view and load the data into the list
+         *
          * @param o
          */
         @Override
         protected void onPostExecute(Object o) {
-            ha = new HistoryAdapter(getActivity(), blockItems, globalHistory,rootView);
+            ha = new HistoryAdapter(getActivity(), blockItems, globalHistory, rootView);
 
             lvBlocks.setOnItemClickListener(new blockItemClickListener());
 
@@ -189,21 +191,19 @@ public class HistoryFragment extends Fragment {
                                 public void onDismiss(ListViewAdapter view, int position) {
                                     int blockId = blockItems.get(position).getBlockId();
 
-                                    ha.remove(blockId,2);
-                                    if(ha.getCount()==0){
+                                    ha.remove(blockId, 2);
+                                    if (ha.getCount() == 0) {
                                         setHasOptionsMenu(false);
                                         tvNoHistory.setVisibility(VISIBLE);
                                     }
 
-                                    globalHistory.remove((Integer)blockId);
+                                    globalHistory.remove((Integer) blockId);
 
-                                    if(Utility.writeToFile("history", gson.toJson(globalHistory), getActivity())){
+                                    if (Utility.writeToFile("history", gson.toJson(globalHistory), getActivity())) {
                                         deleteBtn.setVisibility(View.INVISIBLE);
                                         Toast.makeText(getActivity(), "Removed from History", Toast.LENGTH_SHORT).show();
 
-                                    }
-                                    else
-                                    {
+                                    } else {
                                         Toast.makeText(getActivity(), "Error deleting from History. Please try again.", Toast.LENGTH_SHORT).show();
                                     }
                                     ha.notifyDataSetChanged();
@@ -225,17 +225,17 @@ public class HistoryFragment extends Fragment {
                 }
             });
 
-            if(ha.getCount()>=1) {
+            if (ha.getCount() >= 1) {
                 lvBlocks.setAdapter(ha);
-            }
-            else{
+            } else {
                 tvNoHistory.setVisibility(VISIBLE);
             }
-            //dialog.dismiss();
+            dialog.dismiss();
         }
 
         /**
          * Get item from history cache
+         *
          * @param params
          * @return
          */
@@ -244,16 +244,16 @@ public class HistoryFragment extends Fragment {
             ArrayList<Integer> history = gson.fromJson(Utility.readFromFile("history", getActivity()), new TypeToken<List<Integer>>() {
             }.getType());
 
-            if(history==null){
+            if (history == null) {
                 history = new ArrayList<Integer>();
             }
 
             globalHistory = history;
-            for(int i=(history.size()-1); i>=0;i--){
+            for (int i = (history.size() - 1); i >= 0; i--) {
                 BlockItem blockItem = new BlockItem();
                 UnitType unitType = new UnitType();
-                response = Utility.getRequest("Block/GetBlockWithUnits?blockId="+history.get(i));
-                Block b = gson.fromJson(response,Block.class);
+                response = Utility.getRequest("Block/GetBlockWithUnits?blockId=" + history.get(i));
+                Block b = gson.fromJson(response, Block.class);
                 blockList.add(b);
                 blockItem.setBlockId(b.getBlockId());
                 blockItem.setProjectName(b.getProject().getProjectName());
@@ -265,12 +265,12 @@ public class HistoryFragment extends Fragment {
                 blockItem.setUnitTypes(b.getUnitTypes());
                 blockItems.add(blockItem);
             }
-            if(blockList.isEmpty()&&!noHistory){
-                getFragmentManager().beginTransaction().replace(R.id.fl_container, new HistoryFragment()).addToBackStack("FavouriteFragment").commit();
+            if (blockList.isEmpty() && !noHistory) {
+                // getFragmentManager().beginTransaction().replace(R.id.fl_container, new HistoryFragment()).addToBackStack("FavouriteFragment").commit();
                 noHistory = true;
-            }else if(!blockList.isEmpty()&&noHistory){
+            } else if (!blockList.isEmpty() && noHistory) {
                 noHistory = false;
-                getFragmentManager().beginTransaction().replace(R.id.fl_container, new HistoryFragment()).addToBackStack("FavouriteFragment").commit();
+                // getFragmentManager().beginTransaction().replace(R.id.fl_container, new HistoryFragment()).addToBackStack("FavouriteFragment").commit();
             }
             return blockList;
         }

@@ -1,5 +1,6 @@
 package com.btofindr.fragment;
 
+import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -11,6 +12,7 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -46,7 +48,9 @@ public class HomeFragment extends Fragment {
     private ImageView ivMain;
     private TextView tvMain;
     private Button btnSearch;
+    private ProgressDialog dialog;
     private ListView lvRecentlyViewed;
+    private ScrollView sv_recently_viewed;
     private HistoryAdapter ha;
     private Gson gson;
     private TextView tv_noRecentlyViewed;
@@ -59,7 +63,8 @@ public class HomeFragment extends Fragment {
     /**
      * Default constructor for HomeFragment
      */
-    public HomeFragment(){}
+    public HomeFragment() {
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -69,8 +74,8 @@ public class HomeFragment extends Fragment {
     /**
      * Create a View to display contents on the layout.
      *
-     * @param inflater The LayoutInflater object that is used to inflate any view
-     * @param container The parent view that fragment UI is attached to
+     * @param inflater           The LayoutInflater object that is used to inflate any view
+     * @param container          The parent view that fragment UI is attached to
      * @param savedInstanceState Previous state of the fragment
      * @return
      */
@@ -84,7 +89,7 @@ public class HomeFragment extends Fragment {
         btnSearch = (Button) rootView.findViewById(R.id.btn_search);
         lvRecentlyViewed = (ListView) rootView.findViewById(R.id.lv_recently_viewed);
         tv_noRecentlyViewed = (TextView) rootView.findViewById(R.id.tv_norv);
-
+        sv_recently_viewed = (ScrollView) rootView.findViewById(R.id.sv_recently_viewed);
         ivMain.setImageResource(R.drawable.main);
         tvMain.setText("Tampines North Height");
         setHasOptionsMenu(true);
@@ -97,6 +102,10 @@ public class HomeFragment extends Fragment {
             }
         });
 
+        dialog = new ProgressDialog(this.getContext());
+        dialog.setMessage("Loading...");
+        dialog.setCancelable(false);
+
         new loadData().execute();
         return rootView;
     }
@@ -105,14 +114,14 @@ public class HomeFragment extends Fragment {
     private class loadData extends AsyncTask<Void, Integer, Object> {
         @Override
         protected void onPreExecute() {
-            //dialog.show();
+            dialog.show();
             gson = new Gson();
             blockList = new ArrayList<Block>();
         }
 
         @Override
         protected void onPostExecute(Object o) {
-            ha = new HistoryAdapter(getActivity(), blockItems, recentlyViewed,rootView);
+            ha = new HistoryAdapter(getActivity(), blockItems, recentlyViewed, rootView);
             lvRecentlyViewed.setOnItemClickListener(new blockItemClickListener());
 
             final SwipeToDismissTouchListener<ListViewAdapter> touchListener =
@@ -127,15 +136,13 @@ public class HomeFragment extends Fragment {
                                 @Override
                                 public void onDismiss(ListViewAdapter view, int position) {
                                     int blockId = blockItems.get(position).getBlockId();
-                                    ha.remove(blockId,2);
-                                    recentlyViewed.remove((Integer)blockId);
+                                    ha.remove(blockId, 2);
+                                    recentlyViewed.remove((Integer) blockId);
 
-                                    if(Utility.writeToFile("history", gson.toJson(recentlyViewed), getActivity())){
+                                    if (Utility.writeToFile("history", gson.toJson(recentlyViewed), getActivity())) {
                                         Toast.makeText(getContext(), "Removed from History", Toast.LENGTH_SHORT).show();
 
-                                    }
-                                    else
-                                    {
+                                    } else {
                                         Toast.makeText(getActivity(), "Error deleting from History. Please try again.", Toast.LENGTH_SHORT).show();
                                     }
                                     ha.notifyDataSetChanged();
@@ -160,15 +167,13 @@ public class HomeFragment extends Fragment {
             });
 
 
-
-            if(ha.getCount()>0) {
+            if (!noHistory) {
                 lvRecentlyViewed.setAdapter(ha);
-            }
-            else{
-
+                sv_recently_viewed.setVisibility(VISIBLE);
+            } else {
                 tv_noRecentlyViewed.setVisibility(VISIBLE);
             }
-            //dialog.dismiss();
+            dialog.dismiss();
         }
 
         @Override
@@ -177,16 +182,16 @@ public class HomeFragment extends Fragment {
             ArrayList<Integer> history = gson.fromJson(Utility.readFromFile("history", getActivity()), new TypeToken<List<Integer>>() {
             }.getType());
 
-            if(history==null){
+            if (history == null) {
                 history = new ArrayList<Integer>();
             }
 
             blockItems = new ArrayList<BlockItem>();
             recentlyViewed = history;
-            for(int i=(history.size()-1); i>=0;i--){
+            for (int i = (history.size() - 1); i >= 0; i--) {
                 BlockItem blockItem = new BlockItem();
-                String response = Utility.getRequest("Block/GetBlockWithUnits?blockId="+history.get(i));
-                Block b = gson.fromJson(response,Block.class);
+                String response = Utility.getRequest("Block/GetBlockWithUnits?blockId=" + history.get(i));
+                Block b = gson.fromJson(response, Block.class);
                 blockList.add(b);
                 blockItem.setBlockId(b.getBlockId());
                 blockItem.setProjectName(b.getProject().getProjectName());
@@ -198,14 +203,15 @@ public class HomeFragment extends Fragment {
                 blockItem.setUnitTypes(b.getUnitTypes());
                 blockItems.add(blockItem);
             }
-            if(blockList.isEmpty()&&!noHistory){
-                getFragmentManager().beginTransaction().replace(R.id.fl_container, new HomeFragment()).commit();
-               // getFragmentManager().beginTransaction().replace(R.id.fl_container, new HomeFragment()).addToBackStack("FavouriteFragment").commit();
+
+            if (blockList.isEmpty() && !noHistory) {
+                // getFragmentManager().beginTransaction().replace(R.id.fl_container, new HomeFragment()).commit();
+                // getFragmentManager().beginTransaction().replace(R.id.fl_container, new HomeFragment()).addToBackStack("FavouriteFragment").commit();
                 noHistory = true;
-            }else if(!blockList.isEmpty()&&noHistory){
+            } else if (!blockList.isEmpty() && noHistory) {
                 noHistory = false;
-                getFragmentManager().beginTransaction().replace(R.id.fl_container, new HomeFragment()).commit();
-               // getFragmentManager().beginTransaction().replace(R.id.fl_container, new HomeFragment()).addToBackStack("FavouriteFragment").commit();
+                // getFragmentManager().beginTransaction().replace(R.id.fl_container, new HomeFragment()).commit();
+                // getFragmentManager().beginTransaction().replace(R.id.fl_container, new HomeFragment()).addToBackStack("FavouriteFragment").commit();
             }
 
             return blockList;
