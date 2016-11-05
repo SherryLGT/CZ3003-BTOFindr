@@ -57,6 +57,7 @@ public class PayablesFragment extends Fragment {
 
     /**
      * Allows other classes to pass arguments to this fragment
+     *
      * @param selectedUnitID
      * @return returns the payable fragment
      */
@@ -71,8 +72,9 @@ public class PayablesFragment extends Fragment {
 
     /**
      * to display data of the layout
-     * @param inflater The LayoutInflater object that is used to inflate any view
-     * @param container The parent view that fragment UI is attached to
+     *
+     * @param inflater           The LayoutInflater object that is used to inflate any view
+     * @param container          The parent view that fragment UI is attached to
      * @param savedInstanceState Previous state of the fragment
      * @return
      */
@@ -186,7 +188,7 @@ public class PayablesFragment extends Fragment {
             } else {
                 tvUnitNumber.setText(unit.getUnitNo());
                 tvUnitType.setText(unit.getUnitType().getUnitTypeName());
-                tvPrice.setText(Utility.formatPrice(unit.getPrice()));
+                tvPrice.setText("$" + Utility.formatPrice(unit.getPrice()));
                 tvApplicationFee.setText("$" + Utility.formatPrice(unit.getFees().getApplFee()));
                 tvBookingFee.setText("$" + Utility.formatPrice(unit.getFees().getOptionFee()));
                 tvPaymentCPF.setText("$" + Utility.formatPrice(unit.getFees().getSigningFeesCpf()));
