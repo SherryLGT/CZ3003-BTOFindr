@@ -28,6 +28,14 @@ import com.google.gson.Gson;
 
 import org.w3c.dom.Text;
 
+/**
+ * This fragment displays payable details according to the selected unit and profile settings
+ *
+ * @author Ng Jun Hao
+ * @version 1.0
+ * @since 15/10/2016
+ */
+
 
 public class PayablesFragment extends Fragment {
 
@@ -39,9 +47,19 @@ public class PayablesFragment extends Fragment {
 
     private Unit unit;
 
+    /**
+     * Default constructor for payables fragment
+     */
+
     public PayablesFragment() {
         // Required empty public constructor
     }
+
+    /**
+     * Allows other classes to pass arguments to this fragment
+     * @param selectedUnitID
+     * @return returns the payable fragment
+     */
 
     public static PayablesFragment newInstance(int selectedUnitID) {
         PayablesFragment pf = new PayablesFragment();
@@ -51,7 +69,13 @@ public class PayablesFragment extends Fragment {
         return pf;
     }
 
-
+    /**
+     * to display data of the layout
+     * @param inflater The LayoutInflater object that is used to inflate any view
+     * @param container The parent view that fragment UI is attached to
+     * @param savedInstanceState Previous state of the fragment
+     * @return
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -81,6 +105,10 @@ public class PayablesFragment extends Fragment {
 
         return rootView;
     }
+
+    /**
+     * to get information from webapi
+     */
 
     private class loadData extends AsyncTask<Void, Integer, String> {
         ProgressDialog pDialog;
